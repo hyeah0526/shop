@@ -25,7 +25,12 @@
 	int rowPerPage = 16; //한페이지에 보여줄 것
 	int startRow = (currentPage-1)*rowPerPage;
 	
-	int lastPage = 7;
+	String empSearch = request.getParameter("empSearch");
+	System.out.println(empSearch+" <--empSearch empList.jsp");
+	if(empSearch == null){ //검색어가 없으면 공백넣어주기
+		empSearch = "";
+	}
+	
 %>
 
 <!-- 여기부터는 Model Layer -->
@@ -42,19 +47,20 @@
 	PreparedStatement stmt = null;
 	ResultSet rs = null; 
 	
-	String sql = "select emp_id empId, emp_name empName, emp_job empJob, hire_date hireDate, active from emp order by hire_date desc limit ?, ?";
+	String sql = "select emp_id empId, emp_name empName, emp_job empJob, hire_date hireDate, active from emp where emp_name like ? order by hire_date desc limit ?, ?";
 	stmt = conn.prepareStatement(sql);
-	stmt.setInt(1, startRow);
+	stmt.setString(1, "%"+empSearch+"%");
+	stmt.setInt(2, startRow);
 	
 	String selectRow = request.getParameter("selectRow");
 	int selectRowInt = 0;
 	
 	if(selectRow == null){
 		selectRowInt = 16;
-		stmt.setInt(2, selectRowInt);
+		stmt.setInt(3, selectRowInt);
 	}else{
 		selectRowInt = Integer.parseInt(selectRow);
-		stmt.setInt(2, selectRowInt);
+		stmt.setInt(3, selectRowInt);
 	}
 	System.out.println(selectRow+" <--selectRow");
 	System.out.println(stmt);
@@ -79,6 +85,24 @@
 	}
 	
 	//페이징
+	String sql2 = "select count(*) cnt from emp where emp_name like ?";
+	PreparedStatement stmt2 = null;
+	ResultSet rs2 = null; 
+	stmt2 = conn.prepareStatement(sql2);
+	stmt2.setString(1, "%"+empSearch+"%");
+	rs2 = stmt2.executeQuery();
+	System.out.println(stmt2);
+	
+	int totalRow = 0;
+	if(rs2.next()){
+		totalRow = rs2.getInt("cnt");
+	}
+	int lastPage = totalRow / selectRowInt;
+	if(totalRow % selectRowInt != 0){
+		lastPage = lastPage+1;
+	}
+	System.out.println(lastPage+" <--lastPage empList.jsp");
+	
 	
 	
 	//JDBC API 사용이 끝났다면 DB자원들 반납 가능
@@ -152,7 +176,11 @@
 				floatCnt=floatCnt+1;
 			}
 		%>
-		
+			<div style="clear: both;">
+				<form method="get" action="/shop/emp/empList.jsp?currentPage=<%=currentPage%>">
+					<input type="text" name="empSearch"><button type="submit">검색</button>
+				</form>
+			</div>
 			<div style="clear: both;">
 		<%
 				//이전 페이징 기능
@@ -162,19 +190,19 @@
 		<%
 				}else{
 		%>
-					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>">◀이전</a> 
+					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>&empSearch=<%=empSearch%>">◀이전</a> 
 		<%
 				}
 		%>
 		<%
 				//다음 페이징 기능
-				if(currentPage <= lastPage){
+				if(currentPage >= lastPage){
 		%>
 					<a>다음▶</a> 
 		<%
 				}else{
 		%>
-					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage+1%>">다음▶</a> 
+					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage+1%>&empSearch=<%=empSearch%>">다음▶</a> 
 		<%
 				}
 		%>
