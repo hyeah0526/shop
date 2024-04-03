@@ -1,6 +1,5 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
 <%@ page import="java.sql.*" %>
 <!-- 여기부터는 Controller Layer -->
 <%
@@ -143,101 +142,45 @@
 		<!-- 메인 -->
 		<div class="col-10" style="background-color: #CCCCCC;">
 			<h1>사원 목록</h1>
-			<div style="background-color: green; display: flex;">
-			<div style="background-color: gray; margin: auto;">
-		<%
-			//사원 목록 뿌려주기
-			int floatCnt = 1;
-			for(HashMap<String, Object> m : list){
-				
-				if(floatCnt%4 == 0){
-					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
-		%>
-				<div class="text-center" style="border: 1px solid green; width: 300px; height: 150px; margin: 3px; display: inline-block;">
-					<div><%=(String)m.get("empName")%></div>
-					<div><%=(String)m.get("empJob")%></div>
-					<div><%=(String)m.get("empId")%></div>
-					<div><%=(String)m.get("hireDate")%></div>
-					<%
-						HashMap<String, Object> sm = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
-						if((Integer)(sm.get("grade")) == 1){
-					%>
-							<div>활성화: 
-								<a href="/shop/emp/modifyEmpActive.jsp?empId=<%=(String)m.get("empId")%>&active=<%=(String)m.get("active")%>">
-									<%=(String)m.get("active")%>
-								</a>
-							</div>
-					<%
-						}
-					%>
-				</div>
-				<div class="clear"></div>
-		<%
-				}else{
-					//System.out.println("else-> "+floatCnt);
-		%>
-				
-				<div class="text-center" style="border: 1px solid green; width: 300px; height: 150px; margin: 3px; float: left;">
-					<div><%=(String)m.get("empName")%></div>
-					<div><%=(String)m.get("empJob")%></div>
-					<div><%=(String)m.get("empId")%></div>
-					<div><%=(String)m.get("hireDate")%></div>
-					<%
-						HashMap<String, Object> sm = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
-						if((Integer)(sm.get("grade")) == 1){
-					%>
-							<div>활성화: 
-								<a href="/shop/emp/modifyEmpActive.jsp?empId=<%=(String)m.get("empId")%>&active=<%=(String)m.get("active")%>">
-									<%=(String)m.get("active")%>
-								</a>
-							</div>
-					<%
-						}
-					%>
-				</div>
-				
-		<%
-				}
-				floatCnt=floatCnt+1;
-			}
-		%>
-			<br>
-			<div style="clear: both; text-align: center;">
-				<form method="get" action="/shop/emp/empList.jsp?currentPage=<%=currentPage%>">
-					<input type="text" name="empSearch">&nbsp;&nbsp;<button type="submit">검색</button>
-				</form>
-			</div><br>
-			<div style="clear: both; text-align: center;">
-		<%
-				//이전 페이징 기능
-				if(currentPage <= 1){
-		%>
-					<a>◀이전</a> 
-		<%
-				}else{
-		%>
-					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>&empSearch=<%=empSearch%>">◀이전</a> 
-		<%
-				}
-		%>
-		<%
-				//다음 페이징 기능
-				if(currentPage >= lastPage){
-		%>
-					<a>다음▶</a> 
-		<%
-				}else{
-		%>
-					<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage+1%>&empSearch=<%=empSearch%>">다음▶</a>
-		<%
-				}
-		%>
-			</div>
-			</div><br>
-			</div>
 		</div>
 	</div>
 	<div class="row" style="background-color: blue;">밑단</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="" style="margin: 50px;">
+	<div class="row" style="background-color: red;">쇼핑몰 타이틀</div>
+
+	<div class="row">
+		<!-- 왼쪽메뉴나오는 곳 -->
+		<!-- empMenu.jsp include : 주체(서버) vs redirect(주체:클라이언트) -->
+		<!-- 주체가 서버이기 때문에 include할때는 절대주소가 /shop으로 시작하는게 아니라 /emp부터 시작 -->
+		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
+		
+		<!-- 메인 -->
+		<div class="col-10" style="background-color: #CCCCCC;">
+			<h1>상품 목록</h1>
+		</div>
+	</div>
+	<div class="row" style="background-color: blue;">밑단</div>
+</div>
+
+
 </body>
 </html>
