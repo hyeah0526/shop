@@ -180,7 +180,7 @@
 				if(floatCnt%4 == 0){
 					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
 		%>
-				<div class="text-center" style="border: 1px solid green; width: 300px; margin: 5px; display: inline-block;">
+				<div class="text-center" style="border: 1px solid green; width: 260px; height:400px; margin: 5px; display: inline-block;">
 					<div><img alt="" src="/shop/emp/img/sample.jpg" style="width: 250px; height: 150px;"></div>
 					<div>상품번호: <%=(Integer)m2.get("goodsNo")%></div>
 					<div>카테고리: <%=(String)m2.get("category")%></div>
@@ -192,7 +192,7 @@
 					//System.out.println("else-> "+floatCnt);
 		%>
 				
-				<div class="text-center" style="border: 1px solid green; width: 300px; margin: 5px; float: left;">
+				<div class="text-center" style="border: 1px solid green; width: 260px; height:400px; margin: 5px; float: left;">
 					<div><img alt="" src="/shop/emp/img/sample.jpg" style="width: 250px; height: 150px;"></div>
 					<div>상품번호: <%=(Integer)m2.get("goodsNo")%></div>
 					<div>카테고리: <%=(String)m2.get("category")%></div>

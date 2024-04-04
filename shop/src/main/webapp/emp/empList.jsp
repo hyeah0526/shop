@@ -55,7 +55,7 @@
 	int selectRowInt = 0;
 	
 	if(selectRow == null){
-		selectRowInt = 16;
+		selectRowInt = 15;
 		stmt.setInt(3, selectRowInt);
 	}else{
 		selectRowInt = Integer.parseInt(selectRow);
@@ -150,10 +150,10 @@
 			int floatCnt = 1;
 			for(HashMap<String, Object> m : list){
 				
-				if(floatCnt%4 == 0){
+				if(floatCnt%3 == 0){
 					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
 		%>
-				<div class="text-center" style="border: 1px solid green; width: 300px; height: 150px; margin: 3px; display: inline-block;">
+				<div class="text-center" style="border: 1px solid green; width: 300px; height: 200px; margin: 3px; display: inline-block;">
 					<div><%=(String)m.get("empName")%></div>
 					<div><%=(String)m.get("empJob")%></div>
 					<div><%=(String)m.get("empId")%></div>
@@ -177,7 +177,7 @@
 					//System.out.println("else-> "+floatCnt);
 		%>
 				
-				<div class="text-center" style="border: 1px solid green; width: 300px; height: 150px; margin: 3px; float: left;">
+				<div class="text-center" style="border: 1px solid green; width: 300px; height: 200px; margin: 3px; float: left;">
 					<div><%=(String)m.get("empName")%></div>
 					<div><%=(String)m.get("empJob")%></div>
 					<div><%=(String)m.get("empId")%></div>
