@@ -89,6 +89,7 @@
 		m2.put("goodsPrice", rs2.getInt("goods_price"));
 		m2.put("goodsAmount", rs2.getInt("goods_amount"));
 		m2.put("updateDate", rs2.getString("update_date"));
+		m2.put("filename", rs2.getString("filename"));
 		goodsList.add(m2);
 	}
 	//디버깅
@@ -181,10 +182,11 @@
 					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
 		%>
 				<div class="text-center" style="border: 1px solid green; width: 260px; height:400px; margin: 5px; display: inline-block;">
-					<div><img alt="" src="/shop/emp/img/sample.jpg" style="width: 250px; height: 150px;"></div>
+					<div><img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 150px;"></div>
 					<div>상품번호: <%=(Integer)m2.get("goodsNo")%></div>
 					<div>카테고리: <%=(String)m2.get("category")%></div>
 					<div>제목: <%=(String)m2.get("goodsTitle")%></div>
+					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">삭제</a>
 				</div>
 				<div class="clear"></div>
 		<%
@@ -193,10 +195,11 @@
 		%>
 				
 				<div class="text-center" style="border: 1px solid green; width: 260px; height:400px; margin: 5px; float: left;">
-					<div><img alt="" src="/shop/emp/img/sample.jpg" style="width: 250px; height: 150px;"></div>
+					<div><img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 150px;"></div>
 					<div>상품번호: <%=(Integer)m2.get("goodsNo")%></div>
 					<div>카테고리: <%=(String)m2.get("category")%></div>
 					<div>제목: <%=(String)m2.get("goodsTitle")%></div>
+					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">삭제</a>
 				</div>
 				
 		<%

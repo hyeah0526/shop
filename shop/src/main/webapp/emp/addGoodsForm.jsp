@@ -78,7 +78,8 @@
 			%>
 			<div style="background-color: green; display: flex;">
 			<div style="background-color: orenge; margin: auto;">
-			<form action="/shop/emp/addGoodsAction.jsp" method="post">
+			<form action="/shop/emp/addGoodsAction.jsp" method="post" enctype="multipart/form-data">
+			<!-- 이미지를 넣기 위해서는 꼭 post이여야하고,enctype을 설정해줘야함  -->
 				<div class="row">
 					<div class="col-2">카테고리</div>
 					<div class="col">
@@ -105,6 +106,10 @@
 				<div class="row">
 					<div class="col-2">상품수량</div>
 					<div class="col"><input type="text" name="goodsAmount"></div>
+				</div>
+				<div class="row">
+					<div class="col-2">이미지</div>
+					<div class="col"><input type="file" name="goodsImg"></div>
 				</div>
 				<div class="row">
 					<div class="col-2">내용</div>
