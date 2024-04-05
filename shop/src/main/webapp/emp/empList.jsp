@@ -203,8 +203,8 @@
 		%>
 			<br>
 			<div style="clear: both; text-align: center;">
-				<form method="get" action="/shop/emp/empList.jsp?currentPage=<%=currentPage%>">
-					<input type="text" name="empSearch">&nbsp;&nbsp;<button type="submit">검색</button>
+				<form method="get" action="/shop/emp/empList.jsp?currentPage=1">
+					<input type="text" name="empSearch">&nbsp;&nbsp;<button type="submit">사원 이름 검색</button>
 				</form>
 			</div><br>
 			<div style="clear: both; text-align: center;">

@@ -56,27 +56,35 @@
 	System.out.println(categoryList);
 	
 	/* 상품조회하기 */
+	//검색어
+	String nameScrh = request.getParameter("nameScrh");
+	if(nameScrh==null){
+		nameScrh = "";
+	}
+	System.out.println(nameScrh+" <--nameScrh 상품관리");
+	
 	PreparedStatement stmt2 = null;
 	ResultSet rs2 = null; 
-	String sql2 = "SELECT * FROM goods where category LIKE ? ORDER BY update_date desc limit ?, ?";
+	String sql2 = "SELECT * FROM goods where category LIKE ? and goods_title LIKE ? ORDER BY update_date desc limit ?, ?";
 	stmt2 = conn.prepareStatement(sql2);
 	stmt2.setString(1, "%"+category+"%");
-	stmt2.setInt(2, startRow);
+	stmt2.setString(2, "%"+nameScrh+"%");
+	stmt2.setInt(3, startRow);
 	
 	String selectRow = request.getParameter("selectRow");
 	int selectRowInt = 0;
 	
 	if(selectRow == null){
 		selectRowInt = 16;
-		stmt2.setInt(3, selectRowInt);
+		stmt2.setInt(4, selectRowInt);
 	}else{
 		selectRowInt = Integer.parseInt(selectRow);
-		stmt2.setInt(3, selectRowInt);
+		stmt2.setInt(4, selectRowInt);
 	}
 	System.out.println(selectRow+" <--selectRow");
 	
 	rs2 = stmt2.executeQuery();
-	//System.out.println(stmt2);
+	System.out.println(stmt2);
 	
 	ArrayList<HashMap<String, Object>> goodsList = new ArrayList<HashMap<String, Object>>();
 	while(rs2.next()){
@@ -96,11 +104,12 @@
 	//System.out.println(goodsList);
 	
 	/* 페이징 */
-		String sql3 = "select count(*) cnt from goods where category like ?";
+		String sql3 = "select count(*) cnt from goods where category like ? and goods_title LIKE ?";
 		PreparedStatement stmt3 = null;
 		ResultSet rs3 = null; 
 		stmt3 = conn.prepareStatement(sql3);
 		stmt3.setString(1, "%"+category+"%");
+		stmt3.setString(2, "%"+nameScrh+"%");
 		rs3 = stmt3.executeQuery();
 		
 		System.out.println(stmt3);
@@ -116,8 +125,10 @@
 			lastPage = lastPage+1;
 		}
 		System.out.println(lastPage+" <--lastPage empList.jsp");
-		
-		
+		System.out.println(totalRow+" <--totalRow empList.jsp");
+%>
+<%
+	String msg = request.getParameter("msg");
 %>
 <!-- 여기부터는 View Layer -->
 <!-- 모델(ArrayList<HashMap<String, Object>>)로 출력 -->
@@ -155,6 +166,13 @@
 		<!-- 메인 -->
 		<div class="col-10" style="background-color: #CCCCCC;">
 			<h1>상품관리</h1>
+			<%
+				if(msg != null){
+			%>
+					<div><%=msg%></div>
+			<%
+				}
+			%>
 			<div><a href="/shop/emp/addGoodsForm.jsp">등록하기</a></div>
 			<!-- 카테고리별 (카운트) 및 선택 -->
 			<div>
@@ -186,7 +204,7 @@
 					<div>상품번호: <%=(Integer)m2.get("goodsNo")%></div>
 					<div>카테고리: <%=(String)m2.get("category")%></div>
 					<div>제목: <%=(String)m2.get("goodsTitle")%></div>
-					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">삭제</a>
+					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>&filename=<%=(String)m2.get("filename")%>">상품 삭제</a>
 				</div>
 				<div class="clear"></div>
 		<%
@@ -199,7 +217,7 @@
 					<div>상품번호: <%=(Integer)m2.get("goodsNo")%></div>
 					<div>카테고리: <%=(String)m2.get("category")%></div>
 					<div>제목: <%=(String)m2.get("goodsTitle")%></div>
-					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">삭제</a>
+					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>&filename=<%=(String)m2.get("filename")%>">상품 삭제</a>
 				</div>
 				
 		<%
@@ -209,8 +227,8 @@
 		%>
 			<br>
 			<div style="clear: both; text-align: center;">
-				<form method="get" action="/shop/emp/goodsList.jsp?currentPage=<%=currentPage%>">
-					<input type="text" name="">&nbsp;&nbsp;<button type="submit">검색</button>
+				<form method="post" action="/shop/emp/goodsList.jsp?currentPage=1&category=<%=category%>">
+					<input type="text" name="nameScrh">&nbsp;&nbsp;<button type="submit">제목 검색</button>
 				</form>
 			</div><br>
 			<div style="clear: both; text-align: center;">
@@ -218,11 +236,13 @@
 				//이전 페이징 기능
 				if(currentPage <= 1){
 		%>
+					<a>◀◀처음</a>
 					<a>◀이전</a> 
 		<%
 				}else{
 		%>
-					<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>">◀이전</a> 
+					<a href="/shop/emp/goodsList.jsp?currentPage=1&category=<%=category%>">◀◀처음</a>
+					<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>&nameScrh=<%=nameScrh%>">◀이전</a> 
 		<%
 				}
 		%>
@@ -231,17 +251,18 @@
 				if(currentPage >= lastPage){
 		%>
 					<a>다음▶</a> 
+					<a>마지막▶▶</a>
 		<%
 				}else{
 		%>
-					<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>">다음▶</a>
+					<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>&nameScrh=<%=nameScrh%>">다음▶</a>
+					<a href="/shop/emp/goodsList.jsp?currentPage=<%=lastPage%>&category=<%=category%>">마지막▶▶</a>
 		<%
 				}
 		%>
 			</div>
 			</div>
 			</div>
-			
 			
 		</div>
 </div>
