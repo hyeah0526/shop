@@ -127,12 +127,16 @@
 		}
 		.fontContent{
 			font-family: 'TTLaundryGothicB';
+			background-color: #737058;
 		}
+		a { text-decoration: none; color: #444236;}
+		a:hover { color:#444236; }
+		a:visited { text-decoration: none;}
 	</style>
 </head>
 <body class="fontContent">
 <div class="" style="margin: 50px;">
-	<div class="row" style="background-color: red;">쇼핑몰 타이틀</div>
+	<div class="row" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; margin-bottom: 10px;"><img src="/shop/emp/img/logo2.png" style="width: 200px; margin: auto;"></div>
 
 	<div class="row">
 		<!-- 왼쪽메뉴나오는 곳 -->
@@ -141,10 +145,10 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #CCCCCC;">
-			<h1>사원 목록</h1>
-			<div style="background-color: green; display: flex;">
-			<div style="background-color: gray; margin: auto;">
+		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; color: #444236;">
+			<h1 class="text-center">사원 목록</h1>
+			<div style="background-color: #E6D7BD; display: flex;">
+			<div style="background-color: #E6D7BD; margin: auto;">
 		<%
 			//사원 목록 뿌려주기
 			int floatCnt = 1;
@@ -153,7 +157,7 @@
 				if(floatCnt%3 == 0){
 					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
 		%>
-				<div class="text-center" style="border: 1px solid green; width: 300px; height: 200px; margin: 3px; display: inline-block;">
+				<div class="text-center" style="border: 2px dashed #737058; width: 300px; height: 200px; margin: 3px; display: inline-block;">
 					<div><%=(String)m.get("empName")%></div>
 					<div><%=(String)m.get("empJob")%></div>
 					<div><%=(String)m.get("empId")%></div>
@@ -164,7 +168,7 @@
 					%>
 							<div>활성화: 
 								<a href="/shop/emp/modifyEmpActive.jsp?empId=<%=(String)m.get("empId")%>&active=<%=(String)m.get("active")%>">
-									<%=(String)m.get("active")%>
+									[<%=(String)m.get("active")%>]
 								</a>
 							</div>
 					<%
@@ -177,7 +181,7 @@
 					//System.out.println("else-> "+floatCnt);
 		%>
 				
-				<div class="text-center" style="border: 1px solid green; width: 300px; height: 200px; margin: 3px; float: left;">
+				<div class="text-center" style="border: 2px dashed #737058; width: 300px; height: 200px; margin: 3px; float: left;">
 					<div><%=(String)m.get("empName")%></div>
 					<div><%=(String)m.get("empJob")%></div>
 					<div><%=(String)m.get("empId")%></div>
@@ -188,7 +192,7 @@
 					%>
 							<div>활성화: 
 								<a href="/shop/emp/modifyEmpActive.jsp?empId=<%=(String)m.get("empId")%>&active=<%=(String)m.get("active")%>">
-									<%=(String)m.get("active")%>
+									[<%=(String)m.get("active")%>]
 								</a>
 							</div>
 					<%

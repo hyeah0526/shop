@@ -155,7 +155,7 @@
 </head>
 <body class="fontContent">
 <div class="" style="margin: 50px;">
-	<div class="row" style="background-color: red;">쇼핑몰 타이틀</div>
+	<div class="row" style="background-color: red;">타이틀</div>
 
 	<div class="row">
 		<!-- 왼쪽메뉴나오는 곳 -->
@@ -195,15 +195,16 @@
 			<%
 				int floatCnt = 1;
 				for(HashMap<String, Object> m2 : goodsList){
-				
+					int price = (Integer)m2.get("goodsPrice");
+					String price2 = String.format("%,d", price);
+					
 				if(floatCnt%4 == 0){
 					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
 		%>
 				<div class="text-center" style="border: 1px solid green; width: 260px; height:400px; margin: 5px; display: inline-block;">
-					<div><img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 150px;"></div>
-					<div>상품번호: <%=(Integer)m2.get("goodsNo")%></div>
-					<div>카테고리: <%=(String)m2.get("category")%></div>
-					<div>제목: <%=(String)m2.get("goodsTitle")%></div>
+					<div><img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px;"></div><br>
+					<div><%=(String)m2.get("goodsTitle")%></div><br>
+					<div>금액: <%=price2%>원</div><br>
 					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>&filename=<%=(String)m2.get("filename")%>">상품 삭제</a>
 				</div>
 				<div class="clear"></div>
@@ -213,10 +214,9 @@
 		%>
 				
 				<div class="text-center" style="border: 1px solid green; width: 260px; height:400px; margin: 5px; float: left;">
-					<div><img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 150px;"></div>
-					<div>상품번호: <%=(Integer)m2.get("goodsNo")%></div>
-					<div>카테고리: <%=(String)m2.get("category")%></div>
-					<div>제목: <%=(String)m2.get("goodsTitle")%></div>
+					<div><img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px;"></div><br>
+					<div><%=(String)m2.get("goodsTitle")%></div><br>
+					<div>금액: <%=price2%>원</div><br>
 					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>&filename=<%=(String)m2.get("filename")%>">상품 삭제</a>
 				</div>
 				
