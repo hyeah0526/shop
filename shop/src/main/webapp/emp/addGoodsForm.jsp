@@ -3,6 +3,9 @@
 <%@ page import="java.util.*" %>
 <!-- 여기부터는 Controller Layer -->
 <%
+/* post로 넘겼으면 꼭 인코딩해주기 */
+	request.setCharacterEncoding("UTF-8");
+
 /* 인증분기: 세션변수 이름 - loginEmp */
 	//로그인이 안되어 있으면 emploginForm.jsp로 보냄
 	if(session.getAttribute("loginEmp") == null){

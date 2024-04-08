@@ -107,7 +107,7 @@
 						System.out.println("modify걸리나?????");
 						for(HashMap<String, Object> g2 : goodsOne){
 				%>
-							<form method="post" action="/shop/emp/modifyGoodsAction.jsp?filename=<%=(String)g2.get("filename")%>" enctype="multipart/form-data">
+							<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
 								<div class="row">
 									<div class="col" style="float: left;">
 										<img src="/shop/upload/<%=(String)g2.get("filename")%>" style="border: 2px dashed #737058; border-radius:5px; width: 600px; height: 600px; margin-right: 10px;">
@@ -117,6 +117,7 @@
 										<div>
 											<input type="hidden" name="goodsNo" value="<%=(Integer)g2.get("goodsNo")%>">
 											<input type="hidden" name="category" value="<%=(String)g2.get("category")%>">
+											<input type="hidden" name="filename" value="<%=(String)g2.get("filename")%>">
 										</div>
 										<div style="border-bottom:2px dashed #737058;">[수정사원] <%=(String)(loginMember.get("empName"))%></div><br>
 										<div style="border-bottom:2px dashed #737058;">[변경할이미지] <input type="file" name="goodsImg"></div><br>
