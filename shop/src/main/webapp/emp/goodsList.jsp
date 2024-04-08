@@ -9,6 +9,7 @@
 		response.sendRedirect("/shop/emp/empLoginForm.jsp"); 
 		return;
 	}
+
 %>
 <%
 	/* 페이징 */
@@ -150,12 +151,16 @@
 		}
 		.fontContent{
 			font-family: 'TTLaundryGothicB';
+			background-color: #737058;
 		}
+		a { text-decoration: none; color: #444236;}
+		a:hover { color:#444236; }
+		a:visited { text-decoration: none;}
 	</style>
 </head>
 <body class="fontContent">
 <div class="" style="margin: 50px;">
-	<div class="row" style="background-color: red;">타이틀</div>
+	<div class="row" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; margin-bottom: 10px;"><img src="/shop/emp/img/logo3.png" style="width: 200px; margin: auto;"></div>
 
 	<div class="row">
 		<!-- 왼쪽메뉴나오는 곳 -->
@@ -164,8 +169,8 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #CCCCCC;">
-			<h1>상품관리</h1>
+		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; color: #444236;">
+			<h1 class="text-center">상품관리</h1>
 			<%
 				if(msg != null){
 			%>
@@ -190,8 +195,8 @@
 			</div>
 			
 			<!-- 조회 뿌려주기 -->
-			<div style="background-color: green; display: flex;">
-			<div style="background-color: gray; margin: auto;">
+			<div style="background-color: #E6D7BD; display: flex;">
+			<div style="background-color: #E6D7BD; margin: auto;">
 			<%
 				int floatCnt = 1;
 				for(HashMap<String, Object> m2 : goodsList){
@@ -201,8 +206,12 @@
 				if(floatCnt%4 == 0){
 					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
 		%>
-				<div class="text-center" style="border: 1px solid green; width: 260px; height:400px; margin: 5px; display: inline-block;">
-					<div><img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px;"></div><br>
+				<div class="text-center" style="border: 2px dashed #737058; border-radius:5px; width: 260px; height:400px; margin: 5px; display: inline-block;">
+					<div>
+						<a href="/shop/emp/goodsOne.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">
+							<img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
+						</a>
+					</div><br>
 					<div><%=(String)m2.get("goodsTitle")%></div><br>
 					<div>금액: <%=price2%>원</div><br>
 					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>&filename=<%=(String)m2.get("filename")%>">상품 삭제</a>
@@ -213,8 +222,13 @@
 					//System.out.println("else-> "+floatCnt);
 		%>
 				
-				<div class="text-center" style="border: 1px solid green; width: 260px; height:400px; margin: 5px; float: left;">
-					<div><img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px;"></div><br>
+				<div class="text-center" style="border: 2px dashed #737058; border-radius:5px; width: 260px; height:400px; margin: 5px; float: left;">
+					<div>
+						<a href="/shop/emp/goodsOne.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">
+							<img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
+						</a>
+					</div>
+					<br>
 					<div><%=(String)m2.get("goodsTitle")%></div><br>
 					<div>금액: <%=price2%>원</div><br>
 					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>&filename=<%=(String)m2.get("filename")%>">상품 삭제</a>

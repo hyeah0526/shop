@@ -6,7 +6,7 @@
 	
 %>
 <div class="col text-center rounded"
-	style="border: 3px dashed #5E3F36; height: 800px; background-color: #E6D7BD; margin-right: 10px; color: #444236;">
+	style="border: 3px dashed #5E3F36; border-radius:10px; height: 800px; background-color: #E6D7BD; margin-right: 10px; color: #444236;">
 		<br>
 		<a href="/shop/emp/empList.jsp">사원 관리</a><br>
 		<a href="/shop/emp/categoryList.jsp">카테고리 관리</a><br>

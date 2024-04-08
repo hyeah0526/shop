@@ -136,7 +136,7 @@
 </head>
 <body class="fontContent">
 <div class="" style="margin: 50px;">
-	<div class="row" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; margin-bottom: 10px;"><img src="/shop/emp/img/logo2.png" style="width: 200px; margin: auto;"></div>
+	<div class="row" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; margin-bottom: 10px;"><img src="/shop/emp/img/logo3.png" style="width: 200px; margin: auto;"></div>
 
 	<div class="row">
 		<!-- 왼쪽메뉴나오는 곳 -->
