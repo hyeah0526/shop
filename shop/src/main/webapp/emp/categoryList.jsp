@@ -63,12 +63,14 @@
 		}
 		.fontContent{
 			font-family: 'TTLaundryGothicB';
+			background-color: #737058;
 		}
 	</style>
 </head>
 <body class="fontContent">
 <div class="" style="margin: 50px;">
-	<div class="row" style="background-color: red;">쇼핑몰 타이틀</div>
+	<!-- 위쪽 타이틀 -->
+	<jsp:include page="/emp/inc/empTitle.jsp"></jsp:include>
 
 	<div class="row">
 		<!-- 왼쪽메뉴나오는 곳 -->
@@ -77,8 +79,8 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #CCCCCC;">
-			<h1>카테고리 관리</h1>
+		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; color: #444236;">
+			<h1 class="text-center">카테고리 관리</h1>
 			<!-- 카테고리 추가하기 -->
 			<div>
 				<form action="/shop/emp/addCategoryAction.jsp">
@@ -97,17 +99,17 @@
 			%>
 			
 			<!-- 전체 카테고리 목록 보여주기 -->
-			<div class="row" style="border: 1px solid green;">
-				<div class="col">카테고리</div>
-				<div class="col">생성날짜</div>
-				<div class="col">수정</div>
-				<div class="col">삭제</div>
+			<div class="row text-center" style="color: #444236; border-bottom: 2px double #5E3F36;">
+				<div class="col fs-5" style="">카테고리</div>
+				<div class="col fs-5" style="">생성날짜</div>
+				<div class="col fs-5" style="">수정</div>
+				<div class="col fs-5" style="">삭제</div>
 			</div>
 			
 			<%
 				for(HashMap m : categoryList){
 			%>
-					<div class="row" style="border: 1px solid green;">
+					<div class="row text-center" style="border-bottom: 1px dashed #5E3F36;">
 						<div class="col"><a><%=m.get("category")%></a></div>
 						<div class="col"><a><%=m.get("createDate")%></a></div>
 						<div class="col"><a href="/shop/emp/categoryList.jsp?category=<%=m.get("category")%>">수정하기</a></div>
