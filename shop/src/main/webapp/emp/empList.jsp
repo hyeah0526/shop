@@ -136,7 +136,8 @@
 </head>
 <body class="fontContent">
 <div class="" style="margin: 50px;">
-	<div class="row" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; margin-bottom: 10px;"><img src="/shop/emp/img/logo3.png" style="width: 200px; margin: auto;"></div>
+	<!-- 위쪽 타이틀 -->
+	<jsp:include page="/emp/inc/empTitle.jsp"></jsp:include>
 
 	<div class="row">
 		<!-- 왼쪽메뉴나오는 곳 -->
@@ -145,7 +146,7 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; color: #444236;">
+		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; color: #444236; border-radius:10px;">
 			<h1 class="text-center">사원 목록</h1>
 			<div style="background-color: #E6D7BD; display: flex;">
 			<div style="background-color: #E6D7BD; margin: auto;">

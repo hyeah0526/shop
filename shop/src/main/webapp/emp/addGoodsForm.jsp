@@ -56,12 +56,14 @@
 		}
 		.fontContent{
 			font-family: 'TTLaundryGothicB';
+			background-color: #737058;
 		}
 	</style>
 </head>
 <body class="fontContent">
 <div class="" style="margin: 50px;">
-	<div class="row" style="background-color: red;">쇼핑몰 타이틀</div>
+	<!-- 위쪽 타이틀 -->
+	<jsp:include page="/emp/inc/empTitle.jsp"></jsp:include>
 
 	<div class="row">
 		<!-- 왼쪽메뉴나오는 곳 -->
@@ -70,8 +72,8 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #CCCCCC;"> 
-			<h1>상품 등록하기</h1>
+		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; color: #444236;">
+			<h1 class="text-center">상품 등록하기</h1>
 			<%
 				if(errMsg != null){
 			%>
@@ -79,14 +81,14 @@
 			<%
 				}
 			%>
-			<div style="background-color: green; display: flex;">
-			<div style="background-color: orenge; margin: auto;">
+			<div style="background-color: #E6D7BD; display: flex;">
+			<div style="background-color: #E6D7BD; margin: auto;">
 			<form action="/shop/emp/addGoodsAction.jsp" method="post" enctype="multipart/form-data">
 			<!-- 이미지를 넣기 위해서는 꼭 post이여야하고,enctype을 설정해줘야함  -->
 				<div class="row">
-					<div class="col-2">카테고리</div>
-					<div class="col">
-					<select name="category">
+					<div class="col-2 text-center">카테고리</div>
+					<div class="col" >
+					<select name="category" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;">
 						<option>선택</option>
 					<%
 							for(String c : categoryList){
@@ -99,27 +101,27 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-2">상품제목</div>
-					<div class="col"><input type="text" name="goodsTitle"></div>
+					<div class="col-2 text-center">상품제목</div>
+					<div class="col"><input type="text" name="goodsTitle" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;"></div>
 				</div>
 				<div class="row">
-					<div class="col-2">상품가격</div>
-					<div class="col"><input type="text" name="goodsPrice"></div>
+					<div class="col-2 text-center">상품가격</div>
+					<div class="col"><input type="text" name="goodsPrice" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;"></div>
 				</div>
 				<div class="row">
-					<div class="col-2">상품수량</div>
-					<div class="col"><input type="text" name="goodsAmount"></div>
+					<div class="col-2 text-center">상품수량</div>
+					<div class="col"><input type="text" name="goodsAmount" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;"></div>
 				</div>
 				<div class="row">
-					<div class="col-2">이미지</div>
+					<div class="col-2 text-center">이미지</div>
 					<div class="col"><input type="file" name="goodsImg"></div>
 				</div>
 				<div class="row">
-					<div class="col-2">내용</div>
-					<div class="col"><textarea rows="5" cols="50" name="goodsContent"></textarea></div>
+					<div class="col-2 text-center">내용</div>
+					<div class="col"><textarea rows="5" cols="50" name="goodsContent" style="border:none; border: 2px double #5E3F36; background-color: transparent;"></textarea></div>
 				</div>
 				<div style="text-align: center;">
-					<button type="submit">등록</button>
+					<button type="submit" style="border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;">등록</button>
 				</div>
 			</form>
 			</div>

@@ -65,6 +65,9 @@
 			font-family: 'TTLaundryGothicB';
 			background-color: #737058;
 		}
+		.addListBtn:hover { 
+			background-color: #737058;
+		 }
 	</style>
 </head>
 <body class="fontContent">
@@ -84,8 +87,8 @@
 			<!-- 카테고리 추가하기 -->
 			<div>
 				<form action="/shop/emp/addCategoryAction.jsp">
-					<input type="text" name="category">
-					<button>카테고리 추가하기</button>
+					<input type="text" name="category" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;">
+					<button type="submit" class="addListBtn" style="border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;">카테고리 추가</button>
 				</form>
 			</div><br>
 			
