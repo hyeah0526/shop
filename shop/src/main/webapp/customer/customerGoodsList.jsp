@@ -155,6 +155,30 @@
 		a { text-decoration: none; color: #444236;}
 		a:hover { color:#444236; }
 		a:visited { text-decoration: none;}
+		
+		.mainBox{
+			background-color: #E6D7BD; border: 3px dashed #5E3F36; color: #444236; border-radius:10px;
+		}
+		
+		.searchInput{
+			border:none; border-bottom: 2px double #5E3F36; background-color: transparent;
+		}
+		
+		.searchBtn{
+			border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;
+		}
+		
+		.goodsBox{
+			border: 2px dashed #737058; border-radius:5px; width: 260px; height:400px; margin: 5px; display: inline-block;
+		}
+		
+		.addBtn{
+			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px;
+		}
+		
+		.categoryList{
+			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px;
+		}
 	</style>
 </head>
 <body class="fontContent">
@@ -170,22 +194,22 @@
 		<jsp:include page="/customer/inc/customerMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; color: #444236;">
-			<h1 class="text-center">상품보기</h1>
+		<div class="col-10 mainBox">
+			<br><h1 class="text-center">상품보기</h1><br>
 			<!-- 카테고리별 (카운트) 및 선택 -->
-			<div>
-				<a href="/shop/customer/customerGoodsList.jsp">전체</a>&nbsp;
+			<div class="ms-3 text-center">
+				<a href="/shop/customer/customerGoodsList.jsp" class="btn categoryList">전체</a>&nbsp;&nbsp;&nbsp;
 		<%
 					for(HashMap m : categoryList) {
 		%>
-						<a href="/shop/customer/customerGoodsList.jsp?category=<%=(String)(m.get("category"))%>">
+						<a href="/shop/customer/customerGoodsList.jsp?category=<%=(String)(m.get("category"))%>" class="btn categoryList">
 							<%=(String)(m.get("category"))%>
 							(<%=(Integer)(m.get("cnt"))%>)
-						</a>&nbsp;
+						</a>&nbsp;&nbsp;&nbsp;
 		<%		
 			}
 		%>
-			</div>
+			</div><br>
 			
 			<!-- 조회 뿌려주기 -->
 			<div style="background-color: #E6D7BD; display: flex;">
@@ -199,7 +223,7 @@
 				if(floatCnt%4 == 0){
 					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
 		%>
-				<div class="text-center" style="border: 2px dashed #737058; border-radius:5px; width: 260px; height:400px; margin: 5px; display: inline-block;">
+				<div class="text-center goodsBox">
 					<div>
 							<img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
 					</div><br>
@@ -213,7 +237,7 @@
 					//System.out.println("else-> "+floatCnt);
 		%>
 				
-				<div class="text-center" style="border: 2px dashed #737058; border-radius:5px; width: 260px; height:400px; margin: 5px; float: left;">
+				<div class="text-center goodsBox">
 					<div>
 							<img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
 					</div>
@@ -231,7 +255,8 @@
 			<br>
 			<div style="clear: both; text-align: center;">
 				<form method="post" action="/shop/customer/customerGoodsList.jsp?currentPage=1&category=<%=category%>">
-					<input type="text" name="nameScrh">&nbsp;&nbsp;<button type="submit">제목 검색</button>
+					<input type="text" name="nameScrh" class="searchInput">&nbsp;&nbsp;
+					<button type="submit" class="searchBtn">제목 검색</button>
 				</form>
 			</div><br>
 			<div style="clear: both; text-align: center;">
@@ -239,8 +264,8 @@
 				//이전 페이징 기능
 				if(currentPage <= 1){
 		%>
-					<a>◀◀처음</a>
-					<a>◀이전</a> 
+					<a style="color: #d1c3ac;">◀◀처음</a>
+					<a style="color: #d1c3ac;">◀이전</a> 
 		<%
 				}else{
 		%>
@@ -253,8 +278,8 @@
 				//다음 페이징 기능
 				if(currentPage >= lastPage){
 		%>
-					<a>다음▶</a> 
-					<a>마지막▶▶</a>
+					<a style="color: #d1c3ac;">다음▶</a> 
+					<a style="color: #d1c3ac;">마지막▶▶</a>
 		<%
 				}else{
 		%>

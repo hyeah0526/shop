@@ -58,6 +58,29 @@
 			font-family: 'TTLaundryGothicB';
 			background-color: #737058;
 		}
+		a { text-decoration: none; color: #444236;}
+		a:hover { color:#444236; }
+		a:visited { text-decoration: none;}
+		
+		.addGoods{
+			background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; color: #444236;
+		}
+		
+		.addGoodsSelect{
+			border:none; border-bottom: 2px double #5E3F36; background-color: transparent;
+		}
+		
+		.addGoodsInput{
+			border:none; border-bottom: 2px double #5E3F36; background-color: transparent;
+		}
+		
+		.addGoodsContent{
+			border:none; border: 2px double #5E3F36; background-color: transparent;
+		}
+		
+		.addGoodsBtn{
+			border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;
+		}
 	</style>
 </head>
 <body class="fontContent">
@@ -72,8 +95,8 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; color: #444236;">
-			<h1 class="text-center">상품 등록하기</h1>
+		<div class="col-10 addGoods">
+			<br><h1 class="text-center">상품 등록하기</h1><br>
 			<%
 				if(errMsg != null){
 			%>
@@ -88,7 +111,7 @@
 				<div class="row">
 					<div class="col-2 text-center">카테고리</div>
 					<div class="col" >
-					<select name="category" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;">
+					<select name="category" class="addGoodsSelect">
 						<option>선택</option>
 					<%
 							for(String c : categoryList){
@@ -102,15 +125,15 @@
 				</div>
 				<div class="row">
 					<div class="col-2 text-center">상품제목</div>
-					<div class="col"><input type="text" name="goodsTitle" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;"></div>
+					<div class="col"><input type="text" name="goodsTitle" class="addGoodsInput"></div>
 				</div>
 				<div class="row">
 					<div class="col-2 text-center">상품가격</div>
-					<div class="col"><input type="text" name="goodsPrice" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;"></div>
+					<div class="col"><input type="text" name="goodsPrice" class="addGoodsInput"></div>
 				</div>
 				<div class="row">
 					<div class="col-2 text-center">상품수량</div>
-					<div class="col"><input type="text" name="goodsAmount" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;"></div>
+					<div class="col"><input type="text" name="goodsAmount" class="addGoodsInput"></div>
 				</div>
 				<div class="row">
 					<div class="col-2 text-center">이미지</div>
@@ -118,10 +141,10 @@
 				</div>
 				<div class="row">
 					<div class="col-2 text-center">내용</div>
-					<div class="col"><textarea rows="5" cols="50" name="goodsContent" style="border:none; border: 2px double #5E3F36; background-color: transparent;"></textarea></div>
+					<div class="col"><textarea rows="5" cols="50" name="goodsContent" class="addGoodsContent"></textarea></div>
 				</div>
 				<div style="text-align: center;">
-					<button type="submit" style="border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;">등록</button>
+					<button type="submit" class="btn addGoodsBtn">등록</button>
 				</div>
 			</form>
 			</div>

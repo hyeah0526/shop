@@ -129,9 +129,22 @@
 			font-family: 'TTLaundryGothicB';
 			background-color: #737058;
 		}
+		
 		a { text-decoration: none; color: #444236;}
 		a:hover { color:#444236; }
 		a:visited { text-decoration: none;}
+		
+		.mainBox{
+			background-color: #E6D7BD; border: 3px dashed #5E3F36; color: #444236; border-radius:10px;
+		}
+		
+		.searchInput{
+			border:none; border-bottom: 2px double #5E3F36; background-color: transparent;
+		}
+		
+		.searchBtn{
+			border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;
+		}
 	</style>
 </head>
 <body class="fontContent">
@@ -146,8 +159,8 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; color: #444236; border-radius:10px;">
-			<h1 class="text-center">사원 목록</h1>
+		<div class="col-10 mainBox">
+			<br><h1 class="text-center">사원 목록</h1><br>
 			<div style="background-color: #E6D7BD; display: flex;">
 			<div style="background-color: #E6D7BD; margin: auto;">
 		<%
@@ -206,10 +219,10 @@
 				floatCnt=floatCnt+1;
 			}
 		%>
-			<br>
-			<div style="clear: both; text-align: center;">
+			<div style="clear: both; text-align: center;"><br>
 				<form method="get" action="/shop/emp/empList.jsp?currentPage=1">
-					<input type="text" name="empSearch">&nbsp;&nbsp;<button type="submit">사원 이름 검색</button>
+					<input type="text" name="empSearch" class="searchInput">&nbsp;&nbsp;
+						<button type="submit" class="searchBtn">사원 이름 검색</button>
 				</form>
 			</div><br>
 			<div style="clear: both; text-align: center;">
@@ -217,7 +230,7 @@
 				//이전 페이징 기능
 				if(currentPage <= 1){
 		%>
-					<a>◀이전</a> 
+					<a style="color: #d1c3ac;">◀이전</a> 
 		<%
 				}else{
 		%>
@@ -229,7 +242,7 @@
 				//다음 페이징 기능
 				if(currentPage >= lastPage){
 		%>
-					<a>다음▶</a> 
+					<a style="color: #d1c3ac;">다음▶</a> 
 		<%
 				}else{
 		%>

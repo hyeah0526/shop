@@ -65,9 +65,25 @@
 			font-family: 'TTLaundryGothicB';
 			background-color: #737058;
 		}
-		.addListBtn:hover { 
+		a { text-decoration: none; color: #444236;}
+		a:hover { color:#444236; }
+		a:visited { text-decoration: none;}
+		 
+		 .mainBox{
+			background-color: #E6D7BD; border: 3px dashed #5E3F36; color: #444236; border-radius:10px;
+		}
+		
+		.addModifyInput{
+			border:none; border-bottom: 2px double #5E3F36; background-color: transparent;
+		}
+		
+		.addModifyBtn{
+			border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;
+		}
+		
+		.addModifyBtn:hover { 
 			background-color: #737058;
-		 }
+		}
 	</style>
 </head>
 <body class="fontContent">
@@ -82,13 +98,13 @@
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		
 		<!-- 메인 -->
-		<div class="col-10" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; color: #444236;">
-			<h1 class="text-center">카테고리 관리</h1>
+		<div class="col-10 mainBox">
+			<br><h1 class="text-center">카테고리 관리</h1><br>
 			<!-- 카테고리 추가하기 -->
 			<div>
 				<form action="/shop/emp/addCategoryAction.jsp">
-					<input type="text" name="category" style="border:none; border-bottom: 2px double #5E3F36; background-color: transparent;">
-					<button type="submit" class="addListBtn" style="border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;">카테고리 추가</button>
+					<input type="text" name="category" class="addModifyInput">
+					<button type="submit" class="addModifyBtn">카테고리 추가</button>
 				</form>
 			</div><br>
 			
@@ -129,9 +145,9 @@
 					<hr>
 					<form method="get" action="/shop/emp/modifyCategoryList.jsp">
 						<div>
-							카테고리 이름 수정→ <input type="text" name="modifyCategory" value="<%=category%>">
+							카테고리 이름 수정→ <input type="text" name="modifyCategory" value="<%=category%>" class="addModifyInput">
 							<input type="hidden" name="category" value="<%=category%>">
-							<button type="submit">확인</button>
+							<button type="submit" class="addModifyBtn">확인</button>
 						</div>
 					</form>
 			<%
