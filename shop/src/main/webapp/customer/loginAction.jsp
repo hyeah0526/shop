@@ -1,3 +1,4 @@
+<%@page import="shop.dao.CustomerDAO"%>
 <%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
@@ -14,7 +15,6 @@
 		return;
 	}
 %>
-%>
 <%
 	/* post로 넘겼으면 꼭 인코딩해주기 */
 	request.setCharacterEncoding("UTF-8");
@@ -27,42 +27,19 @@
 	System.out.println(cMail+" <-- cMail loginAction.jsp");
 	System.out.println(cPw+" <-- cPw loginAction.jsp");
 	
-	//DB select
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	PreparedStatement stmt = null;
-	ResultSet rs = null;
-	String sql = "SELECT c_mail Cmail, c_name cName FROM customer WHERE c_mail = ? AND c_pw = PASSWORD(?)";
-	stmt = conn.prepareStatement(sql);
-	stmt.setString(1, cMail);
-	stmt.setString(2, cPw);
-	
-	rs = stmt.executeQuery();
-	
 	String msg = "";
+	//DB
+	HashMap<String, Object> loginCustomer = CustomerDAO.customerLogin(cMail, cPw);
 	
-	if(rs.next()){
-		System.out.println("로그인 성공!");
-		
-		//메일주소와 이름! 여러개의 값을 HashMap에 저장
-		HashMap<String, Object> loginCustomer = new HashMap<>();
-		loginCustomer.put("cMail", rs.getString("Cmail"));
-		loginCustomer.put("cName", rs.getString("cName"));
-		session.setAttribute("loginCustomer", loginCustomer);
-		
-		//디버깅해보기
-		HashMap<String, Object> c = (HashMap<String, Object>)(session.getAttribute("loginCustomer"));
-		System.out.println((String)(c.get("cMail")) + " <--로그인 메일주소확인");
-		System.out.println((String)(c.get("cName")) + " <--로그인 이름 확인");
-		
-		//세션에 담은 후 보내주기!
-		response.sendRedirect("/shop/customer/customerGoodsList.jsp");
-	}else{
+	if(loginCustomer == null){
 		System.out.println("로그인 실패!");
 		msg = URLEncoder.encode("로그인에 실패하였습니다. 메일 주소와 비밀번호를 다시 확인해주세요.", "UTF-8");
 		response.sendRedirect("/shop/customer/loginForm.jsp?msg="+msg);
+		
+	}else{
+		System.out.println("로그인 성공!");
+		session.setAttribute("loginCustomer", loginCustomer);
+		//세션에 담은 후 보내주기!
+		response.sendRedirect("/shop/customer/customerGoodsList.jsp");
 	}
-	
-
 %>
