@@ -1,10 +1,10 @@
+<%@page import="shop.dao.CategoryDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <!-- 여기부터는 Controller Layer -->
 <%
 	/* 인증분기: 세션변수 이름 - loginEmp */
-	//로그인이 안되어 있으면 emploginForm.jsp로 보냄
 	if(session.getAttribute("loginEmp") == null){
 		response.sendRedirect("/shop/emp/empLoginForm.jsp"); 
 		return;
@@ -14,33 +14,11 @@
 	String msg = request.getParameter("msg");
 	
 	/* 전체 카테고리 목록 뿌려주기 */
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	PreparedStatement stmt1 = null;
-	ResultSet rs1 = null; 
-	
-	String sql1 ="SELECT category, create_date createDate FROM category";
-	stmt1 = conn.prepareStatement(sql1);
-	rs1 = stmt1.executeQuery();
-	//System.out.println(stmt1);
-	
-	ArrayList<HashMap<String, Object>> categoryList = new ArrayList<>();
-	while(rs1.next()){
-		HashMap<String, Object> m = new HashMap<>();
-		m.put("category", rs1.getString("category"));
-		m.put("createDate", rs1.getString("createDate"));
-		categoryList.add(m);
-	}
-	//System.out.println(categoryList);
-	
-	
+	ArrayList<HashMap<String, Object>> categoryList = CategoryDAO.categoryList();
 	
 	/* 수정값 가져오기 */
 	String category = request.getParameter("category");
 	String createDate = request.getParameter("createDate");
-	//System.out.println(category + " <-- category categoryList.jsp");
-	//System.out.println(createDate + " <-- createDate categoryList.jsp");
 	
 	/* 추가값 가져오기 */
 	String addCategory = request.getParameter("addCategory");

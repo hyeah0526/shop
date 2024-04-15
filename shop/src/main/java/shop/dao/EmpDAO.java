@@ -66,4 +66,59 @@ public class EmpDAO {
 		conn.close();
 		return resultMap;
 	}
+	
+/* selectEmpList 사원목록 전체 출력 (empList.jsp) */
+	public static ArrayList<HashMap<String, Object>> selectEmpList(String empSearch, int startRow, int selectRowInt) 
+																										throws Exception{
+		ArrayList<HashMap<String, Object>> resultMap = null;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		String sql = "select emp_id empId, emp_name empName, emp_job empJob, hire_date hireDate, active from emp where emp_name like ? order by hire_date desc limit ?, ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%"+empSearch+"%");
+		stmt.setInt(2, startRow);
+		stmt.setInt(3, selectRowInt);
+		
+		rs = stmt.executeQuery(); 
+		
+		// 특수한 형태의 자료구조(RDBMS:mariadb)
+		// -> API사용(JDBC API)하여 자료구조(ResultSet) 취득 
+		// -> 일반화된 자료구조(ArrayList<HashMap>)로 변경
+		// -> 모델 취득
+		resultMap = new ArrayList<HashMap<String, Object>>();
+		while(rs.next()){
+			HashMap<String, Object> m = new HashMap<String, Object>(); 
+			m.put("empId", rs.getString("empId"));
+			m.put("empName", rs.getString("empName"));
+			m.put("empJob", rs.getString("empJob"));
+			m.put("hireDate", rs.getString("hireDate"));
+			m.put("active", rs.getString("active"));
+			
+			//그리고 그걸 List에 넣어주기
+			resultMap.add(m);
+		}
+		return resultMap;
+	}
+	
+/* empListPaging 사원전체목록페이징(empList.jsp) */
+	public static int empListPaging(String empSearch) throws Exception{
+		int totalRow = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		String sql = "select count(*) cnt from emp where emp_name like ?";
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%"+empSearch+"%");
+		rs = stmt.executeQuery();
+		
+		System.out.println("empListPaging DAO--> "+stmt);
+		
+		if(rs.next()){
+			totalRow = rs.getInt("cnt");
+		}
+		return totalRow;
+	}
 }

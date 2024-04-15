@@ -17,7 +17,7 @@
 <%
 	//변수가져오기
 	String msg = request.getParameter("msg");
-	if(msg==null){
+	if(msg == null){
 		msg = "";
 	}
 	System.out.println(msg + " <-- msg goodsOne.jsp");
@@ -48,12 +48,19 @@
 			font-family: 'TTLaundryGothicB';
 			background-color: #737058;
 		}
+		a { text-decoration: none; color: #444236;}
+		a:hover { color:#444236; }
+		a:visited { text-decoration: none;}
+		.modifyDeleteBtn{
+			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px;
+		}
 	</style>
 </head>
 <body class="fontContent">
 <div class="" style="margin: 50px;">
-	<div class="row" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; margin-bottom: 10px;"><img src="/shop/emp/img/logo3.png" style="width: 200px; margin: auto;"></div>
-
+	<!-- 위쪽 타이틀 -->
+	<jsp:include page="/emp/inc/empTitle.jsp"></jsp:include>
+	
 	<div class="row">
 		<!-- 왼쪽메뉴나오는 곳 -->
 		<!-- empMenu.jsp include : 주체(서버) vs redirect(주체:클라이언트) -->
@@ -101,7 +108,7 @@
 										<div style="border-bottom:2px dashed #737058;">[제목] <input type="text" name="goodsTitle" value="<%=(String)g2.get("goodsTitle")%>"></div><br>
 										<div style="border-bottom:2px dashed #737058;">[내용] <textarea rows="5" cols="50" name="goodsContent"><%=(String)g2.get("goodsContent")%></textarea></div>
 										<br>
-										<button type="submit">수정하기</button>
+										<div class="text-center"><button type="submit" class="btn modifyDeleteBtn">수정하기</button></div>
 									</div>
 								</div>
 							</form>
@@ -122,8 +129,11 @@
 										<div style="border-bottom:2px dashed #737058;">[수량] <%=(Integer)g.get("goodsAmount")%></div><br>
 										<div style="border-bottom:2px dashed #737058;">[제목] <%=(String)g.get("goodsTitle")%></div><br>
 										<div style="border-bottom:2px dashed #737058;">[내용] <%=(String)g.get("goodsContent")%></div>
-										<br><br>												<a href="/shop/emp/goodsOne.jsp?goodsNo=<%=(Integer)g.get("goodsNo")%>&msg=modify">수정</a>&nbsp;&nbsp;
-										<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)g.get("goodsNo")%>&filename=<%=(String)g.get("filename")%>">상품 삭제</a>
+										<br><br>												
+										<div class="text-center">
+											<a href="/shop/emp/goodsOne.jsp?goodsNo=<%=(Integer)g.get("goodsNo")%>&msg=modify" class="btn modifyDeleteBtn">수정</a>&nbsp;&nbsp;&nbsp;
+											<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)g.get("goodsNo")%>&filename=<%=(String)g.get("filename")%>" class="btn modifyDeleteBtn">상품 삭제</a>
+										</div>
 									</div>
 								</div>
 				<%	

@@ -1,3 +1,4 @@
+<%@page import="shop.dao.CategoryDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@page import="java.util.*"%>
 <%@page import="java.net.URLEncoder"%>
@@ -14,16 +15,7 @@
 	String category = request.getParameter("category");
 	System.out.println(category + " <--category removeCategoryAction.jsp");
 	
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	PreparedStatement stmt = null;
-	String sql = "delete from category where category = ?";
-	stmt = conn.prepareStatement(sql);
-	stmt.setString(1, category);
-	
-	int row = 0;
-	row = stmt.executeUpdate();
+	int row = CategoryDAO.deleteCategory(category);	
 	
 	String msg = "";
 	if(row == 1){
