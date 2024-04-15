@@ -1,3 +1,4 @@
+<%@page import="shop.dao.GoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
@@ -14,6 +15,7 @@
 	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
 %>
 <%
+	//변수가져오기
 	String msg = request.getParameter("msg");
 	if(msg==null){
 		msg = "";
@@ -23,35 +25,8 @@
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	System.out.println(goodsNo + " <--goodsNo GoodsOne상세보기");
 	
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	PreparedStatement stmt = null;
-	ResultSet rs = null; 
-	String sql = "select * from goods WHERE goods_no = ?";
-	stmt = conn.prepareStatement(sql);
-	stmt.setInt(1, goodsNo);
-	System.out.println(stmt); //디버깅
-	rs = stmt.executeQuery();
-	
-	ArrayList<HashMap<String, Object>> goodsOne = new ArrayList<>();
-	while(rs.next()){
-		HashMap<String, Object> goods = new HashMap<>();
-		goods.put("goodsNo", rs.getInt("goods_no"));
-		goods.put("category", rs.getString("category"));
-		goods.put("empId", rs.getString("emp_id"));
-		goods.put("goodsTitle", rs.getString("goods_title"));
-		goods.put("filename", rs.getString("filename"));
-		goods.put("goodsContent", rs.getString("goods_content"));
-		goods.put("goodsPrice", rs.getInt("goods_price"));
-		goods.put("goodsAmount", rs.getInt("goods_amount"));
-		goods.put("updateDate", rs.getString("update_date"));
-		goods.put("createDate", rs.getString("create_date"));
-		goodsOne.add(goods);
-	}
-	System.out.println(goodsOne);
-	
-	
+	//가져오기
+	ArrayList<HashMap<String, Object>> goodsOne = GoodsDAO.goodsOne(goodsNo);
 %>
 <!DOCTYPE html>
 <html>

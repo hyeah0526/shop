@@ -1,3 +1,4 @@
+<%@page import="shop.dao.GoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
@@ -15,25 +16,7 @@
 %>
 <!-- 여기부터는 Model Layer -->
 <%
-	/* Count 카테고리별 카운트 캐수 */
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	PreparedStatement stmt1 = null;
-	ResultSet rs1 = null; 
-
-	String sql1 ="SELECT category FROM category";
-	stmt1 = conn.prepareStatement(sql1);
-	rs1 = stmt1.executeQuery();
-	//System.out.println(stmt1);
-	
-	ArrayList<String> categoryList = new ArrayList<String>();
-	while(rs1.next()){
-		categoryList.add(rs1.getString("category"));
-	}
-	//디버깅
-	System.out.println(categoryList);
-	
+	ArrayList<String> categoryList = GoodsDAO.selectCategory();
 	String errMsg = request.getParameter("errMsg");
 	
 	

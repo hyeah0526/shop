@@ -1,10 +1,36 @@
 package shop.dao;
 
 import java.sql.*;
-import java.util.HashMap;
+import java.util.*;
 
 // emp 테이블을 CRUD하는 메서드의 컨테이너
 public class EmpDAO {
+
+	
+/* insertEmp */
+	public static int insertEmp(String empId, String empPw, String empName, String empJob) throws Exception {
+		int row = 0;
+		
+		// DB 접근코드
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "INSERT INTO emp(emp_id, emp_pw, emp_name, emp_job)VALUES(?, ?, ?, ?);";
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, empId);
+		stmt.setString(2, empPw);
+		stmt.setString(3, empName);
+		stmt.setString(4, empJob);
+		System.out.println(stmt + " <--insertEmp");
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
+	
+/* emplogin */
 	// 반환값이 HashMap<String, Object> loginEmp 이게 되어야함
 	// HashMap<String, Object>이 null이면 로그인 실패, 아니면 성공
 	// 사용자 입력값 ID와 PW이므로 즉 String 2개 (String empId, String empPw)
@@ -15,9 +41,7 @@ public class EmpDAO {
 		HashMap<String, Object> resultMap = null;
 		
 		// DB 접근코드
-		Class.forName("org.mariadb.jdbc.Driver");
-		Connection conn = null;
-		conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		

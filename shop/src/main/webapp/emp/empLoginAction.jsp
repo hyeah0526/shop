@@ -19,6 +19,7 @@
 	System.out.println(empPw+" <--empPw empLoginAction.jsp");
 	
 	// 먼저 page import를 해주고 호출하기 
+	// model코드가 사라지고 model을 호출하는 코드
 	HashMap<String, Object> loginEmp = EmpDAO.emplogin(empId, empPw); //이 친구의 반환값은 HashMap이므로 EmpDAQO.empLogin()를 HashMap으로 만들어줌
 	
 	if(loginEmp == null){ // 로그인 실패

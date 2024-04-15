@@ -1,18 +1,19 @@
+<%@page import="shop.dao.GoodsDAO"%>
+<%@page import="shop.dao.EmpDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <!-- 여기부터는 Controller Layer -->
 <%
-	/* 인증분기: 세션변수 이름 - loginEmp */
+/* 인증분기: 세션변수 이름 - loginEmp */
 	//로그인이 안되어 있으면 emploginForm.jsp로 보냄
 	if(session.getAttribute("loginEmp") == null){
 		response.sendRedirect("/shop/emp/empLoginForm.jsp"); 
 		return;
 	}
-
 %>
 <%
-	/* 페이징 */
+/* 기본 페이징 및 변수가져오기 */
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -31,102 +32,37 @@
 	}
 	System.out.println(category + " <--category goodsList.jsp");
 %>
-
-<!-- 여기부터는 Model Layer -->
 <%
-	/* Count 카테고리별 카운트 캐수 */
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	PreparedStatement stmt1 = null;
-	ResultSet rs1 = null; 
-
-	String sql1 ="SELECT category, COUNT(*) cnt FROM goods GROUP BY category ORDER BY category asc";
-	stmt1 = conn.prepareStatement(sql1);
-	rs1 = stmt1.executeQuery();
-	//System.out.println(stmt1);
+/* categoryList 카테고리 조회 및 Count카테고리별 카운트 개수 */
+	ArrayList<HashMap<String, Object>> categoryList = GoodsDAO.selectCategoryList();
 	
-	ArrayList<HashMap<String, Object>> categoryList = new ArrayList<HashMap<String, Object>>();
-	while(rs1.next()){
-		HashMap<String, Object> m = new HashMap<String, Object>();
-		m.put("category", rs1.getString("category"));
-		m.put("cnt", rs1.getInt("cnt"));
-		categoryList.add(m);
-	}
-	//디버깅
-	System.out.println(categoryList);
 	
-	/* 상품조회하기 */
-	//검색어
-	String nameScrh = request.getParameter("nameScrh");
+/* goodsList 상품 목록 조회하기 */
+	String nameScrh = request.getParameter("nameScrh"); //검색어
 	if(nameScrh==null){
 		nameScrh = "";
 	}
-	System.out.println(nameScrh+" <--nameScrh 상품관리");
-	
-	PreparedStatement stmt2 = null;
-	ResultSet rs2 = null; 
-	String sql2 = "SELECT * FROM goods where category LIKE ? and goods_title LIKE ? ORDER BY update_date desc limit ?, ?";
-	stmt2 = conn.prepareStatement(sql2);
-	stmt2.setString(1, "%"+category+"%");
-	stmt2.setString(2, "%"+nameScrh+"%");
-	stmt2.setInt(3, startRow);
 	
 	String selectRow = request.getParameter("selectRow");
 	int selectRowInt = 0;
-	
 	if(selectRow == null){
 		selectRowInt = 16;
-		stmt2.setInt(4, selectRowInt);
 	}else{
 		selectRowInt = Integer.parseInt(selectRow);
-		stmt2.setInt(4, selectRowInt);
 	}
-	System.out.println(selectRow+" <--selectRow");
 	
-	rs2 = stmt2.executeQuery();
-	System.out.println(stmt2);
+	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.selectGoodsList(category, nameScrh, startRow, selectRowInt);
 	
-	ArrayList<HashMap<String, Object>> goodsList = new ArrayList<HashMap<String, Object>>();
-	while(rs2.next()){
-		HashMap<String, Object> m2 = new HashMap<String, Object>();
-		m2.put("goodsNo", rs2.getInt("goods_no"));
-		m2.put("category", rs2.getString("category"));
-		m2.put("empId", rs2.getString("emp_id"));
-		m2.put("goodsTitle", rs2.getString("goods_title"));
-		m2.put("goodsContent", rs2.getString("goods_content"));
-		m2.put("goodsPrice", rs2.getInt("goods_price"));
-		m2.put("goodsAmount", rs2.getInt("goods_amount"));
-		m2.put("updateDate", rs2.getString("update_date"));
-		m2.put("filename", rs2.getString("filename"));
-		goodsList.add(m2);
+	
+/* goodsPaging 상품 목록 페이징 */
+	int totalRow = 0;
+	int lastPage = 0;
+	ArrayList<HashMap<String, Integer>> goodsPaging = GoodsDAO.selectGoodsCnt(category, nameScrh, totalRow, selectRowInt);
+ 
+	for(HashMap<String, Integer> paging : goodsPaging){
+		totalRow = paging.get("totalRow");
+		lastPage = paging.get("lastPage");
 	}
-	//디버깅
-	//System.out.println(goodsList);
-	
-	/* 페이징 */
-		String sql3 = "select count(*) cnt from goods where category like ? and goods_title LIKE ?";
-		PreparedStatement stmt3 = null;
-		ResultSet rs3 = null; 
-		stmt3 = conn.prepareStatement(sql3);
-		stmt3.setString(1, "%"+category+"%");
-		stmt3.setString(2, "%"+nameScrh+"%");
-		rs3 = stmt3.executeQuery();
-		
-		System.out.println(stmt3);
-		
-		int totalRow = 0;
-		if(rs3.next()){
-			totalRow = rs3.getInt("cnt");
-		}
-		
-		
-		int lastPage = totalRow / selectRowInt;
-		if(totalRow % selectRowInt != 0){
-			lastPage = lastPage+1;
-		}
-		System.out.println(lastPage+" <--lastPage empList.jsp");
-		System.out.println(totalRow+" <--totalRow empList.jsp");
 %>
 <%
 	String msg = request.getParameter("msg");
@@ -200,7 +136,7 @@
 			<%
 				if(msg != null){
 			%>
-					<div><%=msg%></div>
+					<div class="text-center"><%=msg%></div><br>
 			<%
 				}
 			%>

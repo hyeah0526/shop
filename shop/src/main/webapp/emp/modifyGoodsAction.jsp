@@ -1,3 +1,4 @@
+<%@page import="shop.dao.GoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
@@ -59,23 +60,9 @@
 	newImg = filename;
 	System.out.println(newImg+"<--newImg + ext; 다음(57번째줄다음)");
 	
-	//DB업데이트
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	PreparedStatement stmt = null;
-	String sql = "UPDATE goods SET emp_id = ?, goods_title = ?, filename = ?, goods_content = ?, goods_price = ?, goods_amount = ? WHERE goods_no = ?";
-	stmt = conn.prepareStatement(sql);
-	stmt.setString(1, empId);
-	stmt.setString(2, goodsTitle);
-	stmt.setString(3, newImg);
-	stmt.setString(4, goodsContent);
-	stmt.setInt(5, goodsPrice);
-	stmt.setInt(6, goodsAmount);
-	stmt.setInt(7, goodsNo);
 	
-	int row = 0;
-	row = stmt.executeUpdate();
+	//DB
+	int row = GoodsDAO.modifyGoods(goodsNo, empId, goodsTitle, newImg, goodsContent, goodsPrice, goodsAmount);
 	
 	String msg = "";
 	
