@@ -47,4 +47,30 @@ public class CustomerDAO {
 		}
 		return row;
 	}
+	
+/* login정보 가져오기 */
+	public static HashMap<String, String> customerOne(String cMail) throws Exception{
+		HashMap<String, String> resultMap = null;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null; 
+		
+		String sql = "SELECT c_mail, c_name, c_birth, c_gender, create_date from customer where c_mail = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, cMail);
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			resultMap = new HashMap<String, String>();
+			resultMap.put("cMail", rs.getString("c_mail"));
+			resultMap.put("cName", rs.getString("c_name"));
+			resultMap.put("cBirth", rs.getString("c_birth"));
+			resultMap.put("cGender", rs.getString("c_gender"));
+			resultMap.put("createDate", rs.getString("create_date"));
+		}
+		
+		return resultMap;
+	}
 }
