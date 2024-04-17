@@ -4,6 +4,42 @@ import java.sql.*;
 import java.util.*;
 
 public class CustomerDAO {
+	
+/* modifyCustomerAction.jsp 고객 비밀번호 수정 */
+	public static int updateCustomer(String cOldPw, String cNewPw, String cMail) throws Exception{
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		
+		String sql = "UPDATE customer SET c_pw = PASSWORD(?) WHERE c_mail = ? AND c_pw = PASSWORD(?)";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, cNewPw);
+		stmt.setString(2, cMail);
+		stmt.setString(3, cOldPw);
+		System.out.println(stmt+"수정성공");
+		
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
+	
+/* deleteCustomerAction.jsp 고객탈퇴 */
+	public static int deleteCustomer(String cMail, String cPw) throws Exception{
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		
+		String sql = "DELETE FROM customer WHERE c_mail = ? AND c_pw = PASSWORD(?)";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, cMail);
+		stmt.setString(2, cPw);
+		
+		row = stmt.executeUpdate();
+		
+		return row;
+	}
 
 /* customerLogin 고객로그인 */
 	public static HashMap<String, Object> customerLogin(String cMail, String cPw) throws Exception{

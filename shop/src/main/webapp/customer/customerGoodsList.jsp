@@ -161,7 +161,9 @@
 		%>
 				<div class="text-center goodsBox">
 					<div>
+						<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">
 							<img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
+						</a>
 					</div><br>
 					<div><%=(String)m2.get("goodsTitle")%></div><br>
 					<div>금액: <%=price2%>원</div>
@@ -175,7 +177,9 @@
 				
 				<div class="text-center goodsBox">
 					<div>
+						<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">
 							<img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
+						</a>
 					</div>
 					<br>
 					<div><%=(String)m2.get("goodsTitle")%></div><br>

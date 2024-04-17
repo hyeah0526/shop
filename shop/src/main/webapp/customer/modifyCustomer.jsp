@@ -17,6 +17,10 @@
 	System.out.println(cBirth+" <-- cBirth modifyCustomer.jsp");
 	System.out.println(cGender+" <-- cGender modifyCustomer.jsp");
 	
+	// 수정실패시 에러msg
+	String msg = request.getParameter("msg");
+	System.out.println(msg+" <--msg modifyCustomer.jsp");
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -50,6 +54,13 @@
 		<div class="col-6" style="background-color: #E6D7BD; border: 3px dashed #5E3F36;">
 			<div style="margin: 5%">
 				<h1>회원 정보수정</h1>
+				<%
+					if(msg != null){
+				%>
+						<div><%=msg%></div><br>
+				<%
+					}
+				%>
 				<form method="post" action="/shop/customer/modifyCustomerAction.jsp">
 				<table style="margin-left:auto; margin-right:auto;">
 					<tr>
@@ -75,8 +86,14 @@
 						<td>변경할 비밀번호</td>
 						<td><input type="password" name="cNewPw"></td>
 					</tr>
-				</table><br>
-				<button type="submit">변경하기</button>
+				</table>
+				<button type="submit" class="">비밀번호 변경</button>
+			</form><br>
+			<form action="/shop/customer/deleteCustomerAction.jsp" method="post">
+					<h1>회원 탈퇴</h1>
+					비밀번호 확인: <input type="password" name="cPw" >
+					<input type="hidden" name="cMail" value="<%=cMail%>">
+					<button type="submit" class="">탈퇴하기</button>
 			</form>
 			</div>
 		</div>
