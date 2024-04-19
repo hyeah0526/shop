@@ -20,7 +20,7 @@
 	
 	if(row == 1){ // 수정성공
 		System.out.println("비밀번호 수정성공!");
-		msg = URLEncoder.encode("비밀번호 수정성공", "UTF-8");
+		msg = URLEncoder.encode("비밀번호수정", "UTF-8");
 		response.sendRedirect("/shop/customer/customerGoodsList.jsp?msg="+msg);
 	}else{ // 수정실패
 		System.out.println("수정실패");

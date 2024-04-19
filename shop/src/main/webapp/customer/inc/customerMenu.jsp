@@ -5,6 +5,9 @@
 		= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
 
 	String msg = request.getParameter("msg");
+	if(msg == null){
+		msg = "";
+	}
 	System.out.println(msg+" <-- msg customerMenu.jsp");
 %>
 <div class="col text-center rounded"
@@ -17,9 +20,9 @@
 			<%=(String)(loginCustomer.get("cName"))%>
 		</a>님 반갑습니다
 		<%
-			if(msg != null){
+			if(msg.equals("비밀번호수정")){
 		%>
-				<div><%=msg%></div>
+				<div>비밀번호 수정성공</div>
 		<%
 			}
 		%>

@@ -1,3 +1,4 @@
+<%@page import="shop.dao.CommentDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="shop.dao.GoodsDAO"%>
 <%@ page import="java.sql.*" %>
@@ -19,9 +20,17 @@
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	System.out.println(goodsNo + " <--goodsNo CustomerGoodsOne상세보기");
 	
+	// 굿즈 ONE 상세보기
 	ArrayList<HashMap<String, Object>> goodsOne = GoodsDAO.goodsOne(goodsNo);
 	
 	String orderCxl = "order";
+	String msg = request.getParameter("msg");
+	if(msg == null){
+		msg = "";
+	}
+	
+	// 후기목록 뿌려주기
+	ArrayList<HashMap<String, Object>> reviewList = CommentDAO.selectComment(goodsNo);
 %>
 <!DOCTYPE html>
 <html>
@@ -76,18 +85,17 @@
 								</div>
 								<div class="col" style="float: right; width: 600px">
 									<div style="border-bottom:2px dashed #737058;">[상품번호&카테고리] <%=(Integer)g.get("goodsNo")%>&<%=(String)g.get("category")%></div><br>
-									<div style="border-bottom:2px dashed #737058;">[등록사원] <%=(String)g.get("empId")%></div><br>
-									<div style="border-bottom:2px dashed #737058;">[수정날짜]<%=(String)g.get("updateDate")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[가격] <%=(Integer)g.get("goodsPrice")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[수량] <%=(Integer)g.get("goodsAmount")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[제목] <%=(String)g.get("goodsTitle")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[내용] <%=(String)g.get("goodsContent")%></div>
-									<br><br>												
+									<br><br><br><br>										
 									<div class="text-center">
+										<h2>상품 주문하기</h2>
 										<form method="post" action="/shop/customer/ordersGoodsAction.jsp?&orderCxl=<%=orderCxl%>">
 											<table>
 												<tr>
-													<td>상품 주문 수량</td>
+													<td>주문 수량</td>
 													<td><input type="number" name="orderAmount"></td>
 												</tr>
 												<tr>
@@ -107,6 +115,38 @@
 				<%	
 					}
 				%>
+				<br><Br>
+			<!-- 상품을 주문한 이력이 있다면 후기 작성이 가능 -->
+				<div class="">
+					<h2>상품후기</h2>
+					<%
+						if(msg.equals("reviewAdd")){
+					%>
+								<form action="">
+									<input type="hidden" value="" name="">
+									<div style="float: left;"><textarea maxlength="100" style="width: 500px; height: 70px;" placeholder="후기작성(최대100자)"></textarea></div>
+									<div style="float: left;"><button class="" style="margin-top: 20px;">작성하기</button></div>
+								</form>
+					<%
+						}
+					%>
+				</div>
+			<!-- 상품 후기 리스트 -->
+				<div style="clear: both;">
+					<%
+						for(HashMap r : reviewList){
+							String star = "&#11088;";
+					%>
+							<div class="text-center" style="float: left; width: 250px; height: 250px; border: 1px solid black; margin: 10px;">
+								<%=star.repeat((Integer)r.get("score"))%><br>
+								<%=(String)r.get("content")%><br><br>
+								<%=(String)r.get("cName")%><br>
+								<%=(String)r.get("createDate")%>
+							</div>
+					<%	
+						}
+					%>
+				</div>
 				</div>
 			</div>
 		</div>
