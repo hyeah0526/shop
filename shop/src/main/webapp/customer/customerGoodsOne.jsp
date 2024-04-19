@@ -3,6 +3,15 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%
+/* 인증분기: 세션변수 이름 - loginEmp */
+	
+	//로그인정보가 없으면 로그인폼으로 보내기
+	if(session.getAttribute("loginCustomer") == null){ 
+		response.sendRedirect("/shop/customer/loginForm.jsp"); 
+		return;
+	}
+%>
+<%
 	HashMap<String,Object> loginCustomer 
 		= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
 %>
@@ -11,6 +20,8 @@
 	System.out.println(goodsNo + " <--goodsNo CustomerGoodsOne상세보기");
 	
 	ArrayList<HashMap<String, Object>> goodsOne = GoodsDAO.goodsOne(goodsNo);
+	
+	String orderCxl = "order";
 %>
 <!DOCTYPE html>
 <html>
@@ -73,7 +84,23 @@
 									<div style="border-bottom:2px dashed #737058;">[내용] <%=(String)g.get("goodsContent")%></div>
 									<br><br>												
 									<div class="text-center">
-										<a href="/shop/customer/ordersGoodsAction.jsp?goodsNo=<%=goodsNo%>&goodsAmount=<%=(Integer)g.get("goodsAmount")%>" class="btn orderBtn">상품 주문하기</a>
+										<form method="post" action="/shop/customer/ordersGoodsAction.jsp?&orderCxl=<%=orderCxl%>">
+											<table>
+												<tr>
+													<td>상품 주문 수량</td>
+													<td><input type="number" name="orderAmount"></td>
+												</tr>
+												<tr>
+													<td>배송지</td>
+													<td><input type="text" name="address"></td>
+												</tr>
+											</table>
+											
+											<input type="hidden" name="goodsNo" value="<%=goodsNo%>">
+											<input type="hidden" name="goodsAmount" value="<%=(Integer)g.get("goodsAmount")%>">
+											<input type="hidden" name="goodsPrice" value="<%=(Integer)g.get("goodsPrice")%>"><br>
+											<button class="btn orderBtn">상품 주문하기</button>
+										</form>
 									</div>
 								</div>
 							</div>
@@ -82,7 +109,6 @@
 				%>
 				</div>
 			</div>
-			
 		</div>
 	</div>
 	<div class="row" style="background-color: blue;">밑단</div>
