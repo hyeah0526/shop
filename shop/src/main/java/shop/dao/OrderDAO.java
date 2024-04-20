@@ -57,5 +57,36 @@ public class OrderDAO {
 		}
 		return myOrder;
 	}
+	
+/* 고객이 주문한 모든 상품 보여주기select - emp페이지 */
+	public static ArrayList<HashMap<String, Object>> selectOrderList() throws Exception{
+		ArrayList<HashMap<String, Object>> OrderList = new ArrayList<>();
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT o.orders_no ordersNo, o.mail cMail, o.total_price totalPrice,"
+				+ " o.state state, o.create_date createDate, g.goods_no goodsNo, g.goods_title goodsTitle"
+				+ " FROM orders o INNER JOIN goods g"
+				+ " ON o.goods_no = g.goods_no";
+		
+		stmt = conn.prepareStatement(sql);
+		rs = stmt.executeQuery();
+		
+		while(rs.next()) {
+			HashMap<String, Object> list = new HashMap<>();
+			list.put("ordersNo", rs.getInt("ordersNo"));
+			list.put("cMail", rs.getString("cMail"));
+			list.put("toterPrice", rs.getInt("totalPrice"));
+			list.put("state", rs.getString("state"));
+			list.put("createDate", rs.getString("createDate"));
+			list.put("goodsNo", rs.getString("goodsNo"));
+			list.put("goodsTitle", rs.getString("goodsTitle"));
+			
+			OrderList.add(list);
+		}
+		return OrderList;
+	}
 
 }

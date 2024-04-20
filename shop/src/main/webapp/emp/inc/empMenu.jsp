@@ -10,7 +10,8 @@
 		<br>
 		<a href="/shop/emp/empList.jsp">사원 관리</a><br>
 		<a href="/shop/emp/categoryList.jsp">카테고리 관리</a><br>
-		<a href="/shop/emp/goodsList.jsp">상품 관리</a><br><br>
+		<a href="/shop/emp/goodsList.jsp">상품 관리</a><br>
+		<a href="/shop/emp/customerOrderList.jsp">주문 관리</a><br><br>
 		<a href="/shop/emp/">
 			<%=(String)(loginMember.get("empName"))%>
 		</a>님 반갑습니다
