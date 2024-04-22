@@ -101,8 +101,10 @@ public class OrderDAO {
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
-		String sql = "UPDATE orders SET state = ?"
-				+ "WHERE orders_no = ?";
+		String sql = "UPDATE orders SET state = ?,"
+				+ " create_date = create_date"
+				+ " update_date = NOW()"
+				+ " WHERE orders_no = ?";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, newState);
@@ -111,6 +113,28 @@ public class OrderDAO {
 		
 		row = stmt.executeUpdate();
 		
+		conn.close();
+		return row;
+	}
+	
+	
+/* 고객이 주문한 상품을 취소하기(주문완료 및 결제완료일때만) update  - customer페이지 */
+	public static int updateCancelMyOrders(int ordersNo) throws Exception{
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		String sql = "UPDATE orders SET state = ?,"
+				+ " create_date = create_date,"
+				+ " update_date = NOW()"
+				+ " WHERE orders_no = ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "주문취소");
+		stmt.setInt(2, ordersNo);
+		System.out.println("updateCancelMyOrders-> "+stmt);
+		
+		row = stmt.executeUpdate();
 		
 		conn.close();
 		return row;

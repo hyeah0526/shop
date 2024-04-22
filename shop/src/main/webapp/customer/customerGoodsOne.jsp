@@ -15,22 +15,30 @@
 <%
 	HashMap<String,Object> loginCustomer 
 		= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
+
+	String cMail = (String)loginCustomer.get("cMail");
+	String cName = (String)loginCustomer.get("cName");
+	//System.out.println(cName);
 %>
 <%
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	System.out.println(goodsNo + " <--goodsNo CustomerGoodsOne상세보기");
 	
+	
 	// 굿즈 ONE 상세보기
 	ArrayList<HashMap<String, Object>> goodsOne = GoodsDAO.goodsOne(goodsNo);
 	
 	String orderCxl = "order";
-	String msg = request.getParameter("msg");
-	if(msg == null){
-		msg = "";
-	}
 	
 	// 후기목록 뿌려주기
 	ArrayList<HashMap<String, Object>> reviewList = CommentDAO.selectComment(goodsNo);
+	
+	// 후기작성가능 확인여부 (결과값: 작성X -> noneReview / 작성O -> doneReview)
+	String chkReview = CommentDAO.reviewChk(cMail, goodsNo);
+	
+	// MyOrdersNo가져오기
+	int myOrdersNo = CommentDAO.myOrdersNo(goodsNo, cMail);
+	System.out.println(myOrdersNo + " <--myOrdersNo customerGoodsOne.jsp");
 %>
 <!DOCTYPE html>
 <html>
@@ -121,13 +129,35 @@
 				<div class="">
 					<h2>상품후기</h2>
 					<%
-						if(msg.equals("reviewAdd")){
+						if(chkReview.equals("noneReview")){
 					%>
-								<form action="">
-									<input type="hidden" value="" name="">
-									<div style="float: left;"><textarea maxlength="100" style="width: 500px; height: 70px;" placeholder="후기작성(최대100자)"></textarea></div>
-									<div style="float: left;"><button class="" style="margin-top: 20px;">작성하기</button></div>
-								</form>
+							<form method="post" action="/shop/customer/addOrderReviewAction.jsp">
+								<input type="hidden" value="<%=cMail%>" name="cMail">
+								<input type="hidden" value="<%=goodsNo%>" name="goodsNo">
+								<input type="hidden" value="<%=myOrdersNo%>" name="myOrdersNo">
+								<div style="float: left;">
+									별점&nbsp;<select name="score">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+									</select>
+								</div>
+								<div style="float: left;">
+									&nbsp;<textarea name="content" maxlength="100" style="width: 500px; height: 70px;" placeholder="후기작성(최대100자)"></textarea></div>
+								<div style="float: left;">&nbsp;
+								<button class="" style="margin-top: 20px;">작성하기</button></div>
+							</form>
+					<%
+						}else{
+					%>
+							<div>후기작성이 완료되었습니다.</div>
 					<%
 						}
 					%>
@@ -142,8 +172,21 @@
 								<%=star.repeat((Integer)r.get("score"))%><br>
 								<%=(String)r.get("content")%><br><br>
 								<%=(String)r.get("cName")%><br>
-								<%=(String)r.get("createDate")%>
+								<%=(String)r.get("createDate")%><br>
+								<%
+									if(cName.equals((String)r.get("cName"))){
+								%>
+										<form method="post" action="/shop/customer/deleteMyReviewAction.jsp">
+											<input type="hidden" name="cMail" value="<%=cMail%>">
+											<input type="hidden" name="goodsNo" value="<%=goodsNo%>">
+											<input type="hidden" name="ordersNo" value="<%=(Integer)r.get("ordersNo")%>">
+											<button class="btn">리뷰삭제</button>
+										</form>
+								<%
+									}
+								%>
 							</div>
+							
 					<%	
 						}
 					%>
