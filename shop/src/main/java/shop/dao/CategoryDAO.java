@@ -27,6 +27,8 @@ public class CategoryDAO {
 			m.put("createDate", rs.getString("createDate"));
 			resultMap.add(m);
 		}
+		
+		conn.close();
 		return resultMap;
 	}
 	
@@ -42,6 +44,7 @@ public class CategoryDAO {
 		
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 	
@@ -56,6 +59,7 @@ public class CategoryDAO {
 		stmt.setString(1, category);
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 

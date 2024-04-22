@@ -99,6 +99,8 @@ public class EmpDAO {
 			//그리고 그걸 List에 넣어주기
 			resultMap.add(m);
 		}
+		
+		conn.close();
 		return resultMap;
 	}
 	
@@ -119,6 +121,8 @@ public class EmpDAO {
 		if(rs.next()){
 			totalRow = rs.getInt("cnt");
 		}
+		
+		conn.close();
 		return totalRow;
 	}
 }

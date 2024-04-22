@@ -1,5 +1,5 @@
-<%@page import="shop.dao.OrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="shop.dao.OrderDAO"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%
@@ -11,7 +11,8 @@
 %>
 <%
 	ArrayList<HashMap<String, Object>> orderList = OrderDAO.selectOrderList();
-
+	
+	String msg = request.getParameter("msg");
 %>
 <!DOCTYPE html>
 <html>
@@ -41,16 +42,19 @@
 			background-color: #E6D7BD; border: 3px dashed #5E3F36; color: #444236; border-radius:10px;
 		}
 		
-		.addModifyInput{
-			border:none; border-bottom: 2px double #5E3F36; background-color: transparent;
+		.divTitle{
+			color: #444236; border-bottom: 2px double #5E3F36;
 		}
 		
-		.addModifyBtn{
-			border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;
+		.divContent{
+			color: #444236; border-bottom: 1px double #5E3F36;
 		}
 		
-		.addModifyBtn:hover { 
-			background-color: #737058;
+		.stateSelect{
+			background-color: transparent;
+			color: #ba0000;
+			border: none;
+			text-align: center;
 		}
 	</style>
 </head>
@@ -69,30 +73,62 @@
 		<div class="col-10 mainBox">
 			<br><h1 class="text-center">고객 주문관리</h1><br>
 			<div>
-				<table style="border: 1px solid black;">
-					<tr>
-						<th>주문번호</th>
-						<th>고객아이디</th>
-						<th>주문상품</th>
-						<th>총금액</th>
-						<th>주문날짜</th>
-						<th>주문상태</th>
-					</tr>
 				<%
-					for(HashMap o : orderList){
+					if(msg != null){
 				%>
-						<tr>
-							<td><%=(Integer)o.get("ordersNo")%></td>
-							<td><%=(String)o.get("cMail")%></td>
-							<td><%=(String)o.get("goodsTitle")%></td>
-							<td><%=(Integer)o.get("toterPrice")%></td>
-							<td><%=(String)o.get("createDate")%></td>
-							<td><%=(String)o.get("state")%></td>
-						<tr>
+						<h5 class="text-center" style="color: #ba0000;"><%=msg%></h5><br>
 				<%
 					}
 				%>
-				</table>
+			</div>
+			<div class="row text-center divTitle">
+				<div class="col-1 fs-5" style="">주문번호</div>
+				<div class="col-3 fs-5" style="">고객아이디</div>
+				<div class="col fs-5" style="">주문상품</div>
+				<div class="col fs-5" style="">총금액</div>
+				<div class="col fs-5" style="">주문날짜</div>
+				<div class="col fs-5" style="">주문상태변경</div>
+			</div>
+			<%
+				for(HashMap o : orderList){
+			%>
+					<div class="row text-center divContent">
+						<div class="col-1"><%=(Integer)o.get("ordersNo")%></div>
+						<div class="col-3"><%=(String)o.get("cMail")%></div>
+						<div class="col"><%=(String)o.get("goodsTitle")%> (총&nbsp;<%=(Integer)o.get("totalAmount")%>개)</div>
+						<div class="col"><%=(Integer)o.get("totalPrice")%></div>
+						<div class="col"><%=(String)o.get("createDate")%></div>
+						<div class="col">
+			<%
+						// 주문완료/결제완료/배송중일때만 상태변경이 가능함
+						String stateDone = (String)o.get("state");
+						if(stateDone.equals("배송완료") || stateDone.equals("주문취소")){
+			%>
+							<%=(String)o.get("state")%>
+			<%
+						}else{
+			%>
+							<form action="/shop/emp/modifyStateOrderAction.jsp">
+								<input type="hidden" value="<%=(Integer)o.get("ordersNo")%>" name="ordersNo">
+								<input type="hidden" value="<%=(String)o.get("state")%>" name="oldState">
+								<select class="stateSelect" name="newState" onchange="this.form.submit()">
+									<option value="<%=(String)o.get("state")%>"><%=(String)o.get("state")%></option>
+									<option value="주문완료">주문완료</option>
+									<option value="결제완료">결제완료</option>
+									<option value="배송중">배송중</option>
+									<option value="배송완료">배송완료</option>
+									<option value="주문취소">주문취소</option>
+								</select>
+							</form>
+			<%
+						}
+			%>
+						</div>
+					</div>
+			<%
+				}
+			%>
+			<div>
 			</div>
 		</div>
 		<div class="row" style="background-color: blue;">밑단</div>

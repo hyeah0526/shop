@@ -21,6 +21,7 @@ public class CustomerDAO {
 		
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 	
@@ -38,6 +39,7 @@ public class CustomerDAO {
 		
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 
@@ -81,6 +83,8 @@ public class CustomerDAO {
 		if(rs.next()) {
 			row = 1;
 		}
+		
+		conn.close();
 		return row;
 	}
 	
@@ -107,6 +111,7 @@ public class CustomerDAO {
 			resultMap.put("createDate", rs.getString("create_date"));
 		}
 		
+		conn.close();
 		return resultMap;
 	}
 }

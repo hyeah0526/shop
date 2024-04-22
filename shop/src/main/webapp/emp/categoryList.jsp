@@ -43,6 +43,7 @@
 			font-family: 'TTLaundryGothicB';
 			background-color: #737058;
 		}
+		
 		a { text-decoration: none; color: #444236;}
 		a:hover { color:#444236; }
 		a:visited { text-decoration: none;}

@@ -41,6 +41,8 @@ public class CommentDAO {
 			
 			commentList.add(list);
 		}
+		
+		conn.close();
 		return commentList;
 	}
 

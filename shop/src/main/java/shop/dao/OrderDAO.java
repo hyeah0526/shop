@@ -26,6 +26,7 @@ public class OrderDAO {
 		
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 	
@@ -55,6 +56,8 @@ public class OrderDAO {
 			
 			myOrder.add(list);
 		}
+		
+		conn.close();
 		return myOrder;
 	}
 	
@@ -66,7 +69,7 @@ public class OrderDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT o.orders_no ordersNo, o.mail cMail, o.total_price totalPrice,"
+		String sql = "SELECT o.orders_no ordersNo, o.mail cMail, o.total_price totalPrice, o.total_amount totalAmount,"
 				+ " o.state state, o.create_date createDate, g.goods_no goodsNo, g.goods_title goodsTitle"
 				+ " FROM orders o INNER JOIN goods g"
 				+ " ON o.goods_no = g.goods_no";
@@ -78,7 +81,8 @@ public class OrderDAO {
 			HashMap<String, Object> list = new HashMap<>();
 			list.put("ordersNo", rs.getInt("ordersNo"));
 			list.put("cMail", rs.getString("cMail"));
-			list.put("toterPrice", rs.getInt("totalPrice"));
+			list.put("totalPrice", rs.getInt("totalPrice"));
+			list.put("totalAmount", rs.getInt("totalAmount"));
 			list.put("state", rs.getString("state"));
 			list.put("createDate", rs.getString("createDate"));
 			list.put("goodsNo", rs.getString("goodsNo"));
@@ -86,7 +90,30 @@ public class OrderDAO {
 			
 			OrderList.add(list);
 		}
+		
+		conn.close();
 		return OrderList;
+	}
+	
+/* 고객이 주문한 상태변경 State update - emp페이지 */
+	public static int updateStateOrder(int ordersNo, String oldState, String newState) throws Exception{
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		String sql = "UPDATE orders SET state = ?"
+				+ "WHERE orders_no = ?";
+		
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, newState);
+		stmt.setInt(2, ordersNo);
+		System.out.println("updateStateOrder-> "+stmt);
+		
+		row = stmt.executeUpdate();
+		
+		
+		conn.close();
+		return row;
 	}
 
 }

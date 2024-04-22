@@ -36,6 +36,7 @@ public class GoodsDAO {
 		
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 	
@@ -223,6 +224,7 @@ public class GoodsDAO {
 			resultMap.add(goodsOne);
 		}
 		
+		conn.close();
 		return resultMap;
 	}
 	
@@ -246,6 +248,7 @@ public class GoodsDAO {
 		
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 	
@@ -263,6 +266,7 @@ public class GoodsDAO {
 		
 		row = stmt.executeUpdate();
 		
+		conn.close();
 		return row;
 	}
 
