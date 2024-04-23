@@ -15,8 +15,42 @@
 	//System.out.println(cMail+" <--cName myOrderList.jsp");
 %>
 <%
+	// 현제 페이지
+	int currentPage = 1;
+	if(request.getParameter("currentPage") != null){ // null이 아니면 currentpage를 그 숫자로 변경 
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	System.out.println(currentPage + "<--currentPage myOrderList.jsp");
+	
+	// 한페이지당 보여줄 수 
+	String selectRow = request.getParameter("selectRow  myOrderList.jsp");
+	int selectRowInt = 0;
+		
+	if(selectRow == null){
+		selectRowInt = 10;
+	}else{
+		selectRowInt = Integer.parseInt(selectRow);
+	}
+	System.out.println(selectRowInt + "<--selectRowInt  myOrderList.jsp");
+		
+	// 페이지당 시작할 row
+	int startRow = (currentPage-1) * selectRowInt; // 첫번째페이지면 0*selectRowInt = 0이고 두번째면 1*selectRowInt
+	System.out.println(startRow + "<--startRow  myOrderList.jsp");
+	
+	// 총 주문갯수 row
+	int myOrderListRow = OrderDAO.myOrderListRow(cMail);
+	System.out.println(myOrderListRow + "<--totalOrderListRow  myOrderList.jsp");
+		
+	// 마지막페이지
+	int lastPage = myOrderListRow / selectRowInt;
+		
+	if(myOrderListRow % selectRowInt != 0){
+		lastPage = lastPage+1;
+	}
+	System.out.println(lastPage + "<--lastPage  myOrderList.jsp");
+
 	// 고객 본인이 주문한 상품 가져오기
-	ArrayList<HashMap<String, Object>> myOrder = OrderDAO.myOrderOne(cMail);
+	ArrayList<HashMap<String, Object>> myOrder = OrderDAO.myOrderOne(cMail, startRow, selectRowInt);
 	//System.out.println(myOrder);
 	
 %>
@@ -35,10 +69,12 @@
 		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2403-2@1.0/TTLaundryGothicB.woff2') format('woff2');
 		    font-weight: 400;
 		    font-style: normal;
+		    color: #444236;
 		}
 		.fontContent{
 			font-family: 'TTLaundryGothicB';
 			background-color: #737058;
+			color: #444236;
 		}
 		
 		a { text-decoration: none; color: #444236;}
@@ -47,6 +83,13 @@
 		
 		.orderBtn{
 			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px;
+		}
+		
+		.divContent{
+			border-bottom: 1px dashed #444236; 
+			height: 50px; 
+			align-items: center;
+			color: #444236;
 		}
 	</style>
 </head>
@@ -72,7 +115,7 @@
 			<div style="background-color: #E6D7BD; display: flex;">
 			<div style="background-color: #E6D7BD; margin: auto; width: 100%">
 				<table style="margin: auto; width: inherit;" class="text-center">
-					<tr style="border-bottom: 3px double #444236;">
+					<tr style="border-bottom: 3px double #444236; color: #444236;">
 						<th class="fs-5">주문번호</th>
 						<th class="fs-5">주문수량</th>
 						<th class="fs-5">총금액</th>
@@ -86,7 +129,7 @@
 					// 고객 본인 주문 전체목록보기
 					for(HashMap<String, Object> g : myOrder){
 				%>
-					<tr style="border-bottom: 1px solid #444236;">
+					<tr class="divContent">
 						<td><%=(Integer)g.get("ordersNo")%></td>
 						<td><%=(Integer)g.get("totalAmount")%></td>
 						<td><%=(Integer)g.get("totalPrice")%></td>
@@ -126,6 +169,34 @@
 				%>
 				</table>
 			</div>
+			</div><br>
+			
+			<!-- 페이징  -->
+			<div>
+			<%
+				//이전 페이지 기능
+				if(currentPage <= 1){
+			%>
+					<a style="color: #d1c3ac;">◀이전</a> 
+			<%
+				}else{
+			%>
+					<a href="/shop/customer/myOrderList.jsp?currentPage=<%=currentPage-1%>">◀이전</a> 
+			<%
+				}
+			%>
+			<%
+				//다음 페이징 기능
+				if(currentPage >= lastPage){
+			%>
+					<a style="color: #d1c3ac;">다음▶</a> 
+			<%
+				}else{
+			%>
+					<a href="/shop/customer/myOrderList.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
+			<%
+				}
+			%>
 			</div>
 		</div>
 	</div>

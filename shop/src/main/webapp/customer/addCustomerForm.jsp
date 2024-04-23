@@ -46,6 +46,15 @@
 		a { text-decoration: none; color: #444236;}
 		a:hover { color:#444236; }
 		a:visited { text-decoration: none;}
+		.addCustomerBtn{
+			border: 2px dashed #737058;
+			color: #444236;
+		}
+		.addCustomerInput{
+			border: none;
+			border-bottom: 3px dashed #5E3F36;
+			background-color: transparent;
+		}
 	</style>
 </head>
 <body class="container fontContent text-center">
@@ -59,8 +68,8 @@
 				<table style="margin-left:auto; margin-right:auto;">
 					<tr>
 						<td>메일 중복체크</td>
-						<td><input type="text" name="chkMail"></td>
-						<td><button type="submit">확인하기</button></td>
+						<td><input type="text" name="chkMail" class="addCustomerInput"></td>
+						<td>&nbsp;<button type="submit" class="btn addCustomerBtn">확인하기</button></td>
 					</tr>
 				</table>
 			</form>
@@ -86,36 +95,36 @@
 							<%
 								if(msg.equals("valid")){
 							%>
-									<td><input type="text" value="<%=chkMail%>" readonly="readonly" name="cMail"></td>
+									<td><input class="addCustomerInput" type="text" value="<%=chkMail%>" readonly="readonly" name="cMail"></td>
 							<%
 								}else{
 							%>
-									<td><input type="text" value="" readonly="readonly"></td>
+									<td><input class="addCustomerInput" type="text" value="" readonly="readonly"></td>
 							<%		
 								}
 							%>
 					</tr>
 					<tr>
 						<td>비밀번호</td>
-						<td><input type="password" name="cPw"></td>
+						<td><input class="addCustomerInput" type="password" name="cPw"></td>
 					</tr>
 					<tr>
 						<td>이름</td>
-						<td><input type="text" name="cName"></td>
+						<td><input class="addCustomerInput" type="text" name="cName"></td>
 					</tr>
 					<tr>
 						<td>생년월일</td>
-						<td><input type="number" name="cBirth"></td>
+						<td><input class="addCustomerInput" type="number" name="cBirth"></td>
 					</tr>
 					<tr>
 						<td>성별</td>
-						<td>
+						<td><br>
 							<label for="Male">남자</label><input type="radio" id="Male" name="cGender" value="남">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<label for="Female">여자</label><input type="radio" id="Female" name="cGender" value="여">
 						</td>
 					</tr>
 				</table><br>
-				<button type="submit">가입하기</button>
+				<button type="submit" class="btn addCustomerBtn">가입하기</button>
 			</form>
 			</div>
 		</div>

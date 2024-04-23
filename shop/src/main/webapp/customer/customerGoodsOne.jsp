@@ -1,5 +1,5 @@
-<%@page import="shop.dao.CommentDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="shop.dao.CommentDAO"%>
 <%@ page import="shop.dao.GoodsDAO"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
@@ -39,14 +39,20 @@
 	String chkReview = CommentDAO.reviewChk(cMail, goodsNo);
 	//System.out.println(chkReview + " <--chkReview customerGoodsOne.jsp");
 	
-	// MyOrdersNo가져오기
-	int myOrdersNo = CommentDAO.myOrdersNo(goodsNo, cMail);
-	System.out.println(myOrdersNo + " <--myOrdersNo customerGoodsOne.jsp");
+	// MyOrders orders_no랑 state가져오기
+	HashMap<String, Object> myOrdersInfo = CommentDAO.myOrdersNo(goodsNo, cMail);
+	System.out.println(myOrdersInfo + " <--myOrdersNo customerGoodsOne.jsp");
 	
-	// chkReview가 possible작성가능하고, ordersNo가 있으면 리뷰작성이 가능
-	if(chkReview.equals("possible") && myOrdersNo != 0){
-		chkReview = "possibleWrite";
-	} 
+	int myOrdersNo = (Integer)myOrdersInfo.get("ordersNo");
+	String stateChk = (String)myOrdersInfo.get("state");
+	
+	System.out.println(myOrdersNo + " <--myOrdersNo customerGoodsOne.jsp");
+	System.out.println(stateChk + " <--stateChk customerGoodsOne.jsp");
+	
+	// chkReview가 possible작성가능하고, ordersNo가 있으면서 state가 '배송완료'면 리뷰작성이 가능
+	//if(chkReview.equals("possible") && myOrdersNo != 0 && stateChk.equals("배송완료")){
+	//	chkReview = "possibleWrite";
+	//} 
 %>
 <!DOCTYPE html>
 <html>
@@ -108,18 +114,18 @@
 									<div style="border-bottom:2px dashed #737058;">[제목] <%=(String)g.get("goodsTitle")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[내용] <%=(String)g.get("goodsContent")%></div>
 									<br><br><br><br>										
-									<div class="text-center">
+									<div class="text-center" style="border: 2px dashed #737058; border-radius: 5px; padding: 10px;">
 										<!-- 상품주문 -->
 										<h2>상품 주문하기</h2>
 										<form method="post" action="/shop/customer/ordersGoodsAction.jsp?&orderCxl=<%=orderCxl%>">
-											<table>
+											<table style="margin-left: auto; margin-right: auto;">
 												<tr>
 													<td>주문 수량</td>
-													<td><input type="number" name="orderAmount"></td>
+													<td style="text-align:left;"><input type="number" name="orderAmount" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;">개</td>
 												</tr>
 												<tr>
 													<td>배송지</td>
-													<td><input type="text" name="address"></td>
+													<td style="text-align:left;"><input type="text" name="address" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;"></td>
 												</tr>
 											</table>
 											
@@ -139,7 +145,7 @@
 				<div class="">
 					<h2>상품후기</h2>
 					<%
-						if(chkReview.equals("possibleWrite")){
+						if(stateChk.equals("배송완료")){
 					%>
 							<form method="post" action="/shop/customer/addOrderReviewAction.jsp">
 								<input type="hidden" value="<%=cMail%>" name="cMail">
@@ -169,6 +175,10 @@
 					%>
 							<div>이미 리뷰가 작성완료되었습니다.</div>
 					<%
+						}else if(stateChk.equals("주문완료") || stateChk.equals("결제완료") || stateChk.equals("배송중")){
+					%>
+							<div>아직 배송이 완료되지 않아 리뷰를 작성할 수 없습니다.</div>
+					<%
 						}else{
 					%>
 							<div>구매고객만 리뷰를 작성할 수 있습니다.</div>
@@ -182,11 +192,12 @@
 						for(HashMap r : reviewList){
 							String star = "&#11088;";
 					%>
-							<div class="text-center" style="float: left; width: 250px; height: 250px; border: 1px solid black; margin: 10px;">
+							<div class="text-center" style="float: left; width: 300px; height: 300px; border: 2px dashed #737058; border-radius: 5px; padding: 10px; margin: 10px;">
 								<%=star.repeat((Integer)r.get("score"))%><br>
-								<%=(String)r.get("content")%><br><br>
+								<%=(String)r.get("content")%><br>
+								상품구매: <%=(String)r.get("orderCreateDate")%><br><br>
 								<%=(String)r.get("cName")%><br>
-								<%=(String)r.get("createDate")%><br>
+								리뷰등록: <%=(String)r.get("commentCreateDate")%><br>
 								<%
 									if(cName.equals((String)r.get("cName"))){
 								%>
@@ -194,7 +205,7 @@
 											<input type="hidden" name="cMail" value="<%=cMail%>">
 											<input type="hidden" name="goodsNo" value="<%=goodsNo%>">
 											<input type="hidden" name="ordersNo" value="<%=(Integer)r.get("ordersNo")%>">
-											<button class="btn">리뷰삭제</button>
+											<button class="btn" style="color: #ba0000;">리뷰삭제</button>
 										</form>
 								<%
 									}

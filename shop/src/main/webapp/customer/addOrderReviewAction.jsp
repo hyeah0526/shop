@@ -24,11 +24,15 @@
 	System.out.println(content + " <--content addOrderReviewAction.jsp");
 	System.out.println(ordersNo + " <--ordersNo addOrderReviewAction.jsp");
 	
-	int row = CommentDAO.insertMyReview(ordersNo, score, content);
+	// 리뷰작성추가 insert
+	int row1 = CommentDAO.insertMyReview(ordersNo, score, content);
+	
+	// 리뷰작성 후 state를 '리뷰완료'로 변경
+	int row2 = CommentDAO.updateMyReviewState(ordersNo);
 	
 	String msg = "";
 	
-	if(row == 1){
+	if(row1 == 1 && row2 == 1){
 		System.out.println("등록 성공");
 		msg = URLEncoder.encode("후기등록 완료하였습니다.", "UTF-8");
 		response.sendRedirect("/shop/customer/customerGoodsOne.jsp?goodsNo="+goodsNo+"&msg="+msg);

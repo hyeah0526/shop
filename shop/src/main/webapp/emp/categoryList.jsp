@@ -49,15 +49,22 @@
 		}
 		
 		.addModifyInput{
-			border:none; border-bottom: 2px double #5E3F36; background-color: transparent;
+			border:none; border-bottom: 2px double #444236; background-color: transparent;
 		}
 		
 		.addModifyBtn{
-			border: 2px solid #5E3F36; background-color: #E6D7BD; border-radius:10px;
+			border: 2px solid #444236; background-color: #E6D7BD; border-radius:10px;
 		}
 		
 		.addModifyBtn:hover { 
 			background-color: #737058;
+			color: #E6D7BD;
+		}
+		
+		.divContent{
+			border-bottom: 1px dashed #444236; 
+			height: 50px; 
+			align-items: center;
 		}
 	</style>
 </head>
@@ -93,7 +100,7 @@
 			%>
 			
 			<!-- 전체 카테고리 목록 보여주기 -->
-			<div class="row text-center" style="color: #444236; border-bottom: 2px double #5E3F36;">
+			<div class="row text-center" style="color: #444236; border-bottom: 2px double #444236;">
 				<div class="col fs-5" style="">카테고리</div>
 				<div class="col fs-5" style="">생성날짜</div>
 				<div class="col fs-5" style="">삭제</div>
@@ -103,7 +110,7 @@
 				// 전체목록 리스트 뿌려주기
 				for(HashMap m : categoryList){
 			%>
-					<div class="row text-center" style="border-bottom: 1px dashed #5E3F36;">
+					<div class="row text-center divContent">
 						<div class="col"><a><%=m.get("category")%></a></div>
 						<div class="col"><a><%=m.get("createDate")%></a></div>
 						<div class="col"><a href="/shop/emp/removeCategoryAction.jsp?category=<%=m.get("category")%>">삭제하기</a></div>

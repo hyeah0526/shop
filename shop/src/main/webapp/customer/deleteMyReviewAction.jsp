@@ -18,11 +18,15 @@
 	//System.out.println(cMail + " <--cMail deleteMyReviewAction.jsp");
 	//System.out.println(ordersNo + " <--ordersNo deleteMyReviewAction.jsp");
 	
-	int row = CommentDAO.deleteMyReview(ordersNo, cMail);
+	// 리뷰삭제하기
+	int row1 = CommentDAO.deleteMyReview(ordersNo, cMail);
+	
+	// 리뷰삭제하면 state를 다시 '배송완료'로 변경
+	int row2 = CommentDAO.deleteMyReviewState(ordersNo);
 	
 	String msg = "";
 	
-	if(row == 1){
+	if(row1 == 1 && row2 == 1){
 		System.out.println("삭제성공");
 		response.sendRedirect("/shop/customer/customerGoodsOne.jsp?goodsNo="+goodsNo);
 	}else{

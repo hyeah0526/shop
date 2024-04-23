@@ -79,11 +79,14 @@
 		}
 		
 		.divTitle{
-			color: #444236; border-bottom: 2px double #5E3F36;
+			color: #444236; border-bottom: 2px double #444236;
 		}
 		
 		.divContent{
-			color: #444236; border-bottom: 1px double #5E3F36;
+			border-bottom: 1px dashed #444236;
+			height: 50px;
+			align-items: center;
+			text-align: center;
 		}
 		
 		.stateSelect{

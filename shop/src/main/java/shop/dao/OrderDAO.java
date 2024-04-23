@@ -34,15 +34,20 @@ public class OrderDAO {
 	}
 	
 /* 고객 자신이 주문한 상품을 보여주기 */
-	public static ArrayList<HashMap<String, Object>> myOrderOne(String cMail) throws Exception{
+	public static ArrayList<HashMap<String, Object>> myOrderOne(String cMail, int startRow, int selectRowInt) throws Exception{
 		ArrayList<HashMap<String, Object>> myOrder = new ArrayList<>();
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		String sql ="SELECT * FROM orders WHERE mail = ?";
+		String sql ="SELECT * "
+				+ " FROM orders "
+				+ " WHERE mail = ?"
+				+ " ORDER BY orders_no desc LIMIT ?, ?";
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, cMail);
+		stmt.setInt(2, startRow);
+		stmt.setInt(3, selectRowInt);
 		System.out.println("myOrderOne-> "+stmt);
 		
 		rs = stmt.executeQuery();
@@ -84,6 +89,29 @@ public class OrderDAO {
 		
 		conn.close();
 		return totalOrderListRow;
+	}
+	
+/* myOrderList totalRow구하기 :: 페이징*/
+	public static int myOrderListRow(String cMail) throws Exception{
+		int myOrderListRow = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		// 고객 본인아이디의 주문목록 총 개수가져오기
+		String sql = "SELECT COUNT(*) cnt FROM orders WHERE mail = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, cMail);
+		System.out.println("totalOrderListRow-> "+stmt);
+		
+		rs = stmt.executeQuery();
+		if(rs.next()){
+			myOrderListRow = rs.getInt("cnt");
+		}
+		
+		conn.close();
+		return myOrderListRow;
 	}
 	
 /* 고객이 주문한 모든 상품 보여주기select - emp페이지 */
@@ -132,7 +160,7 @@ public class OrderDAO {
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		String sql = "UPDATE orders SET state = ?,"
-				+ " create_date = create_date"
+				+ " create_date = create_date,"
 				+ " update_date = NOW()"
 				+ " WHERE orders_no = ?";
 		

@@ -18,13 +18,14 @@ public class CommentDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT c.score, c.content, o.goods_no, s.c_name, c.create_date, o.orders_no"
+		String sql = "SELECT c.score, c.content, o.goods_no, s.c_name, c.create_date, o.orders_no, o.create_date"
 				+ " FROM comments c"
 				+ " INNER JOIN orders o"
 				+ " INNER JOIN customer s"
 				+ " ON c.orders_no = o.orders_no"
 				+ " WHERE o.goods_no = ?"
-				+ " AND o.mail = s.c_mail";
+				+ " AND o.mail = s.c_mail"
+				+ " ORDER BY c.create_date DESC";
 		  
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsNo);
@@ -35,9 +36,10 @@ public class CommentDAO {
 			HashMap<String, Object> list = new HashMap<>();
 			list.put("score", rs.getInt("c.score"));
 			list.put("content", rs.getString("c.content"));
-			list.put("createDate", rs.getString("c.create_date"));
+			list.put("orderCreateDate", rs.getString("o.create_date"));
 			list.put("cName", rs.getString("s.c_name"));
 			list.put("ordersNo", rs.getInt("o.orders_no"));
+			list.put("commentCreateDate", rs.getString("c.create_date"));
 			
 			commentList.add(list);
 		}
@@ -56,11 +58,12 @@ public class CommentDAO {
 		String sql = "DELETE c"
 				+ " FROM comments c"
 				+ " INNER JOIN orders o"
-				+ " ON c.orders_no = o.orders_no"
+				+ " ON c.orders_no = ?"
 				+ " WHERE o.mail = ?";
 		
 		stmt = conn.prepareStatement(sql);
-		stmt.setString(1, cMail);
+		stmt.setInt(1, ordersNo);
+		stmt.setString(2, cMail);
 		
 		row = stmt.executeUpdate();
 		
@@ -68,20 +71,21 @@ public class CommentDAO {
 		return row;
 	}
 	
-/* 후기작성 ordersNo가져오기 */
-	public static int myOrdersNo(int goodsNo, String cMail) throws Exception{
-		int myOrdersNo = 0;
+/* 후기작성을 위한 goodsNo, ordersNo, cMail가져오기 */
+	public static HashMap<String, Object> myOrdersNo(int goodsNo, String cMail) throws Exception{
+		HashMap<String, Object> list = new HashMap<String, Object>();
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT o.orders_no, g.goods_no, o.mail"
+		String sql = "SELECT o.orders_no, g.goods_no, o.mail, o.state"
 				+ " FROM goods g"
 				+ " INNER JOIN orders o"
 				+ " ON g.goods_no = o.goods_no"
 				+ " WHERE g.goods_no = ?"
-				+ " AND o.mail = ?";
+				+ " AND o.mail = ?"
+				+ " AND o.state = '배송완료'";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsNo);
@@ -90,12 +94,16 @@ public class CommentDAO {
 		rs = stmt.executeQuery();
 		
 		if(rs.next()) {
-			myOrdersNo = rs.getInt("o.orders_no");
+			list.put("ordersNo", rs.getInt("o.orders_no"));
+			list.put("state", rs.getString("o.state"));
+		}else {
+			list.put("ordersNo", 0);
+			list.put("state", "");
 		}
-		System.out.println(myOrdersNo+"왜 안나오냥....");
+		System.out.println(list+"왜 안나오냥....");
 		
 		conn.close();
-		return myOrdersNo;
+		return list;
 	}
 	
 /* 후기 작성했는지 확인하기 select - 반환은 String */
@@ -137,7 +145,7 @@ public class CommentDAO {
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		
-		String sql = "INSERT INTO comments(orders_no, score, content) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO comments(orders_no, score, content, create_date) VALUES (?, ?, ?, NOW())";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, ordersNo);
@@ -150,4 +158,35 @@ public class CommentDAO {
 		return row;
 	}
 
+/* 후기 작성하면 state를 '리뷰완료'로 변경 */
+	public static int updateMyReviewState(int ordersNo) throws Exception{
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		String sql = "UPDATE orders SET state = '리뷰완료' WHERE orders_no = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, ordersNo);
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
+	
+/* 후기 삭제하면 다시 state를 '배송완료'로 변경 */
+	public static int deleteMyReviewState(int ordersNo) throws Exception{
+		int row = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		String sql = "UPDATE orders SET state = '배송완료' WHERE orders_no = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, ordersNo);
+		
+		row = stmt.executeUpdate();
+		
+		conn.close();
+		return row;
+	}
 }
