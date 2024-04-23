@@ -44,18 +44,21 @@
 	
 	String selectRow = request.getParameter("selectRow");
 	int selectRowInt = 0;
-	if(selectRow == null){
+	if(selectRow == null){ //선택된 selectRow가 없으면 16으로 지정(첫페이지)
 		selectRowInt = 16;
 	}else{
 		selectRowInt = Integer.parseInt(selectRow);
 	}
 	
+	// 전체 상품 목록뿌려줄 DAO
 	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.selectGoodsList(category, nameScrh, startRow, selectRowInt);
 	
 	
 /* goodsPaging 상품 목록 페이징 */
-	int totalRow = 0;
-	int lastPage = 0;
+	int totalRow = 0; //전체 행의 수
+	int lastPage = 0; //마지막 페이지
+	
+	// totalRow와 lastPage를 구하는 페이징 DAO
 	ArrayList<HashMap<String, Integer>> goodsPaging = GoodsDAO.selectGoodsCnt(category, nameScrh, totalRow, selectRowInt);
  
 	for(HashMap<String, Integer> paging : goodsPaging){
@@ -134,64 +137,66 @@
 			<br><h1 class="text-center">상품보기</h1><br>
 			<!-- 카테고리별 (카운트) 및 선택 -->
 			<div class="ms-3 text-center">
+			
 				<a href="/shop/customer/customerGoodsList.jsp" class="btn categoryList">전체</a>&nbsp;&nbsp;&nbsp;
-		<%
+			<%
+					// 전체 카테고리 리스트 불러오기
 					for(HashMap m : categoryList) {
-		%>
+			%>
 						<a href="/shop/customer/customerGoodsList.jsp?category=<%=(String)(m.get("category"))%>" class="btn categoryList">
 							<%=(String)(m.get("category"))%>
 							(<%=(Integer)(m.get("cnt"))%>)
 						</a>&nbsp;&nbsp;&nbsp;
-		<%		
-			}
-		%>
+			<%		
+					}
+			%>
 			</div><br>
 			
 			<!-- 조회 뿌려주기 -->
 			<div style="background-color: #E6D7BD; display: flex;">
 			<div style="background-color: #E6D7BD; margin: auto;">
 			<%
-				int floatCnt = 1;
+				//전체 상품 리스트 출력
+				int floatCnt = 1;  // 한줄당 4개의 상품을 보여주기위한 floatCnt
 				for(HashMap<String, Object> m2 : goodsList){
-					int price = (Integer)m2.get("goodsPrice");
-					String price2 = String.format("%,d", price);
+					int price = (Integer)m2.get("goodsPrice"); 
+					String price2 = String.format("%,d", price); // 금액 ,표시
 					
-				if(floatCnt%4 == 0){
-					//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
-		%>
-				<div class="text-center goodsBox">
-					<div>
-						<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">
-							<img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
-						</a>
-					</div><br>
-					<div><%=(String)m2.get("goodsTitle")%></div><br>
-					<div>금액: <%=price2%>원</div>
-					<div>남은수량: <%=(Integer)m2.get("goodsAmount")%></div><br>
-				</div>
-				<div class="clear"></div>
-		<%
-				}else{
-					//System.out.println("else-> "+floatCnt);
-		%>
-				
-				<div class="text-center goodsBox">
-					<div>
-						<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">
-							<img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
-						</a>
+					if(floatCnt%4 == 0){
+						//System.out.println("floatCnt%4 == 0 -> "+floatCnt);
+				%>
+					<div class="text-center goodsBox">
+						<div>
+							<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">
+								<img src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
+							</a>
+						</div><br>
+						<div><%=(String)m2.get("goodsTitle")%></div><br>
+						<div>금액: <%=price2%>원</div>
+						<div>남은수량: <%=(Integer)m2.get("goodsAmount")%></div><br>
 					</div>
-					<br>
-					<div><%=(String)m2.get("goodsTitle")%></div><br>
-					<div>금액: <%=price2%>원</div>
-					<div>남은수량: <%=(Integer)m2.get("goodsAmount")%></div><br>
-				</div>
-				
-		<%
+					<div class="clear"></div>
+				<%
+					}else{
+						//System.out.println("else-> "+floatCnt);
+				%>
+					<div class="text-center goodsBox">
+						<div>
+							<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>">
+								<img alt="" src="/shop/upload/<%=(String)m2.get("filename")%>" style="width: 250px; height: 250px; border-radius:5px;">
+							</a>
+						</div>
+						<br>
+						<div><%=(String)m2.get("goodsTitle")%></div><br>
+						<div>금액: <%=price2%>원</div>
+						<div>남은수량: <%=(Integer)m2.get("goodsAmount")%></div><br>
+					</div>
+					
+				<%
+					}
+				floatCnt=floatCnt+1; //한번씩 돌때마다 floatCnt를 추가하고 4로 나눴을 때 0이면 다음 줄로 내려주기
 				}
-				floatCnt=floatCnt+1;
-			}
-		%>
+			%>
 			<br>
 			<div style="clear: both; text-align: center;">
 				<form method="post" action="/shop/customer/customerGoodsList.jsp?currentPage=1&category=<%=category%>">

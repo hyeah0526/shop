@@ -154,6 +154,8 @@ public class OrderDAO {
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
+		
+		// 고객이 주문을 취소하면 state를 '주문취소'로 변경하고 결제시스템이 끝남
 		String sql = "UPDATE orders SET state = ?,"
 				+ " create_date = create_date,"
 				+ " update_date = NOW()"

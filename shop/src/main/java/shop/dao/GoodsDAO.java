@@ -117,8 +117,9 @@ public class GoodsDAO {
 	public static ArrayList<HashMap<String, Integer>> selectGoodsCnt(
 					String category, String nameScrh, int totalRow, int selectRowInt) throws Exception{
 		
-		Connection conn = DBHelper.getConnection();
+		ArrayList<HashMap<String, Integer>> resultMap = new ArrayList<HashMap<String, Integer>>();
 		
+		Connection conn = DBHelper.getConnection();
 		String sql = "select count(*) cnt from goods where category like ? and goods_title LIKE ?";
 		PreparedStatement stmt = null;
 		ResultSet rs = null; 
@@ -130,7 +131,6 @@ public class GoodsDAO {
 		
 		rs = stmt.executeQuery();
 		
-		
 		if(rs.next()){
 			totalRow = rs.getInt("cnt");
 		}
@@ -140,7 +140,6 @@ public class GoodsDAO {
 			lastPage = lastPage+1;
 		}
 		
-		ArrayList<HashMap<String, Integer>> resultMap = new ArrayList<HashMap<String, Integer>>();
 		HashMap<String, Integer> m = new HashMap<String, Integer>();
 		m.put("totalRow", totalRow);
 		m.put("lastPage", lastPage);

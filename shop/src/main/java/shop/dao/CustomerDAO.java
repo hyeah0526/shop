@@ -32,6 +32,7 @@ public class CustomerDAO {
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		
+		// 비밀번호가 맞으면 회원탈퇴가능
 		String sql = "DELETE FROM customer WHERE c_mail = ? AND c_pw = PASSWORD(?)";
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, cMail);

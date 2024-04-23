@@ -1,14 +1,22 @@
-<%@page import="shop.dao.CustomerDAO"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.net.URLEncoder" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="shop.dao.CustomerDAO"%>
+<%@ page import="java.sql.PreparedStatement"%>
+<%@ page import="java.sql.Connection"%>
+<%@ page import="java.net.URLEncoder" %>
+<%
+/* 인증분기: 세션변수 이름 - loginEmp */
+	if(session.getAttribute("loginCustomer") == null){ 
+		response.sendRedirect("/shop/customer/loginForm.jsp"); 
+		return;
+	}
+%>
 <%
 	String cMail = request.getParameter("cMail");
 	String cPw = request.getParameter("cPw");
 	System.out.println(cMail + " <--cMail deleteCustomer.jsp");
 	System.out.println(cPw + " <--cPw deleteCustomer.jsp");
 	
+	// 회원탈퇴DAO
 	int row = CustomerDAO.deleteCustomer(cMail, cPw);
 	
 	String msg = "";

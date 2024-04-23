@@ -16,10 +16,6 @@
 	/* 전체 카테고리 목록 뿌려주기 */
 	ArrayList<HashMap<String, Object>> categoryList = CategoryDAO.categoryList();
 	
-	/* 수정값 가져오기 */
-	String category = request.getParameter("category");
-	String createDate = request.getParameter("createDate");
-	
 	/* 추가값 가져오기 */
 	String addCategory = request.getParameter("addCategory");
 %>
@@ -87,7 +83,7 @@
 				</form>
 			</div><br>
 			
-			<!-- 삭제/추가/수정 메시지 보여주기 -->
+			<!-- 삭제/추가 메시지 보여주기 -->
 			<%
 				if(msg != null){
 			%>
@@ -100,35 +96,18 @@
 			<div class="row text-center" style="color: #444236; border-bottom: 2px double #5E3F36;">
 				<div class="col fs-5" style="">카테고리</div>
 				<div class="col fs-5" style="">생성날짜</div>
-				<div class="col fs-5" style="">수정</div>
 				<div class="col fs-5" style="">삭제</div>
 			</div>
 			
 			<%
+				// 전체목록 리스트 뿌려주기
 				for(HashMap m : categoryList){
 			%>
 					<div class="row text-center" style="border-bottom: 1px dashed #5E3F36;">
 						<div class="col"><a><%=m.get("category")%></a></div>
 						<div class="col"><a><%=m.get("createDate")%></a></div>
-						<div class="col"><a href="/shop/emp/categoryList.jsp?category=<%=m.get("category")%>">수정하기</a></div>
 						<div class="col"><a href="/shop/emp/removeCategoryAction.jsp?category=<%=m.get("category")%>">삭제하기</a></div>
 					</div>
-			<%
-				}
-			%>
-				
-			<!-- 카테고리 수정하기 -->
-			<%
-				if(category != null){
-			%>
-					<hr>
-					<form method="get" action="/shop/emp/modifyCategoryList.jsp">
-						<div>
-							카테고리 이름 수정→ <input type="text" name="modifyCategory" value="<%=category%>" class="addModifyInput">
-							<input type="hidden" name="category" value="<%=category%>">
-							<button type="submit" class="addModifyBtn">확인</button>
-						</div>
-					</form>
 			<%
 				}
 			%>

@@ -1,15 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="shop.dao.CustomerDAO"%>
+<%@ page import="shop.dao.CustomerDAO"%>
 <%@ page import="java.util.*" %>
+<%
+/* 인증분기: 세션변수 이름 - loginEmp */
+	if(session.getAttribute("loginCustomer") == null){ 
+		response.sendRedirect("/shop/customer/loginForm.jsp"); 
+		return;
+	}
+%>
 <%
 	HashMap<String,Object> loginCustomer 
 		= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));;
 %>
 <%
-	// Customer변수값 가져오기
+	// 로그인한 Customer 가져오기
 	String cMail = request.getParameter("cMail");
-
+	
+	// 로그인한 회원정보 가져오는 DAO
 	HashMap<String, String> customerOne = CustomerDAO.customerOne(cMail);
+	
 	String cName = customerOne.get("cName");
 	String cBirth = customerOne.get("cBirth");
 	String cGender = customerOne.get("cGender");
@@ -61,40 +70,43 @@
 				<%
 					}
 				%>
+				<!-- 비밀번호 수정 -->
 				<form method="post" action="/shop/customer/modifyCustomerAction.jsp">
-				<table style="margin-left:auto; margin-right:auto;">
-					<tr>
-						<td>메일</td>
-						<td>
-							<input type="hidden" name="cMail" value="<%=cMail%>">
-							<%=cMail%>
-						</td>
-					</tr>
-					<tr>
-						<td>이름</td>
-						<td><%=cName%></td>
-					</tr>
-					<tr>
-						<td>생년월일/성별</td>
-						<td><%=cBirth%> / <%=cGender%></td>
-					</tr>
-					<tr>
-						<td>원래 비밀번호</td>
-						<td><input type="password" name="cOldPw"></td>
-					</tr>
-					<tr>
-						<td>변경할 비밀번호</td>
-						<td><input type="password" name="cNewPw"></td>
-					</tr>
-				</table>
-				<button type="submit" class="">비밀번호 변경</button>
-			</form><br>
-			<form action="/shop/customer/deleteCustomerAction.jsp" method="post">
+					<table style="margin-left:auto; margin-right:auto;">
+						<tr>
+							<td>메일</td>
+							<td>
+								<input type="hidden" name="cMail" value="<%=cMail%>">
+								<%=cMail%>
+							</td>
+						</tr>
+						<tr>
+							<td>이름</td>
+							<td><%=cName%></td>
+						</tr>
+						<tr>
+							<td>생년월일/성별</td>
+							<td><%=cBirth%> / <%=cGender%></td>
+						</tr>
+						<tr>
+							<td>원래 비밀번호</td>
+							<td><input type="password" name="cOldPw"></td>
+						</tr>
+						<tr>
+							<td>변경할 비밀번호</td>
+							<td><input type="password" name="cNewPw"></td>
+						</tr>
+					</table>
+					<button type="submit" class="">비밀번호 변경</button>
+				</form><br>
+			
+				<!-- 회원탈퇴 -->
+				<form action="/shop/customer/deleteCustomerAction.jsp" method="post">
 					<h1>회원 탈퇴</h1>
 					비밀번호 확인: <input type="password" name="cPw" >
 					<input type="hidden" name="cMail" value="<%=cMail%>">
 					<button type="submit" class="">탈퇴하기</button>
-			</form>
+				</form>
 			</div>
 		</div>
 		<div class="col"></div>

@@ -118,7 +118,7 @@
 			<div style="background-color: #E6D7BD; margin: auto;">
 		<%
 			//사원 목록 뿌려주기
-			int floatCnt = 1;
+			int floatCnt = 1; // 한줄당 3개씩 보여주기
 			for(HashMap<String, Object> m : list){
 				
 				if(floatCnt%3 == 0){

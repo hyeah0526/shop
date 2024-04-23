@@ -18,7 +18,7 @@
 	String category = request.getParameter("category");
 	System.out.println(category + " <--category addCategoryAction.jsp");
 	
-	// DB
+	// 카테고리 추가 DAO
 	int row = CategoryDAO.insertCategory(category);	
 	
 	String msg = "";

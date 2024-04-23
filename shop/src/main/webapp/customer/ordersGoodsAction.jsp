@@ -42,6 +42,7 @@
 	
 	String msg = "";
 	
+	// 상품 수량도 빼주고, order테이블에 추가도 성공해야 주문성공
 	if(row1 == 1 && row2 == 1){
 		System.out.println("주문성공");
 		msg = URLEncoder.encode("주문에 성공하였습니다.", "UTF-8");
