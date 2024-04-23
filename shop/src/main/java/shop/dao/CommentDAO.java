@@ -9,42 +9,6 @@ import java.util.HashMap;
 import jakarta.security.auth.message.callback.PrivateKeyCallback.Request;
 
 public class CommentDAO {
-/* 후기 작성했는지 확인하기 select - 반환은 String */
-	public static String reviewChk(String cMail, int goodsNo) throws Exception{
-		String chk = "";
-		
-		Connection conn = DBHelper.getConnection();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		String sql = "SELECT COUNT(*) cnt"
-				+ " FROM comments c"
-				+ " INNER JOIN orders o"
-				+ " ON c.orders_no = o.orders_no"
-				+ " WHERE o.goods_no = ?"
-				+ " AND o.state = '배송완료'"
-				+ " AND o.mail = ?";
-		stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, goodsNo);
-		stmt.setString(2, cMail);
-		
-		rs = stmt.executeQuery();
-		
-		if(rs.next()) {
-			int cnt = rs.getInt("cnt");
-			if(cnt == 0) {
-				chk = "noneReview";
-			}else {
-				chk = "doneReview";
-			}
-		}
-		
-		System.out.println(chk + " <--chk reviewChk");
-		
-		return chk;
-	}
-
-	
 	
 /* 후기목록보여주기 select */
 	public static ArrayList<HashMap<String, Object>> selectComment(int goodsNo) throws Exception{
@@ -103,6 +67,7 @@ public class CommentDAO {
 		conn.close();
 		return row;
 	}
+	
 /* 후기작성 ordersNo가져오기 */
 	public static int myOrdersNo(int goodsNo, String cMail) throws Exception{
 		int myOrdersNo = 0;
@@ -131,6 +96,37 @@ public class CommentDAO {
 		
 		conn.close();
 		return myOrdersNo;
+	}
+	
+/* 후기 작성했는지 확인하기 select - 반환은 String */
+	public static String reviewChk(String cMail, int goodsNo) throws Exception{
+		String chkReview = "";
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT '작성불가' chk"
+				+ " FROM comments c"
+				+ " INNER JOIN orders o"
+				+ " ON c.orders_no = o.orders_no"
+				+ " WHERE o.goods_no = ?"
+				+ " AND o.state = '배송완료'"
+				+ " AND o.mail = ?";
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, goodsNo);
+		stmt.setString(2, cMail);
+		
+		rs = stmt.executeQuery();
+		
+		if(rs.next()) { 
+			chkReview = "impossible"; //작성이 불가능해
+		}else {
+			chkReview = "possible"; //rs가 없으면 작성불가
+		}
+		System.out.println(chkReview + " <--chkReview reviewChk");
+		
+		return chkReview;
 	}
 	
 	

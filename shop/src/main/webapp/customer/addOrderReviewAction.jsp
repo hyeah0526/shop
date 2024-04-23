@@ -20,9 +20,9 @@
 	
 	//System.out.println(cMail + " <--cMail addOrderReviewAction.jsp");
 	//System.out.println(goodsNo + " <--goodsNo addOrderReviewAction.jsp");
-	//System.out.println(score + " <--score addOrderReviewAction.jsp");
-	//System.out.println(content + " <--content addOrderReviewAction.jsp");
-	//System.out.println(myOrdersNo + " <--myOrdersNo addOrderReviewAction.jsp");
+	System.out.println(score + " <--score addOrderReviewAction.jsp");
+	System.out.println(content + " <--content addOrderReviewAction.jsp");
+	System.out.println(ordersNo + " <--ordersNo addOrderReviewAction.jsp");
 	
 	int row = CommentDAO.insertMyReview(ordersNo, score, content);
 	

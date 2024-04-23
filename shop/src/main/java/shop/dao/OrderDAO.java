@@ -14,6 +14,7 @@ public class OrderDAO {
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
 		
+		// 주문버튼을 누르면 state는 '주문완료'로 들어감
 		String sql = "INSERT INTO orders(mail, goods_no, total_amount, total_price, address, State)"
 				+ " VALUES (?, ?, ?, ?, ?, '주문완료')";
 		
@@ -23,6 +24,8 @@ public class OrderDAO {
 		stmt.setInt(3, totalAmount);
 		stmt.setInt(4, totalPrice);
 		stmt.setString(5, address);
+		
+		System.out.println("orderGoods-> "+stmt);
 		
 		row = stmt.executeUpdate();
 		
@@ -40,6 +43,7 @@ public class OrderDAO {
 		String sql ="SELECT * FROM orders WHERE mail = ?";
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1, cMail);
+		System.out.println("myOrderOne-> "+stmt);
 		
 		rs = stmt.executeQuery();
 		
@@ -61,8 +65,29 @@ public class OrderDAO {
 		return myOrder;
 	}
 	
+/* OrderList totalRow구하기 :: 페이징*/
+	public static int totalOrderListRow() throws Exception{
+		int totalOrderListRow = 0;
+		
+		Connection conn = DBHelper.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		String sql = "SELECT COUNT(*) cnt FROM orders";
+		stmt = conn.prepareStatement(sql);
+		System.out.println("totalOrderListRow-> "+stmt);
+		
+		rs = stmt.executeQuery();
+		if(rs.next()){
+			totalOrderListRow = rs.getInt("cnt");
+		}
+		
+		conn.close();
+		return totalOrderListRow;
+	}
+	
 /* 고객이 주문한 모든 상품 보여주기select - emp페이지 */
-	public static ArrayList<HashMap<String, Object>> selectOrderList() throws Exception{
+	public static ArrayList<HashMap<String, Object>> selectOrderList(int startRow, int selectRowInt) throws Exception{
 		ArrayList<HashMap<String, Object>> OrderList = new ArrayList<>();
 		
 		Connection conn = DBHelper.getConnection();
@@ -72,9 +97,14 @@ public class OrderDAO {
 		String sql = "SELECT o.orders_no ordersNo, o.mail cMail, o.total_price totalPrice, o.total_amount totalAmount,"
 				+ " o.state state, o.create_date createDate, g.goods_no goodsNo, g.goods_title goodsTitle"
 				+ " FROM orders o INNER JOIN goods g"
-				+ " ON o.goods_no = g.goods_no";
+				+ " ON o.goods_no = g.goods_no" // orders테이블과 goods테이블의 상품번호가 같아야함
+				+ " order by o.orders_no desc LIMIT ?, ?"; //페이징 - orders_no가 높은 것(최신순)부터 보여주기
 		
 		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, startRow);
+		stmt.setInt(2, selectRowInt);
+		System.out.println("selectOrderList-> "+stmt);
+		
 		rs = stmt.executeQuery();
 		
 		while(rs.next()) {

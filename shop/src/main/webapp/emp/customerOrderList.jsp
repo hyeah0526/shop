@@ -10,7 +10,43 @@
 	}
 %>
 <%
-	ArrayList<HashMap<String, Object>> orderList = OrderDAO.selectOrderList();
+	int currentPage = 1;
+	if(request.getParameter("currentPage") != null){ // null이 아니면 currentpage를 그 숫자로 변경 
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	System.out.println(currentPage + "<--currentPage");
+	
+	// 한페이지당 보여줄 수 
+	//int rowPerPage = 10; 
+	String selectRow = request.getParameter("selectRow");
+	int selectRowInt = 0;
+	
+	if(selectRow == null){
+		selectRowInt = 10;
+	}else{
+		selectRowInt = Integer.parseInt(selectRow);
+	}
+	System.out.println(selectRowInt + "<--selectRowInt");
+	
+	// 페이지당 시작할 row
+	int startRow = (currentPage-1) * selectRowInt; // 첫번째페이지면 0*selectRowInt = 0이고 두번째면 1*selectRowInt
+	System.out.println(startRow + "<--startRow");
+	
+	// 총 주문갯수 row
+	int totalOrderListRow = OrderDAO.totalOrderListRow();
+	System.out.println(totalOrderListRow + "<--totalOrderListRow");
+	
+	// 마지막페이지
+	int lastPage = totalOrderListRow / selectRowInt;
+	
+	if(totalOrderListRow % selectRowInt != 0){
+		lastPage = lastPage+1;
+	}
+	System.out.println(lastPage + "<--lastPage");
+%>
+<%
+	// 고객 전체 Order List 출력(페이징)
+	ArrayList<HashMap<String, Object>> orderList = OrderDAO.selectOrderList(startRow, selectRowInt);
 	
 	String msg = request.getParameter("msg");
 %>
@@ -90,6 +126,7 @@
 				<div class="col fs-5" style="">주문상태변경</div>
 			</div>
 			<%
+				/* 전체목록조회 */
 				for(HashMap o : orderList){
 			%>
 					<div class="row text-center divContent">
@@ -129,7 +166,35 @@
 				}
 			%>
 			<div>
+			</div><br>
+			<!-- 페이징  -->
+			<div>
+			<%
+				//이전 페이지 기능
+				if(currentPage <= 1){
+			%>
+					<a style="color: #d1c3ac;">◀이전</a> 
+			<%
+				}else{
+			%>
+					<a href="/shop/emp/customerOrderList.jsp?currentPage=<%=currentPage-1%>">◀이전</a> 
+			<%
+				}
+			%>
+			<%
+				//다음 페이징 기능
+				if(currentPage >= lastPage){
+			%>
+					<a style="color: #d1c3ac;">다음▶</a> 
+			<%
+				}else{
+			%>
+					<a href="/shop/emp/customerOrderList.jsp?currentPage=<%=currentPage+1%>">다음▶</a>
+			<%
+				}
+			%>
 			</div>
+			
 		</div>
 		<div class="row" style="background-color: blue;">밑단</div>
 	</div>

@@ -18,6 +18,7 @@
 
 	String cMail = (String)loginCustomer.get("cMail");
 	String cName = (String)loginCustomer.get("cName");
+	//System.out.println(cMail);
 	//System.out.println(cName);
 %>
 <%
@@ -28,17 +29,24 @@
 	// 굿즈 ONE 상세보기
 	ArrayList<HashMap<String, Object>> goodsOne = GoodsDAO.goodsOne(goodsNo);
 	
+	// 주문인지 취소인지 구분
 	String orderCxl = "order";
 	
 	// 후기목록 뿌려주기
 	ArrayList<HashMap<String, Object>> reviewList = CommentDAO.selectComment(goodsNo);
 	
-	// 후기작성가능 확인여부 (결과값: 작성X -> noneReview / 작성O -> doneReview)
+	// 후기작성가능 확인여부 (결과값: 작성불가 -> impossible / 작성가능 -> possible)
 	String chkReview = CommentDAO.reviewChk(cMail, goodsNo);
+	//System.out.println(chkReview + " <--chkReview customerGoodsOne.jsp");
 	
 	// MyOrdersNo가져오기
 	int myOrdersNo = CommentDAO.myOrdersNo(goodsNo, cMail);
 	System.out.println(myOrdersNo + " <--myOrdersNo customerGoodsOne.jsp");
+	
+	// chkReview가 possible작성가능하고, ordersNo가 있으면 리뷰작성이 가능
+	if(chkReview.equals("possible") && myOrdersNo != 0){
+		chkReview = "possibleWrite";
+	} 
 %>
 <!DOCTYPE html>
 <html>
@@ -85,6 +93,7 @@
 			<div style="background-color: #E6D7BD; display: flex;">
 			<div style="background-color: #E6D7BD; margin: auto;">
 				<%
+					/* 상세보기 */
 					for(HashMap<String, Object> g : goodsOne){
 				%>
 						<div class="row">
@@ -100,6 +109,7 @@
 									<div style="border-bottom:2px dashed #737058;">[내용] <%=(String)g.get("goodsContent")%></div>
 									<br><br><br><br>										
 									<div class="text-center">
+										<!-- 상품주문 -->
 										<h2>상품 주문하기</h2>
 										<form method="post" action="/shop/customer/ordersGoodsAction.jsp?&orderCxl=<%=orderCxl%>">
 											<table>
@@ -129,7 +139,7 @@
 				<div class="">
 					<h2>상품후기</h2>
 					<%
-						if(chkReview.equals("noneReview")){
+						if(chkReview.equals("possibleWrite")){
 					%>
 							<form method="post" action="/shop/customer/addOrderReviewAction.jsp">
 								<input type="hidden" value="<%=cMail%>" name="cMail">
@@ -155,9 +165,13 @@
 								<button class="" style="margin-top: 20px;">작성하기</button></div>
 							</form>
 					<%
+						}else if(chkReview.equals("impossible")){
+					%>
+							<div>이미 리뷰가 작성완료되었습니다.</div>
+					<%
 						}else{
 					%>
-							<div>후기작성이 완료되었습니다.</div>
+							<div>구매고객만 리뷰를 작성할 수 있습니다.</div>
 					<%
 						}
 					%>

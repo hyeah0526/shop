@@ -1,5 +1,5 @@
-<%@page import="shop.dao.OrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="shop.dao.OrderDAO"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <%
@@ -11,12 +11,11 @@
 
 	HashMap<String,Object> loginCustomer 
 		= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
-%>
-<%
 	String cMail = (String)loginCustomer.get("cMail");
 	//System.out.println(cMail+" <--cName myOrderList.jsp");
-	
-	
+%>
+<%
+	// 고객 본인이 주문한 상품 가져오기
 	ArrayList<HashMap<String, Object>> myOrder = OrderDAO.myOrderOne(cMail);
 	//System.out.println(myOrder);
 	
@@ -41,9 +40,11 @@
 			font-family: 'TTLaundryGothicB';
 			background-color: #737058;
 		}
+		
 		a { text-decoration: none; color: #444236;}
 		a:hover { color:#444236; }
 		a:visited { text-decoration: none;}
+		
 		.orderBtn{
 			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px;
 		}
@@ -69,19 +70,20 @@
 					- 특정 사유로 인한 취소 및 환불요청은 고객센터로 문의부탁드립니다. <br>
 				</h6><br>
 			<div style="background-color: #E6D7BD; display: flex;">
-			<div style="background-color: #E6D7BD; margin: auto; width: 80%">
+			<div style="background-color: #E6D7BD; margin: auto; width: 100%">
 				<table style="margin: auto; width: inherit;" class="text-center">
 					<tr style="border-bottom: 3px double #444236;">
-						<th class="fs-5" style="width: 8%">주문번호</th>
-						<th class="fs-5" style="width: 8%">주문수량</th>
-						<th class="fs-5" style="width: 10%">총금액</th>
-						<th class="fs-5" style="width: 30%">배송주소</th>
-						<th class="fs-5" style="width: 15%">주문날짜</th>
-						<th class="fs-5" style="width: 10%">주문상태</th>
-						<th class="fs-5" style="width: 10%">후기</th>
-						<th class="fs-5" style="width: 10%">취소하기</th>
+						<th class="fs-5">주문번호</th>
+						<th class="fs-5">주문수량</th>
+						<th class="fs-5">총금액</th>
+						<th class="fs-5">배송주소</th>
+						<th class="fs-5">주문날짜</th>
+						<th class="fs-5">주문상태</th>
+						<th class="fs-5">후기</th>
+						<th class="fs-5">취소하기</th>
 					</tr>
 				<%
+					// 고객 본인 주문 전체목록보기
 					for(HashMap<String, Object> g : myOrder){
 				%>
 					<tr style="border-bottom: 1px solid #444236;">
@@ -92,17 +94,18 @@
 						<td><%=(String)g.get("createDate")%></td>
 						<td><%=(String)g.get("state")%></td>
 						<td>
-							<%
-								if(g.get("state").equals("배송완료")){
-							%>
-									<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=g.get("goodsNo")%>">작성하기</a>
-							<%
-								}else{
-							%>
-									  X
-							<%
-								}
-							%>
+						<%
+							// 배송완료일때만 후기 작성이 가능
+							if(g.get("state").equals("배송완료")){
+						%>
+								<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=g.get("goodsNo")%>">작성하기</a>
+						<%
+							}else{
+						%>
+								  X
+						<%
+							}
+						%>
 						</td>
 						<%
 							//state가 주문완료 혹은 결제완료이면 취소가능

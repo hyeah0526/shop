@@ -21,7 +21,7 @@
 	// 주문 변수들
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	int goodsAmount = Integer.parseInt(request.getParameter("goodsAmount"));
-	String orderCxl = request.getParameter("orderCxl");
+	String orderCxl = request.getParameter("orderCxl");//주문인지 취소인지 구분
 	
 	String cMail = (String)loginCustomer.get("cMail");
 	int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice")); //상품가격

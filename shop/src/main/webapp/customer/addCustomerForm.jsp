@@ -10,6 +10,8 @@
 %>
 <%
 	String msg = request.getParameter("msg");
+
+	// 사용가능 메일 중복체크
 	String chkMail = "";
 	if(msg == null){
 		msg = "";
