@@ -177,7 +177,7 @@
 					</div><br>
 					<div><%=(String)m2.get("goodsTitle")%></div><br>
 					<div>금액: <%=price2%>원</div><br>
-					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>&filename=<%=(String)m2.get("filename")%>">상품 삭제</a>
+					<div>남은수량: <%=(Integer)m2.get("goodsAmount")%></div>
 				</div>
 				<div class="clear"></div>
 		<%
@@ -194,7 +194,7 @@
 					<br>
 					<div><%=(String)m2.get("goodsTitle")%></div><br>
 					<div>금액: <%=price2%>원</div><br>
-					<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)m2.get("goodsNo")%>&filename=<%=(String)m2.get("filename")%>">상품 삭제</a>
+					<div>남은수량: <%=(Integer)m2.get("goodsAmount")%></div>
 				</div>
 				
 		<%

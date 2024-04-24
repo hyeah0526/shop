@@ -142,7 +142,7 @@
 			<%
 						// 주문완료/결제완료/배송중일때만 상태변경이 가능함
 						String stateDone = (String)o.get("state");
-						if(stateDone.equals("배송완료") || stateDone.equals("주문취소")){
+						if(stateDone.equals("배송완료") || stateDone.equals("주문취소") || stateDone.equals("리뷰완료")){
 			%>
 							<%=(String)o.get("state")%>
 			<%
@@ -150,7 +150,10 @@
 			%>
 							<form action="/shop/emp/modifyStateOrderAction.jsp">
 								<input type="hidden" value="<%=(Integer)o.get("ordersNo")%>" name="ordersNo">
+								<input type="hidden" value="<%=(Integer)o.get("goodsNo") %>" name="goodsNo">
 								<input type="hidden" value="<%=(String)o.get("state")%>" name="oldState">
+								<input type="hidden" value="<%=(Integer)o.get("totalAmount")%>" name="orderAmount">
+								
 								<select class="stateSelect" name="newState" onchange="this.form.submit()">
 									<option value="<%=(String)o.get("state")%>"><%=(String)o.get("state")%></option>
 									<option value="주문완료">주문완료</option>

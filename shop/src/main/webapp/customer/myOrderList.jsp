@@ -155,7 +155,15 @@
 							String state = (String)g.get("state");
 							if(state.equals("주문완료") || state.equals("결제완료")){
 						%>
-								<td><a href="/shop/customer/cancelMyOrdersAction.jsp?ordersNo=<%=(Integer)g.get("ordersNo")%>">취소하기</a></td>
+								<td>
+									<form method="post" action="/shop/customer/cancelMyOrdersAction.jsp">
+										<input type="hidden" value="<%=g.get("goodsNo") %>" name="goodsNo">
+										<input type="hidden" value="<%=g.get("ordersNo") %>" name="ordersNo">
+										<input type="hidden" value="<%=g.get("totalAmount") %>" name="totalAmount">
+										<input type="hidden" value="<%=g.get("totalAmount") %>" name="goodsAmount">
+										<button>취소하기</button>
+									</form>
+								</td>
 						<%
 							}else{
 						%>

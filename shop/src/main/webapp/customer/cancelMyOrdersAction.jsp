@@ -1,3 +1,4 @@
+<%@page import="shop.dao.GoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="shop.dao.OrderDAO"%>
 <%@ page import="java.net.*" %>
@@ -11,7 +12,14 @@
 <%
 	// 주문번호
 	int ordersNo = Integer.parseInt(request.getParameter("ordersNo"));
+	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+	int totalAmount = Integer.parseInt(request.getParameter("totalAmount"));
 	System.out.println(ordersNo+" <--ordersNo cancelMyOrdersAction.jsp");
+	
+	String orderCxl = "cxl";
+	
+	// 취소시 GoodsAmount update 수량 빼주기 
+	int row1 = GoodsDAO.updateGoodsAmount(goodsNo, orderCxl, totalAmount);
 	
 	// 주문취소하기DAO
 	int row = OrderDAO.updateCancelMyOrders(ordersNo);

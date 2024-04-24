@@ -35,7 +35,7 @@
 	//System.out.println(loginCustomer.get("cMail"));
 	
 	// 주문 시 GoodsAmount update 수량 빼주기 
-	int row1 = GoodsDAO.updateGoodsAmount(goodsAmount, goodsNo, orderCxl, totalAmount);
+	int row1 = GoodsDAO.updateGoodsAmount(goodsNo, orderCxl, totalAmount);
 	
 	// order 테이블에 insert 주문작업
 	int row2 = OrderDAO.orderGoods(cMail, goodsNo, totalAmount, totalPrice, address);

@@ -12,17 +12,17 @@
 	/* post로 넘겼으면 꼭 인코딩해주기 */
 	request.setCharacterEncoding("UTF-8");
 
-	//String cMail = request.getParameter("cMail");
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
-	int ordersNo = Integer.parseInt(request.getParameter("myOrdersNo"));
+	int ordersNo = Integer.parseInt(request.getParameter("ordersNo"));
 	int score = Integer.parseInt(request.getParameter("score"));
 	String content = request.getParameter("content");
 	
 	//System.out.println(cMail + " <--cMail addOrderReviewAction.jsp");
 	//System.out.println(goodsNo + " <--goodsNo addOrderReviewAction.jsp");
+	System.out.println(goodsNo + " <--goodsNo addOrderReviewAction.jsp");
+	System.out.println(ordersNo + " <--ordersNo addOrderReviewAction.jsp");
 	System.out.println(score + " <--score addOrderReviewAction.jsp");
 	System.out.println(content + " <--content addOrderReviewAction.jsp");
-	System.out.println(ordersNo + " <--ordersNo addOrderReviewAction.jsp");
 	
 	// 리뷰작성추가 insert
 	int row1 = CommentDAO.insertMyReview(ordersNo, score, content);

@@ -1,3 +1,4 @@
+<%@page import="shop.dao.GoodsDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="shop.dao.OrderDAO"%>
 <%@ page import="java.net.*" %>
@@ -11,16 +12,28 @@
 <%
 	String oldState = request.getParameter("oldState");
 	String newState = request.getParameter("newState");
+	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	int ordersNo = Integer.parseInt(request.getParameter("ordersNo"));
+	int orderAmount = Integer.parseInt(request.getParameter("orderAmount"));
+	
+	String orderCxl = "cxl";
 	System.out.println(oldState + " <--oldState modifyStateOrder.jsp");
 	System.out.println(newState + " <--newState modifyStateOrder.jsp");
 	System.out.println(ordersNo + " <--ordersNo modifyStateOrder.jsp");
 	
-	int row = OrderDAO.updateStateOrder(ordersNo, oldState, newState);
+	int row1 = 0;
+	if(newState.equals("주문취소")){
+		System.out.println(newState + " <--newState modifyStateOrder.jsp");
+		// 취소시 GoodsAmount update 수량 빼주기 
+		row1 = GoodsDAO.updateGoodsAmount(goodsNo, orderCxl, orderAmount);
+	}
+	
+	// 해당상태로바꾸기
+	int row2 = OrderDAO.updateStateOrder(ordersNo, oldState, newState);
 	
 	String msg = "";
 	
-	if(row == 1){
+	if(row2 == 1){
 		System.out.println("변경성공");
 		msg = URLEncoder.encode("[주문번호 "+ordersNo+"번] "+oldState+"->"+newState+"로 주문상태가 변경완료되었습니다.", "UTF-8");
 		response.sendRedirect("/shop/emp/customerOrderList.jsp?msg="+msg);

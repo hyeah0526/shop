@@ -143,7 +143,7 @@ public class OrderDAO {
 			list.put("totalAmount", rs.getInt("totalAmount"));
 			list.put("state", rs.getString("state"));
 			list.put("createDate", rs.getString("createDate"));
-			list.put("goodsNo", rs.getString("goodsNo"));
+			list.put("goodsNo", rs.getInt("goodsNo"));
 			list.put("goodsTitle", rs.getString("goodsTitle"));
 			
 			OrderList.add(list);

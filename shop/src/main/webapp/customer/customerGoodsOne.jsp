@@ -1,3 +1,4 @@
+<%@page import="shop.dao.OrderDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="shop.dao.CommentDAO"%>
 <%@ page import="shop.dao.GoodsDAO"%>
@@ -35,24 +36,18 @@
 	// 후기목록 뿌려주기
 	ArrayList<HashMap<String, Object>> reviewList = CommentDAO.selectComment(goodsNo);
 	
-	// 후기작성가능 확인여부 (결과값: 작성불가 -> impossible / 작성가능 -> possible)
-	String chkReview = CommentDAO.reviewChk(cMail, goodsNo);
-	//System.out.println(chkReview + " <--chkReview customerGoodsOne.jsp");
+	// 후기작성 가능한 개수 및 ordersNo가져오고 원하는 주문날짜의 리뷰를 작성할 수 있도록 선택
+	ArrayList<HashMap<String, Object>> ordersList = CommentDAO.reviewWriteList(cMail, goodsNo);
+	//System.out.println(ordersList);
 	
-	// MyOrders orders_no랑 state가져오기
-	HashMap<String, Object> myOrdersInfo = CommentDAO.myOrdersNo(goodsNo, cMail);
-	System.out.println(myOrdersInfo + " <--myOrdersNo customerGoodsOne.jsp");
+	// 후기작성 가능여부 확인 후 작성폼 띄워주거나 안내문구 띄워주기
+	String stateChk = CommentDAO.reviewStateChk(cMail, goodsNo);
+	System.out.println(stateChk + " <--stateChk CustomerGoodsOne상세보기");
 	
-	int myOrdersNo = (Integer)myOrdersInfo.get("ordersNo");
-	String stateChk = (String)myOrdersInfo.get("state");
+	// 품절상태 알려주기
+	String soldOut = "";
+	System.out.println(soldOut + " <--soldOut customerGoodsOne.jsp");
 	
-	System.out.println(myOrdersNo + " <--myOrdersNo customerGoodsOne.jsp");
-	System.out.println(stateChk + " <--stateChk customerGoodsOne.jsp");
-	
-	// chkReview가 possible작성가능하고, ordersNo가 있으면서 state가 '배송완료'면 리뷰작성이 가능
-	//if(chkReview.equals("possible") && myOrdersNo != 0 && stateChk.equals("배송완료")){
-	//	chkReview = "possibleWrite";
-	//} 
 %>
 <!DOCTYPE html>
 <html>
@@ -101,6 +96,9 @@
 				<%
 					/* 상세보기 */
 					for(HashMap<String, Object> g : goodsOne){
+						if((Integer)g.get("goodsAmount") == 0){
+							soldOut = "soldOut";
+						}
 				%>
 						<div class="row">
 								<div class="col" style="float: left;">
@@ -113,28 +111,40 @@
 									<div style="border-bottom:2px dashed #737058;">[수량] <%=(Integer)g.get("goodsAmount")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[제목] <%=(String)g.get("goodsTitle")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[내용] <%=(String)g.get("goodsContent")%></div>
-									<br><br><br><br>										
-									<div class="text-center" style="border: 2px dashed #737058; border-radius: 5px; padding: 10px;">
-										<!-- 상품주문 -->
-										<h2>상품 주문하기</h2>
-										<form method="post" action="/shop/customer/ordersGoodsAction.jsp?&orderCxl=<%=orderCxl%>">
-											<table style="margin-left: auto; margin-right: auto;">
-												<tr>
-													<td>주문 수량</td>
-													<td style="text-align:left;"><input type="number" name="orderAmount" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;">개</td>
-												</tr>
-												<tr>
-													<td>배송지</td>
-													<td style="text-align:left;"><input type="text" name="address" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;"></td>
-												</tr>
-											</table>
-											
-											<input type="hidden" name="goodsNo" value="<%=goodsNo%>">
-											<input type="hidden" name="goodsAmount" value="<%=(Integer)g.get("goodsAmount")%>">
-											<input type="hidden" name="goodsPrice" value="<%=(Integer)g.get("goodsPrice")%>"><br>
-											<button class="btn orderBtn">상품 주문하기</button>
-										</form>
-									</div>
+									<br><br><br><br>		
+								<%
+									if(soldOut.equals("")){
+								%>
+										<div class="text-center" style="border: 2px dashed #737058; border-radius: 5px; padding: 10px;">
+											<!-- 상품주문 -->
+											<h2>상품 주문하기</h2>
+											<form method="post" action="/shop/customer/ordersGoodsAction.jsp?&orderCxl=<%=orderCxl%>">
+												<table style="margin-left: auto; margin-right: auto;">
+													<tr>
+														<td>주문 수량</td>
+														<td style="text-align:left;"><input type="number" name="orderAmount" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;">개</td>
+													</tr>
+													<tr>
+														<td>배송지</td>
+														<td style="text-align:left;"><input type="text" name="address" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;"></td>
+													</tr>
+												</table>
+												
+												<input type="hidden" name="goodsNo" value="<%=goodsNo%>">
+												<input type="hidden" name="goodsAmount" value="<%=(Integer)g.get("goodsAmount")%>">
+												<input type="hidden" name="goodsPrice" value="<%=(Integer)g.get("goodsPrice")%>"><br>
+												<button class="btn orderBtn">상품 주문하기</button>
+											</form>
+										</div>
+								<%
+									}else{
+								%>
+										<div class="text-center" style="border: 2px dashed #737058; border-radius: 5px; padding: 10px;">
+											상품이 품절되어 주문이 불가합니다.
+										</div>
+								<%
+									}
+								%>	
 								</div>
 							</div>
 				<%	
@@ -150,9 +160,23 @@
 							<form method="post" action="/shop/customer/addOrderReviewAction.jsp">
 								<input type="hidden" value="<%=cMail%>" name="cMail">
 								<input type="hidden" value="<%=goodsNo%>" name="goodsNo">
-								<input type="hidden" value="<%=myOrdersNo%>" name="myOrdersNo">
-								<div style="float: left;">
-									별점&nbsp;<select name="score">
+								<div style="float: left; margin-right: 20px;">
+									주문번호&nbsp;
+									<select name="ordersNo">
+										<%
+											for(HashMap h : ordersList){
+										%>
+												<option value="<%=(Integer)h.get("ordersNo")%>">
+													<%=(Integer)h.get("ordersNo")%> (구매날짜<%=(String)h.get("createDate")%>)
+												</option>
+										<%
+											}
+										%>
+									</select>
+								</div>
+								<div style="float: none;">
+									별점&nbsp;
+									<select name="score">
 										<option value="1">1</option>
 										<option value="2">2</option>
 										<option value="3">3</option>
@@ -164,20 +188,20 @@
 										<option value="9">9</option>
 										<option value="10">10</option>
 									</select>
-								</div>
+								</div><br>
 								<div style="float: left;">
 									&nbsp;<textarea name="content" maxlength="100" style="width: 500px; height: 70px;" placeholder="후기작성(최대100자)"></textarea></div>
 								<div style="float: left;">&nbsp;
 								<button class="" style="margin-top: 20px;">작성하기</button></div>
 							</form>
 					<%
-						}else if(chkReview.equals("impossible")){
-					%>
-							<div>이미 리뷰가 작성완료되었습니다.</div>
-					<%
-						}else if(stateChk.equals("주문완료") || stateChk.equals("결제완료") || stateChk.equals("배송중")){
+						}else if(stateChk.equals("주문진행중")){
 					%>
 							<div>아직 배송이 완료되지 않아 리뷰를 작성할 수 없습니다.</div>
+					<%
+						}else if(stateChk.equals("리뷰완료")){
+					%>
+							<div>리뷰작성이 완료되었습니다.</div>
 					<%
 						}else{
 					%>

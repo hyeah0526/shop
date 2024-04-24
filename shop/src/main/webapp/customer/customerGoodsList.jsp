@@ -68,6 +68,8 @@
 %>
 <%
 	String msg = request.getParameter("msg");
+	System.out.println(msg + " <--msg customerGoodsList.jsp");
+	
 %>
 <!-- 여기부터는 View Layer -->
 <!-- 모델(ArrayList<HashMap<String, Object>>)로 출력 -->

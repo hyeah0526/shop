@@ -9,30 +9,27 @@ import java.nio.file.*;
 
 public class GoodsDAO {
 /* 상품 주문/취소 시 Goods_amount수정하기 */
-	public static int updateGoodsAmount(int goodsAmount, int goodsNo, String orderCxl, int orderAmount) throws Exception{
+	public static int updateGoodsAmount(int goodsNo, String orderCxl, int orderAmount) throws Exception{
 		int row = 0;
 		
 		Connection conn = DBHelper.getConnection();
 		String sql = "";
 		
-		
-		
 		if(orderCxl.equals("order")) {
 			System.out.print("주문하기 주문한 amount수량을 빼주기");
 			sql = "UPDATE goods"
-					+ " SET goods_amount = ? + -?"
+					+ " SET goods_amount = goods_amount + -?"
 					+ " WHERE goods_no = ?";
 		}else {
 			System.out.print("취소하기 주문한 amount수량을 다시 더해주기");
 			sql = "UPDATE goods"
-					+ " SET goods_amount = ? + ?"
+					+ " SET goods_amount = goods_amount + ?"
 					+ " WHERE goods_no = ?";
 		}
 		
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, goodsAmount);
-		stmt.setInt(2, orderAmount);
-		stmt.setInt(3, goodsNo);
+		stmt.setInt(1, orderAmount);
+		stmt.setInt(2, goodsNo);
 		
 		row = stmt.executeUpdate();
 		
