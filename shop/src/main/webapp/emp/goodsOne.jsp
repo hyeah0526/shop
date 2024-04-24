@@ -92,7 +92,7 @@
 							<form method="post" action="/shop/emp/modifyGoodsAction.jsp" enctype="multipart/form-data">
 								<div class="row">
 									<div class="col" style="float: left;">
-										<img src="/shop/upload/<%=(String)g2.get("filename")%>" style="border: 2px dashed #737058; border-radius:5px; width: 600px; height: 600px; margin-right: 10px;">
+										<img src="/shop/upload/<%=(String)g2.get("filename")%>" style="border: 2px dashed #737058; border-radius:5px; width: 500px; height: 500px; margin-right: 10px;">
 									</div>
 									<div class="col" style="float: right; width: 600px">
 										<div style="border-bottom:2px dashed #737058;">[상품번호&카테고리] <%=(Integer)g2.get("goodsNo")%>&<%=(String)g2.get("category")%></div><br>
@@ -103,9 +103,9 @@
 										</div>
 										<div style="border-bottom:2px dashed #737058;">[수정사원] <%=(String)(loginMember.get("empName"))%></div><br>
 										<div style="border-bottom:2px dashed #737058;">[변경할이미지] <input type="file" name="goodsImg"></div><br>
-										<div style="border-bottom:2px dashed #737058;">[가격] <input type="number" name="goodsPrice" value="<%=(Integer)g2.get("goodsPrice")%>"></div><br>
-										<div style="border-bottom:2px dashed #737058;">[수량] <input type="number" name="goodsAmount" value="<%=(Integer)g2.get("goodsAmount")%>"></div><br>
-										<div style="border-bottom:2px dashed #737058;">[제목] <input type="text" name="goodsTitle" value="<%=(String)g2.get("goodsTitle")%>"></div><br>
+										<div style="border-bottom:2px dashed #737058;">[가격] <input type="number" name="goodsPrice" value="<%=(Integer)g2.get("goodsPrice")%>" style="border: none; width: 100px;"></div><br>
+										<div style="border-bottom:2px dashed #737058;">[수량] <input type="number" name="goodsAmount" value="<%=(Integer)g2.get("goodsAmount")%>" style="border: none; width: 100px;"></div><br>
+										<div style="border-bottom:2px dashed #737058;">[제목] <input type="text" name="goodsTitle" value="<%=(String)g2.get("goodsTitle")%>" style="border: none; width: 200px;"></div><br>
 										<div style="border-bottom:2px dashed #737058;">[내용] <textarea rows="5" cols="50" name="goodsContent"><%=(String)g2.get("goodsContent")%></textarea></div>
 										<br>
 										<div class="text-center"><button type="submit" class="btn modifyDeleteBtn">수정하기</button></div>
@@ -116,10 +116,11 @@
 						}
 					}else{
 						for(HashMap<String, Object> g : goodsOne){
+							String goodsContent = (String)g.get("goodsContent"); //상품 내용 엔터치환
 				%>
 							<div class="row">
 									<div class="col" style="float: left;">
-										<img src="/shop/upload/<%=(String)g.get("filename")%>" style="border: 2px dashed #737058; border-radius:5px; width: 600px; height: 600px; margin-right: 10px;">
+										<img src="/shop/upload/<%=(String)g.get("filename")%>" style="border: 2px dashed #737058; border-radius:5px; width: 500px; height: 500px; margin-right: 10px;">
 									</div>
 									<div class="col" style="float: right; width: 600px">
 										<div style="border-bottom:2px dashed #737058;">[상품번호&카테고리] <%=(Integer)g.get("goodsNo")%>&<%=(String)g.get("category")%></div><br>
@@ -128,7 +129,7 @@
 										<div style="border-bottom:2px dashed #737058;">[가격] <%=(Integer)g.get("goodsPrice")%></div><br>
 										<div style="border-bottom:2px dashed #737058;">[수량] <%=(Integer)g.get("goodsAmount")%></div><br>
 										<div style="border-bottom:2px dashed #737058;">[제목] <%=(String)g.get("goodsTitle")%></div><br>
-										<div style="border-bottom:2px dashed #737058;">[내용] <%=(String)g.get("goodsContent")%></div>
+										<div style="border-bottom:2px dashed #737058;">[내용]<br> <%=goodsContent.replaceAll("\r\n", "<BR>")%></div>
 										<br><br>												
 										<div class="text-center">
 											<a href="/shop/emp/goodsOne.jsp?goodsNo=<%=(Integer)g.get("goodsNo")%>&msg=modify" class="btn modifyDeleteBtn">수정</a>&nbsp;&nbsp;&nbsp;

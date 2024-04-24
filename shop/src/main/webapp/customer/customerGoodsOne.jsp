@@ -29,6 +29,13 @@
 	
 	// 굿즈 ONE 상세보기
 	ArrayList<HashMap<String, Object>> goodsOne = GoodsDAO.goodsOne(goodsNo);
+	System.out.println(goodsOne.size()+"goodsOne이 삭제되어서 없으면???");
+	
+	// 만약 예전에 상품을 구매했었는데 현재 상품이 지워졌다면 화면에 안내해주기
+	String noneGoods = ""; 
+	if(goodsOne.size() == 0){
+		noneGoods = "noneGoods";
+	}
 	
 	// 주문인지 취소인지 구분
 	String orderCxl = "order";
@@ -93,9 +100,12 @@
 			<br><h1 class="text-center">상품 상세보기</h1><br>
 			<div style="background-color: #E6D7BD; display: flex;">
 			<div style="background-color: #E6D7BD; margin: auto;">
-				<%
+			<%
+				if(noneGoods.equals("")){
+			
 					/* 상세보기 */
 					for(HashMap<String, Object> g : goodsOne){
+						String goodsContent = (String)g.get("goodsContent"); //상품 내용 엔터치환
 						if((Integer)g.get("goodsAmount") == 0){
 							soldOut = "soldOut";
 						}
@@ -105,13 +115,13 @@
 									<img src="/shop/upload/<%=(String)g.get("filename")%>" style="border: 2px dashed #737058; border-radius:5px; width: 600px; height: 600px; margin-right: 10px;">
 								</div>
 								<div class="col" style="float: right; width: 600px">
-									<br><br><br>
+									<br>
 									<div style="border-bottom:2px dashed #737058;">[상품번호&카테고리] <%=(Integer)g.get("goodsNo")%>&<%=(String)g.get("category")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[가격] <%=(Integer)g.get("goodsPrice")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[수량] <%=(Integer)g.get("goodsAmount")%></div><br>
 									<div style="border-bottom:2px dashed #737058;">[제목] <%=(String)g.get("goodsTitle")%></div><br>
-									<div style="border-bottom:2px dashed #737058;">[내용] <%=(String)g.get("goodsContent")%></div>
-									<br><br><br><br>		
+									<div style="border-bottom:2px dashed #737058;">[내용]<br> <%=goodsContent.replaceAll("\r\n", "<BR>")%></div>
+									<br><br><br>	
 								<%
 									if(soldOut.equals("")){
 								%>
@@ -162,7 +172,7 @@
 								<input type="hidden" value="<%=goodsNo%>" name="goodsNo">
 								<div style="float: left; margin-right: 20px;">
 									주문번호&nbsp;
-									<select name="ordersNo">
+									<select class="orderBtn" name="ordersNo">
 										<%
 											for(HashMap h : ordersList){
 										%>
@@ -176,7 +186,7 @@
 								</div>
 								<div style="float: none;">
 									별점&nbsp;
-									<select name="score">
+									<select class="orderBtn" name="score">
 										<option value="1">1</option>
 										<option value="2">2</option>
 										<option value="3">3</option>
@@ -190,9 +200,9 @@
 									</select>
 								</div><br>
 								<div style="float: left;">
-									&nbsp;<textarea name="content" maxlength="100" style="width: 500px; height: 70px;" placeholder="후기작성(최대100자)"></textarea></div>
+									&nbsp;<textarea class="orderBtn" name="content" maxlength="100" style="width: 500px; height: 70px;" placeholder="후기작성(최대100자)"></textarea></div>
 								<div style="float: left;">&nbsp;
-								<button class="" style="margin-top: 20px;">작성하기</button></div>
+								<button class="btn orderBtn" style="margin-top: 20px;">작성하기</button></div>
 							</form>
 					<%
 						}else if(stateChk.equals("주문진행중")){
@@ -240,6 +250,16 @@
 						}
 					%>
 				</div>
+			<%
+				}else{
+			%>
+					<div style="text-align: center;">
+						<img src="/shop/emp/img/soldout.png" style="width: 400px; margin: auto;"><br>
+						<h3>죄송합니다. 현재 판매중인 상품이 아닙니다.</h3>
+					</div>
+			<%
+				}
+			%>
 				</div>
 			</div>
 		</div>
