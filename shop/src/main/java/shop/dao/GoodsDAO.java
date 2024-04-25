@@ -254,7 +254,11 @@ public class GoodsDAO {
 		
 		Connection conn = DBHelper.getConnection();
 		PreparedStatement stmt = null;
-		String sql = "delete from goods where goods_no = ?";
+		
+		// 상품삭제 = 상품개수가 0으로 변환되어 품절로 표시
+		String sql = "UPDATE goods"
+				+ " SET goods_amount = 0 "
+				+ " WHERE goods_no = ?";
 		
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, goodsNo);

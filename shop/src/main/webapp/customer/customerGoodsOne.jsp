@@ -150,6 +150,7 @@
 									}else{
 								%>
 										<div class="text-center" style="border: 2px dashed #737058; border-radius: 5px; padding: 10px;">
+											<img src="/shop/emp/img/soldout.png" style="width: 200px; margin: auto;"><br>
 											상품이 품절되어 주문이 불가합니다.
 										</div>
 								<%

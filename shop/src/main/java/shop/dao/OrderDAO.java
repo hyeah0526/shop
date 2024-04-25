@@ -123,7 +123,7 @@ public class OrderDAO {
 		ResultSet rs = null;
 		
 		String sql = "SELECT o.orders_no ordersNo, o.mail cMail, o.total_price totalPrice, o.total_amount totalAmount,"
-				+ " o.state state, o.create_date createDate, g.goods_no goodsNo, g.goods_title goodsTitle"
+				+ " o.state state, o.create_date createDate, g.goods_no goodsNo, g.goods_title goodsTitle, o.address address"
 				+ " FROM orders o INNER JOIN goods g"
 				+ " ON o.goods_no = g.goods_no" // orders테이블과 goods테이블의 상품번호가 같아야함
 				+ " order by o.orders_no desc LIMIT ?, ?"; //페이징 - orders_no가 높은 것(최신순)부터 보여주기
@@ -139,6 +139,7 @@ public class OrderDAO {
 			HashMap<String, Object> list = new HashMap<>();
 			list.put("ordersNo", rs.getInt("ordersNo"));
 			list.put("cMail", rs.getString("cMail"));
+			list.put("address", rs.getString("address"));
 			list.put("totalPrice", rs.getInt("totalPrice"));
 			list.put("totalAmount", rs.getInt("totalAmount"));
 			list.put("state", rs.getString("state"));

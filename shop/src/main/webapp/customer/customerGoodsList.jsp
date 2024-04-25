@@ -175,7 +175,19 @@
 						</div><br>
 						<div><%=(String)m2.get("goodsTitle")%></div><br>
 						<div>금액: <%=price2%>원</div>
-						<div>남은수량: <%=(Integer)m2.get("goodsAmount")%></div><br>
+						<div>남은수량: 
+							<%
+								if((Integer)m2.get("goodsAmount") == 0){
+							%>
+									<span style="color: #ba0000;">품절</span>
+							<%
+								}else{
+							%>
+									<%=(Integer)m2.get("goodsAmount")%>
+							<%
+								}
+							%>
+						</div><br>
 					</div>
 					<div class="clear"></div>
 				<%
@@ -191,7 +203,19 @@
 						<br>
 						<div><%=(String)m2.get("goodsTitle")%></div><br>
 						<div>금액: <%=price2%>원</div>
-						<div>남은수량: <%=(Integer)m2.get("goodsAmount")%></div><br>
+						<div>남은수량: 
+							<%
+								if((Integer)m2.get("goodsAmount") == 0){
+							%>
+									<span style="color: #ba0000;">품절</span>
+							<%
+								}else{
+							%>
+									<%=(Integer)m2.get("goodsAmount")%>
+							<%
+								}
+							%>
+						</div><br>
 					</div>
 					
 				<%

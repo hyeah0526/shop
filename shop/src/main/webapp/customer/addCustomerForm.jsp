@@ -68,7 +68,7 @@
 				<table style="margin-left:auto; margin-right:auto;">
 					<tr>
 						<td>메일 중복체크</td>
-						<td><input type="text" name="chkMail" class="addCustomerInput"></td>
+						<td><input type="email" name="chkMail" class="addCustomerInput"></td>
 						<td>&nbsp;<button type="submit" class="btn addCustomerBtn">확인하기</button></td>
 					</tr>
 				</table>
@@ -95,11 +95,11 @@
 							<%
 								if(msg.equals("valid")){
 							%>
-									<td><input class="addCustomerInput" type="text" value="<%=chkMail%>" readonly="readonly" name="cMail"></td>
+									<td><input class="addCustomerInput" type="email" value="<%=chkMail%>" readonly="readonly" name="cMail"></td>
 							<%
 								}else{
 							%>
-									<td><input class="addCustomerInput" type="text" value="" readonly="readonly"></td>
+									<td><input class="addCustomerInput" type="email" value="" readonly="readonly"></td>
 							<%		
 								}
 							%>
@@ -113,8 +113,8 @@
 						<td><input class="addCustomerInput" type="text" name="cName"></td>
 					</tr>
 					<tr>
-						<td>생년월일</td>
-						<td><input class="addCustomerInput" type="number" name="cBirth"></td>
+						<td>생년월일(8자리)</td>
+						<td><input class="addCustomerInput" type="number" min="1" name="cBirth"></td>
 					</tr>
 					<tr>
 						<td>성별</td>

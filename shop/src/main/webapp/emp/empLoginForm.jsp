@@ -38,6 +38,11 @@
 		a { text-decoration: none; color: #444236;}
 		a:hover { color:#444236; }
 		a:visited { text-decoration: none;}
+		
+		.loginPageBtn{
+			border: 2px dashed #737058;
+			color: #444236;
+		}
 	</style>
 </head>
 <body class="container fontContent text-center">
@@ -65,7 +70,7 @@
 							<td><input type="password" name="empPw" style="border:none; border-bottom: 3px dashed #5E3F36; background-color: transparent;"></td>
 						</tr>
 					</table><br>
-					<button type="submit">로그인</button>
+					<button type="submit" class="btn loginPageBtn">로그인</button>
 				</form>
 		</div>
 	</div>

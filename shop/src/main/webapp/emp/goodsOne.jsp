@@ -76,8 +76,8 @@
 			<%	
 				}else{
 			%>
-					<h1 class="text-center">상품 상세</h1>
-					<div class="text-center"><%=msg%></div>
+					<h1 class="text-center">상품 상세</h1><br>
+					<div class="text-center" style="color: #ba0000;"><h5><%=msg%></h5></div><br>
 			<%	
 				}
 			%>
@@ -133,7 +133,17 @@
 										<br><br>												
 										<div class="text-center">
 											<a href="/shop/emp/goodsOne.jsp?goodsNo=<%=(Integer)g.get("goodsNo")%>&msg=modify" class="btn modifyDeleteBtn">수정</a>&nbsp;&nbsp;&nbsp;
-											<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)g.get("goodsNo")%>&filename=<%=(String)g.get("filename")%>" class="btn modifyDeleteBtn">상품 삭제</a>
+											<%
+												if((Integer)g.get("goodsAmount") == 0){
+											%>
+													<a style="color: #ba0000;">품절상품</a>
+											<%
+												}else{
+											%>
+													<a href="/shop/emp/removeGoodsAction.jsp?goodsNo=<%=(Integer)g.get("goodsNo")%>&filename=<%=(String)g.get("filename")%>" class="btn modifyDeleteBtn">품절로 바꾸기</a>
+											<%
+												}
+											%>
 										</div>
 									</div>
 								</div>

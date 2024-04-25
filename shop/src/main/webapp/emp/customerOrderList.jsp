@@ -122,7 +122,8 @@
 			</div>
 			<div class="row text-center divTitle">
 				<div class="col-1 fs-5" style="">주문번호</div>
-				<div class="col-3 fs-5" style="">고객아이디</div>
+				<div class="col-2 fs-5" style="">고객아이디</div>
+				<div class="col fs-5" style="">주소</div>
 				<div class="col fs-5" style="">주문상품</div>
 				<div class="col fs-5" style="">총금액</div>
 				<div class="col fs-5" style="">주문날짜</div>
@@ -131,12 +132,15 @@
 			<%
 				/* 전체목록조회 */
 				for(HashMap o : orderList){
+					int price = (Integer)o.get("totalPrice");
+					String price2 = String.format("%,d", price);
 			%>
 					<div class="row text-center divContent">
 						<div class="col-1"><%=(Integer)o.get("ordersNo")%></div>
-						<div class="col-3"><%=(String)o.get("cMail")%></div>
-						<div class="col"><%=(String)o.get("goodsTitle")%> (총&nbsp;<%=(Integer)o.get("totalAmount")%>개)</div>
-						<div class="col"><%=(Integer)o.get("totalPrice")%></div>
+						<div class="col-2"><%=(String)o.get("cMail")%></div>
+						<div class="col"><%=(String)o.get("address")%></div>
+						<div class="col"><%=(String)o.get("goodsTitle")%><br>(총&nbsp;<%=(Integer)o.get("totalAmount")%>개)</div>
+						<div class="col"><%=price2%>원</div>
 						<div class="col"><%=(String)o.get("createDate")%></div>
 						<div class="col">
 			<%

@@ -19,4 +19,10 @@
 		<div>
 			<a href="/shop/emp/empLogout.jsp" class="btn" style="border: 3px solid green;">로그아웃</a>
 		</div>
+		<br><br>
+		<div>
+			<a href="/shop/customer/customerGoodsList.jsp" target="_blank" class="btn" style="border: 3px solid #ba0000;">
+				고객페이지 가기
+			</a>
+		</div>
 </div>

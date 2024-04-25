@@ -41,9 +41,9 @@
 	
 	if(row == 1){
 		//파일 삭제
-		String filePath = request.getServletContext().getRealPath("upload"); //file폴더까지 쫓아가...?
-		File df = new File(filePath, request.getParameter("filename")); //해당이름의 filename이 있으면 그걸 가져오고
-		df.delete(); //그걸 지우기 !
+		//String filePath = request.getServletContext().getRealPath("upload"); //file폴더까지 쫓아가...?
+		//File df = new File(filePath, request.getParameter("filename")); //해당이름의 filename이 있으면 그걸 가져오고
+		//df.delete(); //그걸 지우기 !
 		
 		System.out.println("삭제성공!");
 		msg = URLEncoder.encode("삭제가 완료되었습니다.","UTF-8");
