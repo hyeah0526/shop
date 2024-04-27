@@ -55,6 +55,9 @@
 		a { text-decoration: none; color: #444236;}
 		a:hover { color:#444236; }
 		a:visited { text-decoration: none;}
+		.modifyBtn{
+			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px;
+		}
 	</style>
 </head>
 <body class="container fontContent text-center">
@@ -90,22 +93,22 @@
 						</tr>
 						<tr>
 							<td>원래 비밀번호</td>
-							<td><input type="password" name="cOldPw"></td>
+							<td><input type="password" name="cOldPw" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;"></td>
 						</tr>
 						<tr>
 							<td>변경할 비밀번호</td>
-							<td><input type="password" name="cNewPw"></td>
+							<td><input type="password" name="cNewPw" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;"></td>
 						</tr>
-					</table>
-					<button type="submit" class="">비밀번호 변경</button>
+					</table><br>
+					<button type="submit" class="btn modifyBtn">비밀번호 변경</button><br>
 				</form><br>
 			
 				<!-- 회원탈퇴 -->
 				<form action="/shop/customer/deleteCustomerAction.jsp" method="post">
 					<h1>회원 탈퇴</h1>
-					비밀번호 확인: <input type="password" name="cPw" >
+					비밀번호 확인: <input type="password" name="cPw" style="border:none; border-bottom: 2px dashed #737058; background-color: transparent;">
 					<input type="hidden" name="cMail" value="<%=cMail%>">
-					<button type="submit" class="">탈퇴하기</button>
+					<button type="submit" class="btn modifyBtn">탈퇴하기</button>
 				</form>
 			</div>
 		</div>
