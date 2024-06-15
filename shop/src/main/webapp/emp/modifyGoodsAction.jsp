@@ -27,10 +27,11 @@
 %>
 <%
 	//변수가져오기
-	String filename = request.getParameter("filename");
+	String filename = request.getParameter("filename"); //원래 파일
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	String category = request.getParameter("category");
-	String goodsImg = request.getParameter("goodsImg");
+	String goodsImg = request.getParameter("goodsImg"); //변경할이미지
+	
 	int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));
 	int goodsAmount = Integer.parseInt(request.getParameter("goodsAmount"));
 	String goodsTitle = request.getParameter("goodsTitle");
@@ -38,6 +39,7 @@
 	
 	//디버깅
 	System.out.println(filename + " <--원래이미지이름 modifyGoodsAction.jsp");
+	System.out.println(goodsImg + " <--변경할이미지 modifyGoodsAction.jsp");
 	/*System.out.println(goodsNo + " <-- goodsNo modifyGoodsAction.jsp");
 	System.out.println(category + " <-- category modifyGoodsAction.jsp");
 	System.out.println(goodsPrice + " <-- goodsPrice modifyGoodsAction.jsp");
@@ -47,8 +49,11 @@
 	
 	//새로 넣어줄 이미지
 	String newImg = "";
+	if(goodsImg == null){
+		newImg = filename;
+	};
+
 	Part part = request.getPart("goodsImg"); //이미지파일 가져오기
-	
 	/* 
 		String originalName = part.getSubmittedFileName(); //업로드파일의 이름 구하기
 		int dotIdx = originalName.lastIndexOf("."); // 마지막 점의 위치를 구함. 확장자를 분리하기 위해서
@@ -57,9 +62,6 @@
 		newImg = uuid.toString().replace("-", "");
 		System.out.println(newImg+"<--replace 다음(55번째줄다음)");
 	*/	
-	newImg = filename;
-	System.out.println(newImg+"<--newImg + ext; 다음(57번째줄다음)");
-	
 	
 	//DB
 	int row = GoodsDAO.modifyGoods(goodsNo, empId, goodsTitle, newImg, goodsContent, goodsPrice, goodsAmount);
@@ -67,19 +69,21 @@
 	String msg = "";
 	
 	if(row == 1){
-		// part -> 1) inputStream -> 2)outputStream -> 3)빈파일로 옮기기
-		
-		// 1)
-		InputStream is = part.getInputStream();
-				
-		// 3) + 2)
-		String filePath = request.getServletContext().getRealPath("upload");
-		File f = new File(filePath, newImg); //빈파일
-		OutputStream os = Files.newOutputStream(f.toPath()); //os와 file을 합침
-		is.transferTo(os);
-				
-		os.close();
-		is.close();
+		if (part != null && part.getSize() > 0) {
+			// part -> 1) inputStream -> 2)outputStream -> 3)빈파일로 옮기기
+			
+			// 1)
+			InputStream is = part.getInputStream();
+					
+			// 3) + 2)
+			String filePath = request.getServletContext().getRealPath("upload");
+			File f = new File(filePath, newImg); //빈파일
+			OutputStream os = Files.newOutputStream(f.toPath()); //os와 file을 합침
+			is.transferTo(os);
+			os.close();
+			is.close();
+		};
+			
 		System.out.println("성공!");
 		
 		msg = URLEncoder.encode("수정에 성공하였습니다.", "UTF-8");

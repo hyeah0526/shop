@@ -1,3 +1,4 @@
+<%@page import="shop.dao.DBHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.net.URLEncoder"%>
 <%@ page import="java.sql.*" %>
@@ -15,9 +16,7 @@
 	System.out.println(category + " <--category modifyCategoryList.jsp");
 	System.out.println(modifyCategory + " <--modifyCategory modifyCategoryList.jsp");
 	
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = null;
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
+	Connection conn = DBHelper.getConnection();
 	PreparedStatement stmt = null;
 	String sql = "UPDATE category SET category = ? WHERE category = ?";
 	stmt = conn.prepareStatement(sql);

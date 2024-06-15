@@ -83,7 +83,7 @@
 			<%
 				if(errMsg != null){
 			%>
-					<div>!! 등록에 실패하였습니다. 다시 등록해주세요. !!</div>
+					<div class="text-center" style="color: #ba0000;">!! 등록에 실패하였습니다. 다시 등록해주세요. !!</div><br>
 			<%
 				}
 			%>
@@ -95,7 +95,7 @@
 					<div class="col-2 text-center">카테고리</div>
 					<div class="col" >
 					<select name="category" class="addGoodsSelect">
-						<option>선택</option>
+						<option value="">선택</option>
 					<%
 							for(String c : categoryList){
 					%>

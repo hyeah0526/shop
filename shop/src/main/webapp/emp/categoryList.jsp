@@ -9,6 +9,13 @@
 		response.sendRedirect("/shop/emp/empLoginForm.jsp"); 
 		return;
 	}
+	
+	// 삭제 최종권한(9)만 삭제 가능
+	HashMap<String,Object> loginMember 
+		= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
+	
+	int grade = (Integer)loginMember.get("grade");
+	//System.out.println(grade);
 %>
 <%
 	String msg = request.getParameter("msg");
@@ -113,7 +120,19 @@
 					<div class="row text-center divContent">
 						<div class="col"><a><%=m.get("category")%></a></div>
 						<div class="col"><a><%=m.get("createDate")%></a></div>
-						<div class="col"><a href="/shop/emp/removeCategoryAction.jsp?category=<%=m.get("category")%>">삭제하기</a></div>
+						<div class="col">
+						<%
+							if(grade == 9){
+						%>
+								<a href="/shop/emp/removeCategoryAction.jsp?category=<%=m.get("category")%>">삭제하기</a>
+						<%
+							}else{
+						%>
+								삭제권한 없음
+						<%
+							}
+						%>
+						</div>
 					</div>
 			<%
 				}

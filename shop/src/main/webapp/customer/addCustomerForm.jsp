@@ -14,7 +14,7 @@
 	// 사용가능 메일 중복체크
 	String chkMail = "";
 	if(msg == null){
-		msg = "";
+		msg = ""; 
 		chkMail = "메일 중복체크를 해주세요.";
 	}else if(msg.equals("invalid")){
 		chkMail = "사용 불가능한 메일주소입니다.";

@@ -131,11 +131,11 @@
 					<div><%=(String)m.get("hireDate")%></div>
 					<%
 						HashMap<String, Object> sm = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
-						if((Integer)(sm.get("grade")) == 1){
+						if((Integer)(sm.get("grade")) == 1 || (Integer)(sm.get("grade")) == 9){
 					%>
-							<div>활성화: 
+							<div>활성화 변경: 
 								<a href="/shop/emp/modifyEmpActive.jsp?empId=<%=(String)m.get("empId")%>&active=<%=(String)m.get("active")%>">
-									[<%=(String)m.get("active")%>]
+									[ <%=(String)m.get("active")%> ]
 								</a>
 							</div>
 					<%
@@ -155,11 +155,11 @@
 					<div><%=(String)m.get("hireDate")%></div>
 					<%
 						HashMap<String, Object> sm = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
-						if((Integer)(sm.get("grade")) == 1){
+						if((Integer)(sm.get("grade")) == 1 || (Integer)(sm.get("grade")) == 9){
 					%>
-							<div>활성화: 
+							<div>활성화 변경: 
 								<a href="/shop/emp/modifyEmpActive.jsp?empId=<%=(String)m.get("empId")%>&active=<%=(String)m.get("active")%>">
-									[<%=(String)m.get("active")%>]
+									[ <%=(String)m.get("active")%> ]
 								</a>
 							</div>
 					<%

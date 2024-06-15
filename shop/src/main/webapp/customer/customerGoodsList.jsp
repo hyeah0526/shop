@@ -118,7 +118,7 @@
 		}
 		
 		.categoryList{
-			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px;
+			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px; margin-bottom: 10px;
 		}
 	</style>
 </head>

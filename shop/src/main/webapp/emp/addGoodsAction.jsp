@@ -27,9 +27,21 @@
 	String category = request.getParameter("category");
 	String empId = (String)(loginMember.get("empId"));
 	String goodsTitle = request.getParameter("goodsTitle");
-	int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));
-	int goodsAmount = Integer.parseInt(request.getParameter("goodsAmount"));
+	String goodsPriceStr = request.getParameter("goodsPrice");
+	String goodsAmountStr = request.getParameter("goodsAmount");
 	String goodsContent = request.getParameter("goodsContent");
+	
+	// 유효성 검사
+	if(category.equals("") || goodsTitle.equals("") || goodsPriceStr.equals("") || goodsAmountStr.equals("") || goodsContent.equals("")){
+		//System.out.println("유효성 검사");
+		String errMsg = "Fail";
+		response.sendRedirect("/shop/emp/addGoodsForm.jsp?errMsg="+errMsg);
+		
+		return;
+	}
+	int goodsPrice = Integer.parseInt(goodsPriceStr);
+	int goodsAmount = Integer.parseInt(goodsAmountStr);
+	
 	
 	Part part = request.getPart("goodsImg"); //이미지파일 가져오기
 	String originalName = part.getSubmittedFileName(); 
