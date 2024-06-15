@@ -110,7 +110,7 @@
 		}
 		
 		.addBtn{
-			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px;
+			border: 2px dashed #737058; background-color: #E6D7BD; border-radius:10px; margin-bottom: 10px;
 		}
 		
 		.categoryList{
@@ -208,7 +208,7 @@
 					<input type="text" name="nameScrh" class="searchInput">&nbsp;&nbsp;<button type="submit" class="searchBtn">제목 검색</button>
 				</form>
 			</div><br>
-			<div style="clear: both; text-align: center;">
+			<div style="clear: both; text-align: center; margin-bottom: 15px;">
 		<%
 				//이전 페이징 기능
 				if(currentPage <= 1){
@@ -243,7 +243,9 @@
 			
 		</div>
 </div>
-	<div class="row" style="background-color: blue;">밑단</div>
+
+	<!-- Footer설정 -->
+	<jsp:include page="/emp/inc/empFooter.jsp"></jsp:include>
 </div>
 </body>
 </html>

@@ -230,7 +230,7 @@
 					<button type="submit" class="searchBtn">제목 검색</button>
 				</form>
 			</div><br>
-			<div style="clear: both; text-align: center;">
+			<div style="clear: both; text-align: center; margin: 15px;">
 		<%
 				//이전 페이징 기능
 				if(currentPage <= 1){
@@ -265,7 +265,8 @@
 			
 		</div>
 </div>
-	<div class="row" style="background-color: blue;">밑단</div>
+	<!-- Footer설정 -->
+	<jsp:include page="/emp/inc/empFooter.jsp"></jsp:include>
 </div>
 </body>
 </html>

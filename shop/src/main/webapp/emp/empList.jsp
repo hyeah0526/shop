@@ -208,7 +208,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="row" style="background-color: blue;">밑단</div>
+	<!-- Footer설정 -->
+	<jsp:include page="/emp/inc/empFooter.jsp"></jsp:include>
 </div>
 </body>
 </html>

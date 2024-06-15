@@ -90,7 +90,7 @@
 		<div class="col-10 mainBox">
 			<br><h1 class="text-center">카테고리 관리</h1><br>
 			<!-- 카테고리 추가하기 -->
-			<div>
+			<div style="margin-left: 30px;">
 				<form action="/shop/emp/addCategoryAction.jsp">
 					<input type="text" name="category" class="addModifyInput">
 					<button type="submit" class="addModifyBtn">카테고리 추가</button>
@@ -105,14 +105,13 @@
 			<%
 				}
 			%>
-			
-			<!-- 전체 카테고리 목록 보여주기 -->
-			<div class="row text-center" style="color: #444236; border-bottom: 2px double #444236;">
-				<div class="col fs-5" style="">카테고리</div>
-				<div class="col fs-5" style="">생성날짜</div>
-				<div class="col fs-5" style="">삭제</div>
-			</div>
-			
+			<div style="margin: 20px;">
+				<!-- 전체 카테고리 목록 보여주기 -->
+				<div class="row text-center" style="color: #444236; border-bottom: 2px double #444236;">
+					<div class="col fs-5" style="">카테고리</div>
+					<div class="col fs-5" style="">생성날짜</div>
+					<div class="col fs-5" style="">삭제</div>
+				</div>
 			<%
 				// 전체목록 리스트 뿌려주기
 				for(HashMap m : categoryList){
@@ -139,7 +138,9 @@
 			%>
 			</div>
 		</div>
-	<div class="row" style="background-color: blue;">밑단</div>
+	</div>
+	<!-- Footer설정 -->
+	<jsp:include page="/emp/inc/empFooter.jsp"></jsp:include>
 </div>
 </body>
 </html>
