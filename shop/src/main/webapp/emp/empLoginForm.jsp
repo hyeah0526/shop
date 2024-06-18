@@ -43,10 +43,22 @@
 			border: 2px dashed #737058;
 			color: #444236;
 		}
+		
+		#empLoginForm{
+			margin-left:auto; margin-right:auto;
+		}
+		
+		#empLoginForm td{
+			width: 100px; text-align: center;
+		}
+		
+		#empLoginForm input{
+			width:200px; border:none; border-bottom: 3px dashed #5E3F36; background-color: transparent;
+		}
 	</style>
 </head>
 <body class="container fontContent text-center">
-	<div class="row" style="position: relative; margin-top: 15%">
+	<div class="row" style="position: relative; margin-top: 15%;">
 		<div class="col"></div>
 		<div class="col-6" style="background-color: #E6D7BD; border: 3px dashed #5E3F36;">
 			<div style="margin: 5%">
@@ -60,14 +72,14 @@
 				%>	
 				<form method="post" action="/shop/emp/empLoginAction.jsp">
 				
-					<table style="margin-left:auto; margin-right:auto;">
+					<table id="empLoginForm">
 						<tr>
 							<td>메일주소</td>
-							<td><input type="text" name="empId" style="border:none; border-bottom: 3px dashed #5E3F36; background-color: transparent;"></td>
+							<td><input type="text" name="empId" value="admin1"></td>
 						</tr>
 						<tr>
 							<td>비밀번호</td>
-							<td><input type="password" name="empPw" style="border:none; border-bottom: 3px dashed #5E3F36; background-color: transparent;"></td>
+							<td><input type="password" name="empPw" value="1234"></td>
 						</tr>
 					</table><br>
 					<button type="submit" class="btn loginPageBtn">로그인</button>

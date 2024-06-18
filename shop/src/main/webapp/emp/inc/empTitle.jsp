@@ -6,5 +6,7 @@
 %>
 
 <div class="row" style="background-color: #E6D7BD; border: 3px dashed #5E3F36; border-radius:10px; margin-bottom: 10px;">
-	<img src="/shop/emp/img/logo3.png" style="width: 200px; margin: auto;">
+	<a href="/shop/customer/customerGoodsList.jsp" style="width: 200px; margin: auto;">
+		<img src="/shop/emp/img/logo3.png" style="width: 200px; margin: auto;">
+	</a>
 </div>

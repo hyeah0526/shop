@@ -17,7 +17,9 @@ public class CommentDAO {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		String sql = "SELECT orders_no ordersNo, state"
+		// 여러개의 주문이 있을 수 있으므로 콤마(,)로 전부 연결
+		String sql = "SELECT orders_no ordersNo, "
+				+ " GROUP_CONCAT(state) AS state"
 				+ " FROM orders"
 				+ " WHERE mail = ?"
 				+ " AND goods_no = ?";
@@ -30,19 +32,31 @@ public class CommentDAO {
 		rs = stmt.executeQuery();
 		
 		while(rs.next()) {
-			if(rs.getString("state").equals("배송완료")) {
+			// 주문이 여러개일 경우 모든 state를 연결
+			String state = rs.getString("state");
+			
+			// 주문이 없을경우 공백넣기
+			if(state == null) {
+				state = "";
+			}
+			
+			// 주문상태에 따라 stateChk에 넣기
+			if(state.contains("배송완료")) {
 				stateChk = "배송완료";
 				
-			}else if(rs.getString("state").equals("주문완료") || rs.getString("state").equals("결제완료") || rs.getString("state").equals("배송중")) {
+			}else if(state.contains("주문완료") || state.contains("결제완료") || state.contains("배송중")) {
 				stateChk = "주문진행중";
 				
-			}else if(rs.getString("state").equals("리뷰완료")) {
+			}else if(state.contains("리뷰완료")) {
 				stateChk = "리뷰완료";
 				
 			}else {
 				stateChk = "구매이력없음";
-			}
+			} 
 		}
+		
+		//디버깅
+		System.out.println(stateChk+"stateChk");
 		
 		conn.close();
 		return stateChk;

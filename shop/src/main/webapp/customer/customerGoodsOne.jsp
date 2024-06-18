@@ -225,10 +225,10 @@
 				<div style="clear: both;">
 					<%
 						for(HashMap r : reviewList){
-							String star = "&#11088;";
+							String star = "&#128154;";
 					%>
 							<div class="text-center" style="float: left; width: 300px; height: 300px; border: 2px dashed #737058; border-radius: 5px; padding: 10px; margin: 10px;">
-								<%=star.repeat((Integer)r.get("score"))%><br>
+								<span style="font-size: 15pt;"><%=star.repeat((Integer)r.get("score"))%></span><br>
 								<%=(String)r.get("content")%><br>
 								상품구매: <%=(String)r.get("orderCreateDate")%><br><br>
 								<%=(String)r.get("cName")%><br>

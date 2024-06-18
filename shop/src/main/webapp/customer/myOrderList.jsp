@@ -87,7 +87,7 @@
 		
 		.divContent{
 			border-bottom: 1px dashed #444236; 
-			height: 50px; 
+			margin: 5px;
 			align-items: center;
 			color: #444236;
 		}

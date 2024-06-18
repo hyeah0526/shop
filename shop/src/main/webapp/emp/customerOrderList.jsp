@@ -84,7 +84,6 @@
 		
 		.divContent{
 			border-bottom: 1px dashed #444236;
-			height: 50px;
 			align-items: center;
 			text-align: center;
 		}

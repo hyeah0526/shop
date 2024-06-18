@@ -41,6 +41,18 @@
 			border: 2px dashed #737058;
 			color: #444236;
 		}
+		
+		#cusLoginForm{
+			margin-left:auto; margin-right:auto;
+		}
+		
+		#cusLoginForm td{
+			width: 100px; text-align: center;
+		}
+		
+		#cusLoginForm input{
+			width:200px; border:none; border-bottom: 3px dashed #5E3F36; background-color: transparent;
+		}
 	</style>
 </head>
 <body class="container fontContent text-center">
@@ -58,14 +70,18 @@
 				%>
 				<!-- 로그인 -->
 				<form method="post" action="/shop/customer/loginAction.jsp">
-					<table style="margin-left:auto; margin-right:auto;">
+					<table id="cusLoginForm">
 						<tr>
 							<td>메일주소</td>
-							<td><input type="text" name="cMail" style="border:none; border-bottom: 3px dashed #5E3F36; background-color: transparent;"></td>
+							<td>
+								<input type="text" name="cMail" value="cus@tomer.com">
+							</td>
 						</tr>
 						<tr>
 							<td>비밀번호</td>
-							<td><input type="password" name="cPw" style="border:none; border-bottom: 3px dashed #5E3F36; background-color: transparent;"></td>
+							<td>
+								<input type="password" name="cPw" value="1234">
+							</td>
 						</tr>
 					</table><br>
 					
