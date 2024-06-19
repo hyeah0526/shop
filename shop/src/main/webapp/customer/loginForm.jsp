@@ -74,7 +74,7 @@
 						<tr>
 							<td>메일주소</td>
 							<td>
-								<input type="text" name="cMail" value="cus@tomer.com">
+								<input type="text" name="cMail" value="admin_gst">
 							</td>
 						</tr>
 						<tr>

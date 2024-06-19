@@ -143,6 +143,12 @@
 						%>
 								<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=g.get("goodsNo")%>">작성하기</a>
 						<%
+							}else if(g.get("state").equals("리뷰완료")){
+						%>
+									<a href="/shop/customer/customerGoodsOne.jsp?goodsNo=<%=g.get("goodsNo")%>">
+										리뷰 확인
+									</a>
+						<%
 							}else{
 						%>
 								  X

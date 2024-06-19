@@ -23,7 +23,7 @@
 		<a href="/shop/customer/myOrderList.jsp">내 주문 확인</a><br><br>
 		<a href="">
 			<%=(String)(loginCustomer.get("cName"))%>
-		</a>님, 반갑습니다
+		</a>님,<br>반갑습니다
 		<%
 			if(msg.equals("비밀번호수정")){
 		%>
@@ -44,7 +44,7 @@
 		
 		<%
 			//관리자 아이디면 관리자 사이트로 갈 수 있게 확인
-			if(admin.equals("admin@admin.com")){
+			if(admin.equals("admin_gst")){
 		%>
 				<a href="/shop/emp/customerOrderList.jsp" target="_blank" class="btn" style="border: 3px solid #ba0000;">관리자 페이지가기</a>
 		<%

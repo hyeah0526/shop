@@ -14,7 +14,7 @@
 		<a href="/shop/emp/customerOrderList.jsp">주문 관리</a><br><br>
 		<a href="/shop/emp/">
 			<%=(String)(loginMember.get("empName"))%>
-		</a>님, 반갑습니다
+		</a>님,<br>반갑습니다
 		<br><br>
 		<div>
 			<a href="/shop/emp/empLogout.jsp" class="btn" style="border: 3px solid green;">로그아웃</a>

@@ -75,7 +75,7 @@
 					<table id="empLoginForm">
 						<tr>
 							<td>메일주소</td>
-							<td><input type="text" name="empId" value="admin1"></td>
+							<td><input type="text" name="empId" value="admin_emp"></td>
 						</tr>
 						<tr>
 							<td>비밀번호</td>
