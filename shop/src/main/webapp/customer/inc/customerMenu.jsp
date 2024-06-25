@@ -46,7 +46,7 @@
 			//관리자 아이디면 관리자 사이트로 갈 수 있게 확인
 			if(admin.equals("admin_gst")){
 		%>
-				<a href="/shop/emp/customerOrderList.jsp" target="_blank" class="btn" style="border: 3px solid #ba0000;">관리자 페이지가기</a>
+				<a href="/shop/emp/customerOrderList.jsp" target="_blank" class="btn" style="border: 3px solid #ba0000;">관리자 페이지가기</a><br><br><br>
 		<%
 			}
 		%>

@@ -83,7 +83,10 @@
 						</tr>
 					</table><br>
 					<button type="submit" class="btn loginPageBtn">로그인</button>
-				</form>
+				</form><br>
+				<div>
+					<a href="/shop/customer/loginForm.jsp" class="btn loginPageBtn">고객 페이지로 이동</a>
+				</div>
 		</div>
 	</div>
 	<div class="col"></div>

@@ -86,8 +86,11 @@
 					</table><br>
 					
 					<button type="submit" class="btn loginPageBtn">로그인</button>
+					<a href="/shop/customer/addCustomerForm.jsp" class="btn loginPageBtn">회원가입</a>
 				</form><br>
-				<div><a href="/shop/customer/addCustomerForm.jsp" class="btn loginPageBtn">회원가입</a></div>
+				<div>
+					<a href="/shop/emp/empLoginForm.jsp" class="btn loginPageBtn">관리자 페이지로 이동</a>
+				</div>
 			</div>
 		</div>
 		<div class="col"></div>
